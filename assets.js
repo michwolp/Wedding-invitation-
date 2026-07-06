@@ -36,10 +36,10 @@ const STYLES = {
       'red-disco', 'red-mushroom', 'red-swirl', 'red-monogram', 'red-rose', 'red-bouquet',
       'red-coupe', 'red-cheers', 'red-bow', 'red-heart', 'red-fairy', 'red-candle', 'red-ribbon',
       'red-dove', 'red-cake', 'red-wine-bottle', 'red-grapes', 'red-sprig', 'red-envelope',
-      'red-place-setting', 'red-flower', 'red-cherries', 'red-wreath',
+      'red-cherries', 'red-wreath',
       // sheet 2
-      'red2-00','red2-01','red2-02','red2-03','red2-04','red2-05','red2-06','red2-07',
-      'red2-08','red2-09','red2-10','red2-11','red2-12','red2-13','red2-14','red2-15',
+      'red2-00','red2-01','red2-02','red2-03','red2-05','red2-06','red2-07',
+      'red2-08','red2-09','red2-10','red2-12','red2-14','red2-15',
       'red2-16','red2-17','red2-18','red2-19','red2-20','red2-21','red2-22','red2-23','red2-24',
     ],
     small: ['red-sparkle'],

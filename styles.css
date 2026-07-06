@@ -181,9 +181,11 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .mqtrack{display:flex;width:max-content;animation:mqmove 26s linear infinite}
 .marquee.alt .mqtrack{animation-duration:34s;animation-direction:reverse}
 .mq{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em}
-.marquee.alt .mq{color:var(--marigold)}
-.mq i{font-style:normal;color:var(--pink);padding:0 .5em}
-.marquee.alt .mq i{color:var(--aqua)}
+/* both marquees use two blues */
+.marquee .mq{color:var(--blue)}
+.mq i{font-style:normal;color:var(--blue-soft);padding:0 .5em}
+.marquee.alt .mq{color:var(--blue-soft)}
+.marquee.alt .mq i{color:var(--blue)}
 @keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
@@ -222,9 +224,9 @@ section{
 #gifts .btn:hover{background:var(--pink);color:#fff}
 
 .schedule{display:flex;justify-content:center;gap:56px;margin-top:10px}
-.schedule .slot b{font-family:var(--display);font-weight:400;font-size:clamp(2rem,7vw,2.8rem);display:block;line-height:1;color:var(--marigold)}
+.schedule .slot b{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,4.5vw,1.7rem);display:block;line-height:1;color:var(--marigold)}
 .schedule .slot span{font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--marigold);opacity:.85}
-.note{max-width:430px;margin:18px auto 0;color:rgba(79,74,56,.85);font-size:1.02rem}
+.note{max-width:430px;margin:18px auto 0;color:rgba(79,74,56,.85);font-size:.88rem}
 .note .hand{font-family:var(--display);font-weight:400;font-size:1.7rem;color:var(--marigold);letter-spacing:.04em}
 #details .btn{border-color:var(--marigold);color:var(--marigold)}
 #details .btn:hover{background:var(--marigold);color:#fff}
@@ -266,8 +268,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .choice{flex:1;position:relative}
 .choice input{position:absolute;opacity:0}
 .choice span{
-  display:block;text-align:center;padding:12px;border:1.5px solid rgba(79,74,56,.4);cursor:none;
-  font-weight:600;border-radius:99px;transition:all .2s;
+  display:block;text-align:center;padding:9px;border:1.5px solid rgba(79,74,56,.4);cursor:none;
+  font-weight:600;font-size:.88rem;border-radius:99px;transition:all .2s;
 }
 @media(pointer:coarse){.choice span{cursor:auto}}
 .choice input:checked + span{background:var(--lime);border-color:var(--lime);color:var(--forest)}
