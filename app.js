@@ -2,12 +2,10 @@
 (function(){
   const layer = document.getElementById('sideflowers');
   if(!layer) return;
-  // mostly flowers down the sides (bouquet, tulip, daisies, berries, red flower,
-  // leaf sprigs) — the lush look the couple wanted
-  const flowers = ['motif-bouquet.png','motif-tulip.png','motif-daisies.png','motif-berry.png','motif-redflower.png','motif-leafbranch.png','motif-olive.png','motif-sprig.png'];
-  // occasional party accents: disco ball, string lights, a few mushrooms, a cake.
-  // (weighted so flowers dominate; disco & lights show more than mushrooms)
-  const accents = ['motif-disco.png','motif-lights.png','motif-disco.png','motif-lights.png','motif-mushroom.png','motif-cake.png','motif-candle.png'];
+  // side decorations use ONLY the wedding clipart grid. Flowers dominate.
+  const flowers = ['assets/cg-bouquet.png','assets/cg-tulip.png','assets/cg-sprig.png','assets/cg-vine.png','assets/cg-wreath.png','assets/cg-border.png','assets/cg-monogram.png'];
+  // party / celebration accents mixed in (disco, cake, candle, coupes, champagne, fairy, dancing couple, sparkle)
+  const accents = ['assets/cg-disco.png','assets/cg-cake.png','assets/cg-candle.png','assets/cg-coupes.png','assets/cg-champagne.png','assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png'];
   const R = (a,b)=> a + Math.random()*(b-a);
 
   function build(){
@@ -85,17 +83,29 @@
   if(!halves.length) return;
 
   function fill(){
-    // measure one chunk's width using a hidden probe
+    // The track = two identical halves and animates by -50% (one half width).
+    // For a SEAMLESS loop with no gap on wide screens, EACH half must be at least
+    // as wide as the viewport. We measure one chunk, over-fill, then verify the
+    // real rendered width and top up if needed.
     const probe = document.createElement('span');
     probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em';
     probe.innerHTML = chunk;
     document.body.appendChild(probe);
     const chunkW = probe.getBoundingClientRect().width || 200;
     probe.remove();
-    // enough copies to exceed the viewport width, with a safety margin
-    const reps = Math.max(4, Math.ceil((innerWidth * 1.4) / chunkW) + 1);
-    const html = chunk.repeat(reps);
-    halves.forEach(el=>{ el.innerHTML = html; });
+
+    // need each half ≥ viewport; add a full extra screen of margin
+    let reps = Math.max(4, Math.ceil((innerWidth * 2) / chunkW) + 2);
+    halves.forEach(el=>{ el.innerHTML = chunk.repeat(reps); });
+
+    // safety: if the first half still came out narrower than the viewport
+    // (e.g. font metrics differed), keep adding chunks until it's wide enough.
+    const first = halves[0];
+    let guard = 0;
+    while(first && first.getBoundingClientRect().width < innerWidth * 1.05 && guard < 20){
+      reps += 3; guard++;
+      halves.forEach(el=>{ el.innerHTML = chunk.repeat(reps); });
+    }
   }
   fill();
   setTimeout(fill, 1200);   // re-fill after the display font loads (chunk width changes)
@@ -397,12 +407,13 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     return;
   }
   const attending = document.querySelector('input[name=attending]:checked').value;
-  // For recognised guests, save their full name to the DB (the on-screen field
-  // shows only a display nickname). Manual visitors send whatever they typed.
-  const dbName = (guest.code && guest.fullName) ? guest.fullName : name;
+  // full name → DB `name`; display nickname → DB `display_name`.
+  // For recognised guests both come from guests.js; manual visitors send what they typed.
+  const fullName = (guest.code && guest.fullName) ? guest.fullName : name;
+  const displayName = (guest.code && guest.name) ? guest.name : name;
   const payload = {
     guest_id: guest.code || null,
-    name: dbName, phone, attending,
+    name: fullName, display_name: displayName, phone, attending,
     adults: attending==='yes' ? counts.adults : 0,
     children: attending==='yes' ? counts.children : 0,
     pickup: attending==='yes' ? document.getElementById('pickup').value : '',

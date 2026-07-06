@@ -14,7 +14,7 @@
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{
   font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:400;
-  background:#FCFBF9;
+  background:#F3EEE4;   /* exact warm vintage cream — flat, no gradient/texture */
   color:var(--cream);
   line-height:1.7;
   overflow-x:hidden;
@@ -43,7 +43,7 @@ a,button,select,input,textarea,label{cursor:none}
 .splash-half::before{
   content:"";position:absolute;top:0;bottom:0;
   width:100vw;                        /* full-viewport canvas so both halves align */
-  background:url(/splash-couple.jpg) center center no-repeat;
+  background:url(/assets/splash-couple.jpg) center center no-repeat;
   background-size:contain;
 }
 .splash-half.left  { left:0;  transform-origin:left center;
@@ -61,11 +61,7 @@ a,button,select,input,textarea,label{cursor:none}
 }
 @media(pointer:coarse){a,button,select,input,textarea,label{cursor:auto}}
 
-/* film grain */
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;opacity:.35;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.2 0 0 0 0 0.12 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* (film grain texture removed — flat #F3EEE4 background, no texture) */
 
 /* custom cursor */
 #cur{position:fixed;z-index:99;pointer-events:none;width:10px;height:10px;border-radius:50%;
@@ -178,8 +174,10 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 /* ---------- marquee ticker ---------- */
 .marquee{
   overflow:hidden;white-space:nowrap;padding:10px 0;direction:ltr;
-  /* break out of the 680px main container so the tape spans the full screen width */
-  width:100vw;margin-left:calc(50% - 50vw);margin-top:54px;
+  /* break out of the 680px main container so the tape spans the full screen width.
+     position+left pins it to the viewport regardless of the parent's padding. */
+  position:relative;left:50%;right:50%;width:100vw;
+  margin-left:-50vw;margin-right:-50vw;margin-top:54px;
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
   transform:rotate(-1.2deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
@@ -198,12 +196,10 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 section{
   margin:70px auto 0;position:relative;text-align:center;
   max-width:560px;
-  background:rgba(255,253,246,.72);
-  backdrop-filter:blur(4px);
-  border:1px solid rgba(168,88,107,.16);
+  background:#F3EEE4;
+  border:1px solid rgba(168,88,107,.20);
   border-radius:26px;
   padding:40px 26px;
-  box-shadow:0 10px 34px rgba(120,110,80,.09);
   scroll-margin-top:26px;
 }
 
@@ -295,9 +291,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 /* footer */
 footer{
   margin:70px auto 40px;text-align:center;max-width:560px;
-  background:rgba(255,253,246,.72);backdrop-filter:blur(4px);
-  border:1px solid rgba(168,88,107,.16);border-radius:26px;
-  padding:40px 26px;box-shadow:0 10px 34px rgba(120,110,80,.09);
+  background:#F3EEE4;
+  border:1px solid rgba(168,88,107,.20);border-radius:26px;
+  padding:40px 26px;
   scroll-margin-top:26px;position:relative;
 }
 .parents{display:flex;justify-content:center;gap:60px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(168,88,107,.14)}
@@ -314,11 +310,7 @@ footer{
 /* ---------- painted scenery ---------- */
 
 
-/* soft glow behind the hero text for readability (hero is not a card) */
-.hero::after{
-  content:"";position:absolute;inset:14% -40px 4% -40px;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse 88% 78% at 50% 50%, rgba(255,253,246,.62), rgba(255,253,246,.28) 60%, transparent 78%);
-}
+/* (hero glow removed — flat background, no gradient) */
 
 /* meadow flower band dividers */
 .meadow{position:relative;height:64px;margin:28px -24px 0;pointer-events:none}

@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     guest_id: body.guest_id || null,
   }));
 
-  const { guest_id, name, phone, attending, adults, children, pickup, notes } = body;
+  const { guest_id, name, display_name, phone, attending, adults, children, pickup, notes } = body;
   if (!name || typeof name !== 'string' || name.trim().length < 2) {
     console.warn('[rsvp] FAIL validation: name');
     return res.status(400).json({ error: 'missing name' });
@@ -52,20 +52,28 @@ export default async function handler(req, res) {
   }
   console.log('[rsvp] validation passed');
 
+  // one record per guest: use the guest code as the conflict key. Guests without
+  // a personal link fall back to a stable id derived from their phone number.
+  const conflictKey = (guest_id && String(guest_id).trim())
+    || 'phone:' + phone.replace(/\D/g, '');
+
   const row = {
-    guest_id: guest_id || null,
-    name: name.trim().slice(0, 100),
+    guest_id: conflictKey,
+    name: name.trim().slice(0, 100),                 // full name (to DB)
+    display_name: (display_name || name).trim().slice(0, 100), // display / nickname
     phone: phone.trim().slice(0, 20),
     attending,
     adults: clampInt(adults, 0, 15),
     children: clampInt(children, 0, 15),
     pickup: ['tlv_after', 'tlv_noafter', ''].includes(pickup) ? pickup : '',
     notes: (notes || '').toString().slice(0, 500),
+    updated_at: new Date().toISOString(),
   };
 
-  // 3) insert into Supabase
-  const url = `${process.env.SUPABASE_URL}/rest/v1/rsvps`;
-  console.log('[rsvp] inserting into:', url);
+  // 3) upsert into Supabase — one row per guest_id; a re-submit REPLACES the row.
+  // (requires a UNIQUE constraint on rsvps.guest_id — see schema note below.)
+  const url = `${process.env.SUPABASE_URL}/rest/v1/rsvps?on_conflict=guest_id`;
+  console.log('[rsvp] upserting into:', url, 'key:', conflictKey);
   let resp;
   try {
     resp = await fetch(url, {
@@ -74,7 +82,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         apikey: process.env.SUPABASE_SERVICE_KEY,
         Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
-        Prefer: 'return=minimal',
+        // merge-duplicates => INSERT or UPDATE on guest_id conflict (replace)
+        Prefer: 'return=minimal,resolution=merge-duplicates',
       },
       body: JSON.stringify(row),
     });
