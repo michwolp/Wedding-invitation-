@@ -1,29 +1,56 @@
-// /api/rsvp — Vercel serverless function
-// Receives the RSVP form JSON and inserts a row into Supabase.
+// /api/rsvp — Vercel serverless function with verbose logging.
+// Every request logs its journey; read them in Vercel → your project → Logs.
 
 export default async function handler(req, res) {
-  // guard: fail loudly if env vars didn't reach this deployment
-  const missing = ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY'].filter(k => !process.env[k]);
+  const t0 = Date.now();
+  console.log('[rsvp] --- request start ---');
+  console.log('[rsvp] method:', req.method);
+
+  // 1) environment check
+  const envStatus = {
+    SUPABASE_URL: !!process.env.SUPABASE_URL,
+    SUPABASE_SERVICE_KEY: !!process.env.SUPABASE_SERVICE_KEY,
+  };
+  console.log('[rsvp] env vars present:', JSON.stringify(envStatus));
+  const missing = Object.keys(envStatus).filter(k => !envStatus[k]);
   if (missing.length) {
-    console.error('Missing environment variables:', missing.join(', '));
+    console.error('[rsvp] FAIL: missing env vars:', missing.join(', '), '→ add them in Vercel Settings → Environment Variables, then REDEPLOY');
     return res.status(500).json({ error: 'server not configured', missing });
   }
+  console.log('[rsvp] supabase url host:', new URL(process.env.SUPABASE_URL).host);
 
   if (req.method !== 'POST') {
+    console.warn('[rsvp] FAIL: wrong method (expected POST)');
     return res.status(405).json({ error: 'method not allowed' });
   }
 
-  const { guest_id, name, phone, attending, adults, children, pickup, notes } = req.body || {};
+  // 2) payload check
+  const body = req.body || {};
+  console.log('[rsvp] payload:', JSON.stringify({
+    name: body.name ? `"${String(body.name).slice(0, 30)}"` : '(empty)',
+    phone: body.phone ? `${String(body.phone).replace(/\d(?=\d{3})/g, '*')}` : '(empty)',
+    attending: body.attending,
+    adults: body.adults,
+    children: body.children,
+    pickup: body.pickup,
+    notes_len: (body.notes || '').length,
+    guest_id: body.guest_id || null,
+  }));
 
+  const { guest_id, name, phone, attending, adults, children, pickup, notes } = body;
   if (!name || typeof name !== 'string' || name.trim().length < 2) {
+    console.warn('[rsvp] FAIL validation: name');
     return res.status(400).json({ error: 'missing name' });
   }
   if (!phone || typeof phone !== 'string' || phone.replace(/\D/g, '').length < 9) {
+    console.warn('[rsvp] FAIL validation: phone');
     return res.status(400).json({ error: 'missing phone' });
   }
   if (attending !== 'yes' && attending !== 'no') {
+    console.warn('[rsvp] FAIL validation: attending =', attending);
     return res.status(400).json({ error: 'bad attending value' });
   }
+  console.log('[rsvp] validation passed');
 
   const row = {
     guest_id: guest_id || null,
@@ -36,23 +63,35 @@ export default async function handler(req, res) {
     notes: (notes || '').toString().slice(0, 500),
   };
 
-  const resp = await fetch(`${process.env.SUPABASE_URL}/rest/v1/rsvps`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      apikey: process.env.SUPABASE_SERVICE_KEY,
-      Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
-      Prefer: 'return=minimal',
-    },
-    body: JSON.stringify(row),
-  });
+  // 3) insert into Supabase
+  const url = `${process.env.SUPABASE_URL}/rest/v1/rsvps`;
+  console.log('[rsvp] inserting into:', url);
+  let resp;
+  try {
+    resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: process.env.SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify(row),
+    });
+  } catch (err) {
+    console.error('[rsvp] FAIL: network error reaching Supabase:', err.message);
+    return res.status(502).json({ error: 'db unreachable' });
+  }
 
+  console.log('[rsvp] supabase responded:', resp.status, resp.statusText);
   if (!resp.ok) {
     const detail = await resp.text();
-    console.error('supabase insert failed:', resp.status, detail);
+    console.error('[rsvp] FAIL: supabase rejected the insert. Full response:', detail);
+    console.error('[rsvp] common causes: 401/403 = wrong key (must be service_role/secret, not anon/publishable); 404 = table "rsvps" does not exist (run schema.sql in SQL Editor); 42501 in body = RLS blocking (key is anon)');
     return res.status(502).json({ error: 'db insert failed' });
   }
 
+  console.log(`[rsvp] SUCCESS: row saved (${Date.now() - t0}ms) ---`);
   return res.status(200).json({ ok: true });
 }
 
