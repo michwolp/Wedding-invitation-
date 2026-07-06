@@ -45,7 +45,9 @@ a,button,select,input,textarea,label{cursor:none}
   width:200%;                         /* 200% of the 50%-wide half = full splash width.
                                          using % (not vw) avoids scrollbar-width misalignment
                                          so the image stays centered and the seam is dead-center */
-  background:url(/assets/splash-couple.png) center center no-repeat;
+  /* image comes from ASSETS.splash (set via --splash-img in app.js);
+     the url() here is a fallback if JS hasn't run yet */
+  background:var(--splash-img, url(/assets/splash-couple.png)) center center no-repeat;
   background-size:contain;
 }
 .splash-half.left  { left:0;  transform-origin:left center;
@@ -129,7 +131,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .scrolldn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:99px}
 .scrolldn.sec-arrow{margin-top:34px;color:var(--aqua)}
 /* the disco vignette already adds space, so tuck the details arrow closer */
-#details .sec-arrow{margin-top:10px}
+#details .sec-arrow{margin-top:0}
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* countdown — giant editorial numerals */

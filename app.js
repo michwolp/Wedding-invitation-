@@ -1,75 +1,82 @@
-// ---------- side flowers: scatter motifs down both edges of the page ----------
+// ---------- apply asset paths from the central ASSETS config ----------
+// Keeps every image path in one place (assets.js). HTML/CSS just provide slots.
+(function(){
+  const A = window.ASSETS;
+  if(!A) return;
+  // splash illustration
+  const splash = document.getElementById('splash');
+  if(splash) splash.style.setProperty('--splash-img', 'url(' + window.asset(A.splash) + ')');
+  // hero corner clusters
+  const L = document.querySelector('.hero-corner.left');
+  const Rt = document.querySelector('.hero-corner.right');
+  if(L)  L.src  = window.asset(A.heroCorners.left);
+  if(Rt) Rt.src = window.asset(A.heroCorners.right);
+})();
+
+// ---------- side motifs: scatter clipart down both edges of the page ----------
+// All image paths & sizing come from ASSETS.sideMotifs (see assets.js), so this
+// code is pure layout logic — to change WHICH images or their SIZE, edit assets.js.
 (function(){
   const layer = document.getElementById('sideflowers');
-  if(!layer) return;
-  // side decorations use ALL the wedding clipart, evenly balanced (no category
-  // dominates). We cycle through a shuffled pool so every motif appears equally.
-  const pool = [
-    'assets/cg-bouquet.png','assets/cg-tulip.png','assets/cg-sprig.png','assets/cg-vine.png',
-    'assets/cg-wreath.png','assets/cg-border.png','assets/cg-monogram.png','assets/cg-disco.png',
-    'assets/cg-cake.png','assets/cg-candle.png','assets/cg-coupes.png','assets/cg-champagne.png',
-    'assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png',
-    // new transparent set: flower spirals, mushrooms, sprigs
-    'assets/cg-spiral1.png','assets/cg-spiral2.png','assets/cg-spiral3.png',
-    'assets/cg-mushroom1.png','assets/cg-mushroom2.png',
-    'assets/cg-sprig1.png','assets/cg-sprig2.png','assets/cg-sprig3.png'
-  ];
-  const R = (a,b)=> a + Math.random()*(b-a);
+  const CFG = (window.ASSETS && window.ASSETS.sideMotifs) || null;
+  if(!layer || !CFG) return;
 
-  // The layout (which motif, its size/offset/sway) is decided ONCE and cached, so
-  // motifs never "switch" or jump after the first setup. We only re-place them on
-  // an actual resize, and even then we reuse the same cached sequence/randoms —
-  // just re-flowing their vertical spacing to the new page height.
-  let spec = null;   // cached array of {src, side, fw, isStar, off, opacity, sway, delay, gap}
+  const R = (a,b)=> a + Math.random()*(b-a);
+  const isSmall = file => CFG.small.includes(file);
+
+  // The layout (which motif, its jitter/opacity/sway) is decided ONCE and cached,
+  // so motifs never "switch" after the first setup. Resizing only re-flows their
+  // vertical spacing to the new page height using the same cached sequence.
+  let spec = null;
   function buildSpec(){
-    const seq = pool.slice();
+    const seq = CFG.images.slice();
     for(let i = seq.length - 1; i > 0; i--){ const j = Math.floor(R(0, i+1)); [seq[i],seq[j]] = [seq[j],seq[i]]; }
-    const items = [];
-    // generate plenty of rows (enough for a very long page); we render as many as fit
-    for(let k = 0; k < 120; k++){
-      const src = seq[k % seq.length];
-      const isStar = src.indexOf('cg-star') !== -1;
-      items.push({
-        src, side: k % 2 ? 'right' : 'left', isStar,
-        gap: R(0.8, 1.2), jitter: R(-40, 40),
-        opacity: +R(.82,1).toFixed(2), sway: +R(5,9).toFixed(1), delay: +(-R(0,5)).toFixed(1)
-      });
-    }
-    return items;
+    return Array.from({length: 120}, (_, k) => ({
+      file: seq[k % seq.length],
+      side: k % 2 ? 'right' : 'left',
+      gap: R(0.8, 1.2),
+      jitter: R(-40, 40),
+      opacity: +R(CFG.minOpacity, 1).toFixed(2),
+      sway: +R(CFG.swayMin, CFG.swayMax).toFixed(1),
+      delay: +(-R(0, 5)).toFixed(1),
+    }));
   }
+
   function build(){
     if(!spec) spec = buildSpec();
     layer.innerHTML = '';
     const pageH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     const narrow = innerWidth < 640;
-    const step = narrow ? 200 : 250;
-    let y = 330, i = 0;
+    const rowGap = narrow ? CFG.rowGapPhone : CFG.rowGapDesktop;
+    const edge   = narrow ? CFG.edgeOffsetPhone : CFG.edgeOffsetDesktop;
+    let y = CFG.startY, i = 0;
+
     while(y < pageH - 120 && i < spec.length){
-      // two per row (left + right)
-      for(let s = 0; s < 2 && i < spec.length; s++, i++){
+      for(let s = 0; s < 2 && i < spec.length; s++, i++){   // left + right per row
         const it = spec[i];
+        const small = isSmall(it.file);
+        const w = small ? (narrow ? CFG.smallWidthPhone : CFG.smallWidthDesktop)
+                        : (narrow ? CFG.widthPhone : CFG.widthDesktop);
         const img = document.createElement('img');
-        img.src = '/' + it.src;
-        const fw = it.isStar ? (narrow ? 28 : 36) : (narrow ? 72 : 104);
-        img.style.width = fw + 'px';
+        img.src = window.asset(it.file);
+        img.style.width = w + 'px';
         img.style.top = (y + it.jitter) + 'px';
-        const off = narrow ? 8 : 14;
-        if(it.side === 'left'){ img.style.left = off + 'px'; }
-        else { img.style.right = off + 'px'; }
+        img.style[it.side] = edge + 'px';
         img.style.opacity = it.opacity;
         img.style.setProperty('--sway', it.sway + 's');
         img.style.setProperty('--swayDelay', it.delay + 's');
         layer.appendChild(img);
       }
-      y += step * spec[Math.min(i,spec.length-1)].gap;
+      y += rowGap * spec[Math.min(i, spec.length - 1)].gap;
     }
   }
+
   // build once after layout settles; only re-place on an actual width change
   if('requestIdleCallback' in window) requestIdleCallback(build); else setTimeout(build, 300);
   setTimeout(build, 1200);   // one re-place after fonts/images settle the page height
   let rt, lastW = innerWidth;
   addEventListener('resize', ()=>{
-    if(innerWidth === lastW) return;   // ignore mobile scroll address-bar height changes
+    if(innerWidth === lastW) return;   // ignore mobile address-bar height changes
     lastW = innerWidth;
     clearTimeout(rt); rt = setTimeout(build, 300);
   }, {passive:true});
