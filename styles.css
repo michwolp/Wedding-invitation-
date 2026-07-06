@@ -1,13 +1,20 @@
 :root{
   color-scheme: only light;
-  --forest:#F5EFDD;
+  /* ---- deep romantic red + blue palette on cream ---- */
+  --paper:#F3EEE4;         /* background cream */
+  --ink:#3A3550;           /* dark text (deep blue-plum, softer than black) */
+  --cream:#3A3550;         /* legacy alias → dark text */
+  --red:#A83A46;           /* deep berry red — primary accent */
+  --red-deep:#8A2F3A;      /* darker red for hover/pressed */
+  --blue:#3F5A7A;          /* dusty navy — secondary accent */
+  --blue-soft:#7E93B8;     /* soft blue — tertiary */
+  /* legacy aliases remapped onto the new palette so existing rules restyle cleanly */
+  --pink:#B06A86;          /* muted rose (was pink) */
+  --marigold:#3F5A7A;      /* → navy */
+  --lime:#7E93B8;          /* → soft blue */
+  --aqua:#5A6E96;          /* → mid blue */
+  --forest:#F3EEE4;        /* → paper */
   --forest2:#E2E5CC;
-  --cream:#4F4A38;
-  --pink:#C99AA8;
-  --marigold:#CDB56A;
-  --lime:#C9D2B0;
-  --aqua:#7E9268;
-  --red:#A8586B;
   /* titles use Suez One (bold display serif); body uses Gveret Levin (handwriting script) */
   --display:'Suez One', serif;
   --body:'Gveret Levin AlefAlefAlef', 'Frank Ruhl Libre', cursive;
@@ -195,8 +202,8 @@ section{
 }
 
 .sec-title{
-  font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,6.4vw,2.7rem);line-height:1.15;
-  letter-spacing:.08em;margin-bottom:14px;color:var(--cream);
+  font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,5.2vw,2.2rem);line-height:1.15;
+  letter-spacing:.06em;margin-bottom:14px;color:var(--cream);
 }
 #details .sec-title{color:var(--marigold)}
 #rsvp .sec-title{color:var(--red)}

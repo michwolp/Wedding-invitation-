@@ -13,35 +13,26 @@
   if(hc && A.couple) hc.src = window.asset(A.couple);
 })();
 
-// ---------- side motifs: scatter clipart down both edges of the page ----------
-// All image paths & sizing come from ASSETS.sideMotifs (see assets.js), so this
-// code is pure layout logic — to change WHICH images or their SIZE, edit assets.js.
+// ---------- side motifs: DISABLED (commented out, not deleted) ----------
+// Uncomment to re-enable the scattered clipart down both edges.
+/*
 (function(){
   const layer = document.getElementById('sideflowers');
   const CFG = (window.ASSETS && window.ASSETS.sideMotifs) || null;
   if(!layer || !CFG) return;
-
   const R = (a,b)=> a + Math.random()*(b-a);
   const isSmall = file => CFG.small.includes(file);
-
-  // The layout (which motif, its jitter/opacity/sway) is decided ONCE and cached,
-  // so motifs never "switch" after the first setup. Resizing only re-flows their
-  // vertical spacing to the new page height using the same cached sequence.
   let spec = null;
   function buildSpec(){
     const seq = CFG.images.slice();
     for(let i = seq.length - 1; i > 0; i--){ const j = Math.floor(R(0, i+1)); [seq[i],seq[j]] = [seq[j],seq[i]]; }
     return Array.from({length: 120}, (_, k) => ({
-      file: seq[k % seq.length],
-      side: k % 2 ? 'right' : 'left',
-      gap: R(0.8, 1.2),
-      jitter: R(-40, 40),
+      file: seq[k % seq.length], side: k % 2 ? 'right' : 'left',
+      gap: R(0.8, 1.2), jitter: R(-40, 40),
       opacity: +R(CFG.minOpacity, 1).toFixed(2),
-      sway: +R(CFG.swayMin, CFG.swayMax).toFixed(1),
-      delay: +(-R(0, 5)).toFixed(1),
+      sway: +R(CFG.swayMin, CFG.swayMax).toFixed(1), delay: +(-R(0, 5)).toFixed(1),
     }));
   }
-
   function build(){
     if(!spec) spec = buildSpec();
     layer.innerHTML = '';
@@ -50,23 +41,16 @@
     const rowGap = narrow ? CFG.rowGapPhone : CFG.rowGapDesktop;
     const edge   = narrow ? CFG.edgeOffsetPhone : CFG.edgeOffsetDesktop;
     let y = CFG.startY, i = 0;
-
     while(y < pageH - 120 && i < spec.length){
-      for(let s = 0; s < 2 && i < spec.length; s++, i++){   // left + right per row
-        const it = spec[i];
-        const small = isSmall(it.file);
+      for(let s = 0; s < 2 && i < spec.length; s++, i++){
+        const it = spec[i]; const small = isSmall(it.file);
         const box = small ? (narrow ? CFG.smallBoxPhone : CFG.smallBoxDesktop)
                           : (narrow ? CFG.boxPhone : CFG.boxDesktop);
         const img = document.createElement('img');
         img.src = window.asset(it.file);
-        // fit inside a square box, keeping aspect ratio → tall candles / wide
-        // bunting stay a consistent visual size instead of blowing up
-        img.style.maxWidth = box + 'px';
-        img.style.maxHeight = box + 'px';
-        img.style.width = 'auto';
-        img.style.height = 'auto';
-        img.style.top = (y + it.jitter) + 'px';
-        img.style[it.side] = edge + 'px';
+        img.style.maxWidth = box + 'px'; img.style.maxHeight = box + 'px';
+        img.style.width = 'auto'; img.style.height = 'auto';
+        img.style.top = (y + it.jitter) + 'px'; img.style[it.side] = edge + 'px';
         img.style.opacity = it.opacity;
         img.style.setProperty('--sway', it.sway + 's');
         img.style.setProperty('--swayDelay', it.delay + 's');
@@ -75,17 +59,15 @@
       y += rowGap * spec[Math.min(i, spec.length - 1)].gap;
     }
   }
-
-  // build once after layout settles; only re-place on an actual width change
   if('requestIdleCallback' in window) requestIdleCallback(build); else setTimeout(build, 300);
-  setTimeout(build, 1200);   // one re-place after fonts/images settle the page height
+  setTimeout(build, 1200);
   let rt, lastW = innerWidth;
   addEventListener('resize', ()=>{
-    if(innerWidth === lastW) return;   // ignore mobile address-bar height changes
-    lastW = innerWidth;
+    if(innerWidth === lastW) return; lastW = innerWidth;
     clearTimeout(rt); rt = setTimeout(build, 300);
   }, {passive:true});
 })();
+*/
 
 // ---------- intro: couple flies up from screen-center and lands above the names --
 // The couple image lives in the hero (its final spot). On load we clone its box,
