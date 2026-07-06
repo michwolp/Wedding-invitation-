@@ -128,6 +128,8 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .scrolldn:hover{color:var(--red)}
 .scrolldn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:99px}
 .scrolldn.sec-arrow{margin-top:34px;color:var(--aqua)}
+/* the disco vignette already adds space, so tuck the details arrow closer */
+#details .sec-arrow{margin-top:10px}
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* countdown — giant editorial numerals */
