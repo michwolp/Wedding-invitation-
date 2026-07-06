@@ -12,9 +12,11 @@
 
 window.GUESTS = {
   // code:   { name,                phone,           lang }
-  ofirLevin:   { name: 'Ofir Levin',   phone: '0546644905', lang: 'he' },
+  OfirLevin:   { name: 'אופיר',   phone: '0546644905', lang: 'he' },
   ViktoriaSharay:   { name: 'Viktoria Sharay',    phone: '0504247004', lang: 'ru' },
-  DvirSasson:   { name: 'DvirSasson',      phone: '0502566643', lang: 'he' },
+  DvirSasson:   { name: 'דביר',      phone: '0502566643', lang: 'he' },
+  DanKedmi:   { name: 'דןדן',      phone: '0509878804', lang: 'he' },
+
 };
 
 // Look up a guest from the current URL.
