@@ -8,47 +8,71 @@
     'assets/cg-bouquet.png','assets/cg-tulip.png','assets/cg-sprig.png','assets/cg-vine.png',
     'assets/cg-wreath.png','assets/cg-border.png','assets/cg-monogram.png','assets/cg-disco.png',
     'assets/cg-cake.png','assets/cg-candle.png','assets/cg-coupes.png','assets/cg-champagne.png',
-    'assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png'
+    'assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png',
+    // new transparent set: flower spirals, mushrooms, sprigs
+    'assets/cg-spiral1.png','assets/cg-spiral2.png','assets/cg-spiral3.png',
+    'assets/cg-mushroom1.png','assets/cg-mushroom2.png',
+    'assets/cg-sprig1.png','assets/cg-sprig2.png','assets/cg-sprig3.png'
   ];
   const R = (a,b)=> a + Math.random()*(b-a);
 
+  // The layout (which motif, its size/offset/sway) is decided ONCE and cached, so
+  // motifs never "switch" or jump after the first setup. We only re-place them on
+  // an actual resize, and even then we reuse the same cached sequence/randoms —
+  // just re-flowing their vertical spacing to the new page height.
+  let spec = null;   // cached array of {src, side, fw, isStar, off, opacity, sway, delay, gap}
+  function buildSpec(){
+    const seq = pool.slice();
+    for(let i = seq.length - 1; i > 0; i--){ const j = Math.floor(R(0, i+1)); [seq[i],seq[j]] = [seq[j],seq[i]]; }
+    const items = [];
+    // generate plenty of rows (enough for a very long page); we render as many as fit
+    for(let k = 0; k < 120; k++){
+      const src = seq[k % seq.length];
+      const isStar = src.indexOf('cg-star') !== -1;
+      items.push({
+        src, side: k % 2 ? 'right' : 'left', isStar,
+        gap: R(0.8, 1.2), jitter: R(-40, 40),
+        opacity: +R(.82,1).toFixed(2), sway: +R(5,9).toFixed(1), delay: +(-R(0,5)).toFixed(1)
+      });
+    }
+    return items;
+  }
   function build(){
+    if(!spec) spec = buildSpec();
     layer.innerHTML = '';
     const pageH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     const narrow = innerWidth < 640;
-    const step = narrow ? 200 : 250;           // vertical spacing between motifs on a side
-    // shuffle the pool so the sequence differs each load but stays balanced
-    const seq = pool.slice();
-    for(let i = seq.length - 1; i > 0; i--){ const j = Math.floor(R(0, i+1)); [seq[i],seq[j]] = [seq[j],seq[i]]; }
-    let placed = 0;
-    // start a little below the hero so we don't fight the corner motifs / countdown
-    for(let y = 330; y < pageH - 120; y += R(step*0.8, step*1.2)){
-      ['left','right'].forEach(side=>{
+    const step = narrow ? 200 : 250;
+    let y = 330, i = 0;
+    while(y < pageH - 120 && i < spec.length){
+      // two per row (left + right)
+      for(let s = 0; s < 2 && i < spec.length; s++, i++){
+        const it = spec[i];
         const img = document.createElement('img');
-        img.src = '/' + seq[placed % seq.length];
-        placed++;
-        // the sparkle star is tiny; everything else similar size
-        const isStar = img.src.indexOf('cg-star') !== -1;
-        const fw = isStar ? (narrow ? R(22,34) : R(28,42)) : (narrow ? R(58,86) : R(84,124));
+        img.src = '/' + it.src;
+        const fw = it.isStar ? (narrow ? 28 : 36) : (narrow ? 72 : 104);
         img.style.width = fw + 'px';
-        img.style.top = (y + R(-40,40)) + 'px';
-        // these motifs are whole objects (glasses, disco, etc.) — keep them fully
-        // on-screen near the edge, and don't mirror-flip them.
-        const off = narrow ? R(2,12) : R(6,22);
-        if(side==='left'){ img.style.left = off + 'px'; }
+        img.style.top = (y + it.jitter) + 'px';
+        const off = narrow ? 8 : 14;
+        if(it.side === 'left'){ img.style.left = off + 'px'; }
         else { img.style.right = off + 'px'; }
-        img.style.opacity = R(.82,1).toFixed(2);
-        img.style.setProperty('--sway', R(5,9).toFixed(1)+'s');
-        img.style.setProperty('--swayDelay', (-R(0,5)).toFixed(1)+'s');
+        img.style.opacity = it.opacity;
+        img.style.setProperty('--sway', it.sway + 's');
+        img.style.setProperty('--swayDelay', it.delay + 's');
         layer.appendChild(img);
-      });
+      }
+      y += step * spec[Math.min(i,spec.length-1)].gap;
     }
   }
-  // build after layout settles, and rebuild on resize / orientation change
+  // build once after layout settles; only re-place on an actual width change
   if('requestIdleCallback' in window) requestIdleCallback(build); else setTimeout(build, 300);
-  setTimeout(build, 1200);   // rebuild once fonts/images have shifted layout
-  let rt;
-  addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(build, 300); }, {passive:true});
+  setTimeout(build, 1200);   // one re-place after fonts/images settle the page height
+  let rt, lastW = innerWidth;
+  addEventListener('resize', ()=>{
+    if(innerWidth === lastW) return;   // ignore mobile scroll address-bar height changes
+    lastW = innerWidth;
+    clearTimeout(rt); rt = setTimeout(build, 300);
+  }, {passive:true});
 })();
 
 // ---------- intro splash: remove once the book has opened ----------
