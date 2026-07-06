@@ -210,14 +210,14 @@ footer{margin-top:88px;text-align:center;padding-bottom:26px}
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
 }
 
-/* the watercolor image is the full-screen background; content scrolls over it.
-   contain = the WHOLE frame is always visible (all four floral edges), no
-   cropping. Any leftover margin is filled with the image's paper white so it
-   blends seamlessly. Two images: portrait for phones, landscape for computers,
-   chosen automatically by the screen shape. */
+/* the floral frame surrounds the hero (names + date) like a card, then scrolls
+   away — the sections below sit on clean paper white. contain keeps the whole
+   frame visible with no cropping. Portrait image on phones, landscape on
+   computers, chosen automatically by screen shape. */
 #bgart{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:#FCFBF9 url(/bg-phone.jpg) center center no-repeat;
+  position:absolute;top:0;left:0;right:0;height:100vh;
+  z-index:0;pointer-events:none;
+  background:url(/bg-phone.jpg) center top no-repeat;
   background-size:contain;
 }
 /* landscape screens (computers / tablets held sideways) → wide image */
