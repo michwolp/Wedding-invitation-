@@ -3,6 +3,8 @@
   const layer = document.getElementById('sideflowers');
   if(!layer) return;
   const flowers = ['motif-cluster.png','motif-bells.png','motif-spray.png','motif-vine.png','motif-spray-daisies.png','motif-sprig-bells.png'];
+  // disco ball & mushroom appear as occasional playful accents mixed into the flowers
+  const accents = ['motif-disco.png','motif-mushroom.png'];
   const R = (a,b)=> a + Math.random()*(b-a);
 
   function build(){
@@ -11,19 +13,29 @@
     const narrow = innerWidth < 640;
     const w = narrow ? R(66,96) : R(90,150);   // flower width range
     const step = narrow ? 200 : 250;           // vertical spacing between flowers on a side
-    let idx = 0;
+    let idx = 0, placed = 0;
     // start a little below the hero so we don't fight the corner motifs / countdown
     for(let y = 330; y < pageH - 120; y += R(step*0.8, step*1.2)){
       ['left','right'].forEach(side=>{
         const img = document.createElement('img');
-        img.src = '/' + flowers[idx % flowers.length];
-        idx++;
-        const fw = narrow ? R(60,92) : R(85,150);
+        // roughly every 4th motif is a disco ball or mushroom accent
+        if(placed > 0 && placed % 4 === 0){
+          img.src = '/' + accents[(placed/4) % accents.length | 0];
+          img.classList.add('accent');
+        } else {
+          img.src = '/' + flowers[idx % flowers.length];
+          idx++;
+        }
+        placed++;
+        const isAccent = img.classList.contains('accent');
+        // accents (disco/mushroom) a touch smaller and pulled a bit more inward
+        const fw = isAccent ? (narrow ? R(46,64) : R(60,84)) : (narrow ? R(60,92) : R(85,150));
         img.style.width = fw + 'px';
         img.style.top = (y + R(-40,40)) + 'px';
         // hug the edge; let a bit hang off-screen so it reads as a border
-        const off = narrow ? R(-26,-6) : R(-30,4);
-        if(side==='left'){ img.style.left = off + 'px'; img.classList.add('flip'); }
+        const off = isAccent ? (narrow ? R(2,14) : R(6,20)) : (narrow ? R(-26,-6) : R(-30,4));
+        // flowers have directional stems so we mirror them on the left; accents don't need flipping
+        if(side==='left'){ img.style.left = off + 'px'; if(!isAccent) img.classList.add('flip'); }
         else { img.style.right = off + 'px'; }
         img.style.opacity = R(.82,1).toFixed(2);
         img.style.setProperty('--sway', R(5,9).toFixed(1)+'s');

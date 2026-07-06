@@ -188,7 +188,19 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 @keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
-section{margin-top:104px;position:relative;text-align:center}
+/* each section is its own framed card with clear space between cards.
+   scroll-margin-top makes the arrow land at the card's top, not its middle. */
+section{
+  margin:70px auto 0;position:relative;text-align:center;
+  max-width:560px;
+  background:rgba(255,253,246,.72);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(168,88,107,.16);
+  border-radius:26px;
+  padding:40px 26px;
+  box-shadow:0 10px 34px rgba(120,110,80,.09);
+  scroll-margin-top:26px;
+}
 
 .sec-title{
   font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,6.4vw,2.7rem);line-height:1.15;
@@ -276,8 +288,14 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .gift-sub{color:rgba(79,74,56,.85);max-width:380px;margin:0 auto}
 
 /* footer */
-footer{margin-top:104px;text-align:center;padding-bottom:26px}
-.parents{display:flex;justify-content:center;gap:60px;margin-top:6px}
+footer{
+  margin:70px auto 40px;text-align:center;max-width:560px;
+  background:rgba(255,253,246,.72);backdrop-filter:blur(4px);
+  border:1px solid rgba(168,88,107,.16);border-radius:26px;
+  padding:40px 26px;box-shadow:0 10px 34px rgba(120,110,80,.09);
+  scroll-margin-top:26px;position:relative;
+}
+.parents{display:flex;justify-content:center;gap:60px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(168,88,107,.14)}
 .parents .p b{font-family:var(--display);font-weight:400;font-size:1.7rem;display:block;color:var(--pink);letter-spacing:.04em}
 .parents .p span{color:rgba(79,74,56,.8);font-size:.95rem}
 .seeyou{
@@ -291,13 +309,11 @@ footer{margin-top:104px;text-align:center;padding-bottom:26px}
 /* ---------- painted scenery ---------- */
 
 
-/* mist veil behind each section for readability over the painting */
-section::before, footer::before, .hero::after{
-  content:"";position:absolute;inset:-30px -40px;z-index:-1;pointer-events:none;
+/* soft glow behind the hero text for readability (hero is not a card) */
+.hero::after{
+  content:"";position:absolute;inset:14% -40px 4% -40px;z-index:-1;pointer-events:none;
   background:radial-gradient(ellipse 88% 78% at 50% 50%, rgba(255,253,246,.62), rgba(255,253,246,.28) 60%, transparent 78%);
 }
-footer{position:relative}
-.hero::after{inset:14% -40px 4% -40px}
 
 /* meadow flower band dividers */
 .meadow{position:relative;height:64px;margin:28px -24px 0;pointer-events:none}
