@@ -124,6 +124,18 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 @keyframes flip{0%{transform:rotateX(0)}48%{transform:rotateX(88deg)}52%{transform:rotateX(-88deg)}100%{transform:rotateX(0)}}
 .unit span{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--aqua);opacity:.85}
 
+/* ---------- watercolor motif accents ---------- */
+/* small hand-painted motifs used as decoration. They're plain <img> elements
+   that scroll with the page (mobile-safe — no fixed background). */
+.motif{display:block;margin:14px auto 0;pointer-events:none;user-select:none}
+.motif.under-title{width:clamp(120px,34vw,170px);margin-top:6px}
+/* hero corner accents — tucked into the top corners, gently floating */
+.hero-corner{position:absolute;top:-10px;width:clamp(90px,26vw,150px);opacity:.9;z-index:-1}
+.hero-corner.left{inset-inline-start:-14px;transform:scaleX(-1)}
+.hero-corner.right{inset-inline-end:-14px}
+@media(max-width:420px){.hero-corner{width:84px;opacity:.8}}
+.footer-motif{width:clamp(150px,42vw,220px);margin:6px auto 10px}
+
 /* ---------- marquee ticker ---------- */
 .marquee{
   overflow:hidden;white-space:nowrap;margin:54px -24px 0;padding:10px 0;direction:ltr;
