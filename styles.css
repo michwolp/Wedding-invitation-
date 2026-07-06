@@ -37,7 +37,7 @@ a,button,select,input,textarea,label{cursor:none}
 #splash.done{display:none}
 /* the couple image in its final resting place, just above the names */
 .hero-couple{
-  display:block;margin:0 auto 6px;width:min(220px,58vw);height:auto;
+  display:block;margin:0 auto 6px;width:min(150px,42vw);height:auto;
 }
 /* the flying clone the JS animates (styles set inline) */
 .couple-fly{will-change:left,top,width,height}
@@ -153,9 +153,10 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .motif{display:block;margin:14px auto 0;pointer-events:none;user-select:none}
 .motif.under-title{width:clamp(120px,34vw,170px);margin-top:6px}
 /* hero corner accents — tucked into the top corners, gently floating */
+/* physical left/right so images DON'T swap sides when language changes */
 .hero-corner{position:absolute;top:-10px;width:clamp(90px,26vw,150px);opacity:.9;z-index:-1}
-.hero-corner.left{inset-inline-start:-14px;transform:scaleX(-1)}
-.hero-corner.right{inset-inline-end:-14px}
+.hero-corner.left{left:-14px;transform:scaleX(-1)}
+.hero-corner.right{right:-14px}
 @media(max-width:420px){.hero-corner{width:84px;opacity:.8}}
 .footer-motif{width:clamp(150px,42vw,220px);margin:6px auto 10px}
 
@@ -182,7 +183,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 /* each section is its own framed card with clear space between cards.
    scroll-margin-top makes the arrow land at the card's top, not its middle. */
 section{
-  margin:120px auto 0;position:relative;text-align:center;
+  margin:150px auto 0;position:relative;text-align:center;
   max-width:560px;
   /* slightly brighter, lightly translucent card so it lifts off the background */
   background:rgba(255,253,248,.55);
@@ -285,7 +286,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 
 /* footer */
 footer{
-  margin:120px auto 40px;text-align:center;max-width:560px;
+  margin:150px auto 40px;text-align:center;max-width:560px;
   background:rgba(255,253,248,.55);
   backdrop-filter:blur(2px);
   border:1px solid rgba(168,88,107,.18);border-radius:26px;
