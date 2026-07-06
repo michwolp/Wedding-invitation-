@@ -449,7 +449,10 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     pickup: attending==='yes' ? document.getElementById('pickup').value : '',
     notes: document.getElementById('notes').value.trim()
   };
+  const btn = e.target.querySelector('button[type=submit]');
   msg.textContent = themsg('sending'); msg.className = 'formmsg';
+  // "sending" = brief lit/pressed state (prevents double-submit while in flight)
+  btn.classList.add('sending'); btn.disabled = true;
   try{
     const res = await fetch('/api/rsvp', {
       method:'POST',
@@ -464,10 +467,13 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     }
     msg.textContent = attending==='yes' ? themsg('okYes') : themsg('okNo');
     msg.className = 'formmsg ok';
-    e.target.querySelector('button[type=submit]').disabled = true;
   }catch(err){
     msg.textContent = errText(err && err.message);
     msg.className = 'formmsg err';
+  }finally{
+    // always return the button to its normal (dark) state and re-enable it, so a
+    // guest can UPDATE their RSVP — a re-submit replaces their record (upsert).
+    btn.classList.remove('sending'); btn.disabled = false;
   }
 });
 

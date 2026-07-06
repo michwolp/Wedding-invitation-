@@ -8,12 +8,14 @@
   --lime:#C9D2B0;
   --aqua:#7E9268;
   --red:#A8586B;
-  --display:'Playpen Sans Hebrew', 'Cormorant Garamond', cursive;
+  /* titles use Suez One (bold display serif); body uses Gveret Levin (handwriting script) */
+  --display:'Suez One', serif;
+  --body:'Gveret Levin AlefAlefAlef', 'Frank Ruhl Libre', cursive;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{
-  font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:400;
+  font-family:var(--body);font-weight:400;
   background:#F3EEE4;   /* exact warm vintage cream — flat, no gradient/texture */
   color:var(--cream);
   line-height:1.7;
@@ -78,7 +80,8 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 
 /* language switch */
 .lang-seg{
-  position:fixed;top:16px;inset-inline-end:16px;z-index:20;display:flex;overflow:hidden;
+  /* always pinned to the right, even in LTR languages (use right, not inset-inline-end) */
+  position:fixed;top:16px;right:16px;z-index:20;display:flex;overflow:hidden;
   background:rgba(255,255,255,.65);backdrop-filter:blur(8px);
   border:1.5px solid var(--cream);border-radius:99px;
 }
@@ -250,9 +253,14 @@ section{
 .btn::after{content:" ✦"}
 .btn:hover{background:var(--cream);color:var(--forest);transform:translateY(-3px)}
 .btn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
-.btn.primary{background:var(--pink);border-color:var(--pink);color:var(--forest);font-weight:800}
+/* submit button: DARK by default; BRIGHTER while pressed / sending; dark again after */
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:800;
+  transition:background .18s,border-color .18s,transform .12s}
 .btn.primary::after{content:""}
-.btn.primary:hover{background:var(--marigold);border-color:var(--marigold)}
+.btn.primary:hover{background:#96455a;border-color:#96455a}       /* slightly deeper on hover */
+.btn.primary:active,
+.btn.primary.sending{background:var(--pink);border-color:var(--pink);color:#fff;transform:translateY(1px)} /* brighter when pressed */
+.btn.primary:disabled{cursor:default;opacity:.9}
 
 /* ---------- RSVP form ---------- */
 form{max-width:440px;margin:8px auto 0;text-align:start}

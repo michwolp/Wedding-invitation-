@@ -17,8 +17,8 @@ window.ASSETS = {
 
   // the two flower clusters tucked into the hero's top corners
   heroCorners: {
-    left:  'cg-bouquet.png',
-    right: 'cg-tulip.png',
+    left:  'nm-bouquet.png',
+    right: 'nm-lavender.png',
   },
 
   // motifs scattered down BOTH side edges of the page. All are used, evenly
@@ -26,16 +26,15 @@ window.ASSETS = {
   sideMotifs: {
     // every image cycles equally through the sides
     images: [
-      'cg-bouquet.png', 'cg-tulip.png', 'cg-sprig.png', 'cg-vine.png',
-      'cg-wreath.png', 'cg-border.png', 'cg-monogram.png', 'cg-disco.png',
-      'cg-cake.png', 'cg-candle.png', 'cg-coupes.png', 'cg-champagne.png',
-      'cg-fairy.png', 'cg-couple.png', 'cg-star.png',
-      'cg-spiral1.png', 'cg-spiral2.png', 'cg-spiral3.png',
-      'cg-mushroom1.png', 'cg-mushroom2.png',
-      'cg-sprig1.png', 'cg-sprig2.png', 'cg-sprig3.png',
+      'nm-bunting-flowers.png', 'nm-couple.png', 'nm-champagne.png', 'nm-candle1.png',
+      'nm-candle2.png', 'nm-lavender.png', 'nm-bouquet.png', 'nm-rose.png',
+      'nm-bow.png', 'nm-doves.png', 'nm-mushroom.png', 'nm-coupe.png',
+      'nm-cheers.png', 'nm-heart-plain.png', 'nm-wine-bottle.png', 'nm-wine-glass.png',
+      'nm-grapes.png', 'nm-lights.png', 'nm-flower-single.png', 'nm-leaf-divider.png',
+      'nm-disco.png', 'nm-cheese-board.png',
     ],
-    // images that should render smaller than the rest (e.g. tiny sparkles)
-    small: ['cg-star.png'],
+    // images that should render smaller than the rest (e.g. tiny single flower)
+    small: ['nm-flower-single.png'],
 
     // ---- styling knobs (tweak these to restyle the side decorations) ----
     widthDesktop: 104,   // px width of a normal motif on wide screens
