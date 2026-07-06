@@ -2,35 +2,34 @@
 (function(){
   const layer = document.getElementById('sideflowers');
   if(!layer) return;
-  // side decorations use ONLY the wedding clipart grid. Flowers dominate.
-  const flowers = ['assets/cg-bouquet.png','assets/cg-tulip.png','assets/cg-sprig.png','assets/cg-vine.png','assets/cg-wreath.png','assets/cg-border.png','assets/cg-monogram.png'];
-  // party / celebration accents mixed in (disco, cake, candle, coupes, champagne, fairy, dancing couple, sparkle)
-  const accents = ['assets/cg-disco.png','assets/cg-cake.png','assets/cg-candle.png','assets/cg-coupes.png','assets/cg-champagne.png','assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png'];
+  // side decorations use ALL the wedding clipart, evenly balanced (no category
+  // dominates). We cycle through a shuffled pool so every motif appears equally.
+  const pool = [
+    'assets/cg-bouquet.png','assets/cg-tulip.png','assets/cg-sprig.png','assets/cg-vine.png',
+    'assets/cg-wreath.png','assets/cg-border.png','assets/cg-monogram.png','assets/cg-disco.png',
+    'assets/cg-cake.png','assets/cg-candle.png','assets/cg-coupes.png','assets/cg-champagne.png',
+    'assets/cg-fairy.png','assets/cg-couple.png','assets/cg-star.png'
+  ];
   const R = (a,b)=> a + Math.random()*(b-a);
 
   function build(){
     layer.innerHTML = '';
     const pageH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     const narrow = innerWidth < 640;
-    const w = narrow ? R(66,96) : R(90,150);   // flower width range
-    const step = narrow ? 200 : 250;           // vertical spacing between flowers on a side
-    let idx = 0, placed = 0;
+    const step = narrow ? 200 : 250;           // vertical spacing between motifs on a side
+    // shuffle the pool so the sequence differs each load but stays balanced
+    const seq = pool.slice();
+    for(let i = seq.length - 1; i > 0; i--){ const j = Math.floor(R(0, i+1)); [seq[i],seq[j]] = [seq[j],seq[i]]; }
+    let placed = 0;
     // start a little below the hero so we don't fight the corner motifs / countdown
     for(let y = 330; y < pageH - 120; y += R(step*0.8, step*1.2)){
       ['left','right'].forEach(side=>{
         const img = document.createElement('img');
-        // roughly every 4th motif is a disco ball or mushroom accent
-        if(placed > 0 && placed % 4 === 0){
-          img.src = '/' + accents[(placed/4) % accents.length | 0];
-          img.classList.add('accent');
-        } else {
-          img.src = '/' + flowers[idx % flowers.length];
-          idx++;
-        }
+        img.src = '/' + seq[placed % seq.length];
         placed++;
-        const isAccent = img.classList.contains('accent');
-        // accents (disco/martini/mushroom/shrimp) a touch smaller
-        const fw = isAccent ? (narrow ? R(44,60) : R(58,80)) : (narrow ? R(56,82) : R(80,120));
+        // the sparkle star is tiny; everything else similar size
+        const isStar = img.src.indexOf('cg-star') !== -1;
+        const fw = isStar ? (narrow ? R(22,34) : R(28,42)) : (narrow ? R(58,86) : R(84,124));
         img.style.width = fw + 'px';
         img.style.top = (y + R(-40,40)) + 'px';
         // these motifs are whole objects (glasses, disco, etc.) — keep them fully
