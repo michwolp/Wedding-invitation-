@@ -29,16 +29,17 @@ a,button,select,input,textarea,label{cursor:none}
    holds, then dissolves to reveal the page. Portrait image on phones,
    landscape on computers. */
 #splash{
-  position:fixed;inset:0;z-index:200;
+  position:fixed;inset:0;z-index:200;opacity:1;   /* opaque from frame 1 — never flash the page text */
   background:#FCFBF9 url(/splash-phone.jpg) center center no-repeat;
   background-size:contain;
-  animation:splashIn 1.1s ease both, splashOut 1s ease 2.6s forwards;
+  animation:splashZoom 2.6s ease both, splashOut 1s ease 2.6s forwards;
 }
 #splash.done{display:none}
 @media (min-aspect-ratio:1/1){
   #splash{background-image:url(/splash-desktop.jpg)}
 }
-@keyframes splashIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+/* subtle slow zoom while it holds — no opacity change, so text never peeks through */
+@keyframes splashZoom{from{transform:scale(1.05)}to{transform:scale(1)}}
 @keyframes splashOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){
   #splash{animation:splashOut .5s ease .4s forwards}

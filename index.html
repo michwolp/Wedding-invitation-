@@ -13,8 +13,9 @@
 </head>
 <body>
 
-<!-- intro splash: the M & D floral illustration shows first, then dissolves to reveal the page -->
-<div id="splash" aria-hidden="true"></div>
+<!-- intro splash: the M & D floral illustration shows first, then dissolves to reveal the page.
+     Inline style paints it solid immediately, before styles.css loads, so the page text never flashes. -->
+<div id="splash" aria-hidden="true" style="position:fixed;inset:0;z-index:200;background-color:#FCFBF9"></div>
 
 <div id="bgart" aria-hidden="true"></div>
 <div id="cur"></div>
