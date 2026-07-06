@@ -80,7 +80,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .lang-seg button:focus-visible{outline:3px solid var(--marigold);outline-offset:-3px}
 
 /* ---------- HERO ---------- */
-.hero{min-height:auto;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:110px 0 40px;position:relative}
+.hero{min-height:auto;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:150px 0 70px;position:relative}
 .hero .opening{
   font-weight:400;font-size:.92rem;letter-spacing:.34em;color:var(--aqua);
   animation:riseIn 1s .1s both;
@@ -130,7 +130,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 
 /* ---------- marquee ticker ---------- */
 .marquee{
-  overflow:hidden;white-space:nowrap;margin:34px -24px 0;padding:10px 0;direction:ltr;
+  overflow:hidden;white-space:nowrap;margin:54px -24px 0;padding:10px 0;direction:ltr;
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
   transform:rotate(-1.2deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
@@ -144,7 +144,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 @keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
-section{margin-top:70px;position:relative;text-align:center}
+section{margin-top:104px;position:relative;text-align:center}
 
 .sec-title{
   font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,6.4vw,2.7rem);line-height:1.15;
@@ -227,7 +227,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .gift-sub{color:rgba(79,74,56,.85);max-width:380px;margin:0 auto}
 
 /* footer */
-footer{margin-top:74px;text-align:center;padding-bottom:26px}
+footer{margin-top:104px;text-align:center;padding-bottom:26px}
 .parents{display:flex;justify-content:center;gap:60px;margin-top:6px}
 .parents .p b{font-family:var(--display);font-weight:400;font-size:1.7rem;display:block;color:var(--pink);letter-spacing:.04em}
 .parents .p span{color:rgba(79,74,56,.8);font-size:.95rem}
