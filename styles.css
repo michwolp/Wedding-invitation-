@@ -19,6 +19,7 @@ body{
   line-height:1.7;
   overflow-x:hidden;
   cursor:none;
+  position:relative;
 }
 @media(pointer:coarse){body{cursor:auto}}
 a,button,select,input,textarea,label{cursor:none}
@@ -210,19 +211,18 @@ footer{margin-top:88px;text-align:center;padding-bottom:26px}
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
 }
 
-/* the floral frame surrounds the hero (names + date) like a card, then scrolls
-   away — the sections below sit on clean paper white. contain keeps the whole
-   frame visible with no cropping. Portrait image on phones, landscape on
-   computers, chosen automatically by screen shape. */
+/* the side-flower image runs down the FULL height of the page and scrolls with
+   the content. The flowers sit on the left/right edges with an empty middle, so
+   text always lands on clear paper. Because the decoration is vertical vines,
+   stretching it to the page height reads naturally. It's centered in a column
+   capped at 760px so on wide computer screens the vines flank the content
+   instead of clinging to the far edges. */
 #bgart{
-  position:absolute;top:0;left:0;right:0;height:100vh;
+  position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);
+  width:min(100%,760px);
   z-index:0;pointer-events:none;
   background:url(/bg-phone.jpg) center top no-repeat;
-  background-size:contain;
-}
-/* landscape screens (computers / tablets held sideways) → wide image */
-@media (min-aspect-ratio:1/1){
-  #bgart{background-image:url(/bg-desktop.jpg)}
+  background-size:100% 100%;
 }
 
 /* ---------- painted scenery ---------- */
