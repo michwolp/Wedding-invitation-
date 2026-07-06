@@ -13,13 +13,10 @@
 </head>
 <body>
 
-<!-- intro splash: the M & D floral illustration shows briefly, then opens like a book
-     (two halves swing outward) to reveal the page. Inline style paints it solid
-     immediately, before styles.css loads, so the page text never flashes. -->
-<div id="splash" aria-hidden="true" style="position:fixed;inset:0;z-index:200;background-color:#F3EEE4">
-  <div class="splash-half left"></div>
-  <div class="splash-half right"></div>
-</div>
+<!-- intro splash: the couple illustration shows big & centered, then flies up and
+     shrinks to land right above the names (see the .hero-couple image below).
+     Inline bg paints solid immediately so the page never flashes underneath. -->
+<div id="splash" aria-hidden="true" style="position:fixed;inset:0;z-index:200;background-color:#F3EEE4"></div>
 
 <div id="bgart" aria-hidden="true"></div>
 <div id="sideflowers" aria-hidden="true"></div>
@@ -31,12 +28,11 @@
 
 <main>
   <header class="hero">
-    <img class="hero-corner left" src="/assets/cg-bouquet.png" alt="" aria-hidden="true">
-    <img class="hero-corner right" src="/assets/cg-tulip.png" alt="" aria-hidden="true">
+    <img class="hero-corner left" src="/assets/nm-bouquet.png" alt="" aria-hidden="true">
+    <img class="hero-corner right" src="/assets/nm-lavender.png" alt="" aria-hidden="true">
+    <img id="heroCouple" class="hero-couple" src="/assets/nm-couple.png" alt="מיכל ודביר" aria-hidden="true">
     <p class="opening">מתרגשים להזמין אתכם לחתונה שלנו</p>
     <h1 class="names">מיכל <span class="heart" aria-hidden="true">&#x2665;&#xFE0E;</span> דביר</h1>
-    <p class="when">כרמי יוסף · 16.10.26</p>
-    <p class="weekday">יום שישי</p>
 
     <div class="count" id="count" aria-label="ספירה לאחור לחתונה">
       <div class="unit"><b id="d">0</b><span>ימים</span></div>
@@ -56,6 +52,8 @@
 
   <section id="details">
     <h2 class="sec-title">מתי ואיפה</h2>
+    <p class="when">כרמי יוסף · 16.10.26</p>
+    <p class="weekday">יום שישי</p>
     <div class="schedule">
       <div class="slot"><b>16:30</b><span>קבלת פנים</span></div>
       <div class="slot"><b>17:30</b><span>חופה</span></div>

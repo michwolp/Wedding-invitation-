@@ -26,44 +26,23 @@ body{
 @media(pointer:coarse){body{cursor:auto}}
 a,button,select,input,textarea,label{cursor:none}
 
-/* ---------- intro splash (opens like a book) ---------- */
-/* the M & D couple illustration shows briefly, then splits down the middle and
-   the two halves swing outward like book covers to reveal the page. The image is
-   the same portrait illustration on all screens, shown whole (contain) and
-   centered so it's never distorted; the two halves share one centered image so
-   the seam lines up perfectly. */
+/* ---------- intro: couple flies up into place ---------- */
+/* A plain cream cover sits over the page while the couple illustration flies up
+   from screen-center and lands above the names (JS handles the flying clone). */
 #splash{
-  position:fixed;inset:0;z-index:200;background:#F3EEE4;  /* match the invite background exactly */
-  perspective:1600px;                 /* gives the halves 3D depth as they open */
-  animation:splashOut .45s ease 1.65s forwards;   /* fade the cream backing once open */
+  position:fixed;inset:0;z-index:200;background:#F3EEE4;  /* matches the invite bg exactly */
+  transition:opacity .7s ease;
 }
+#splash.fade{opacity:0}
 #splash.done{display:none}
-.splash-half{
-  position:absolute;top:0;bottom:0;width:50%;overflow:hidden;
-  backface-visibility:hidden;
+/* the couple image in its final resting place, just above the names */
+.hero-couple{
+  display:block;margin:0 auto 6px;width:min(220px,58vw);height:auto;
 }
-.splash-half::before{
-  content:"";position:absolute;top:0;bottom:0;
-  width:200%;                         /* 200% of the 50%-wide half = full splash width.
-                                         using % (not vw) avoids scrollbar-width misalignment
-                                         so the image stays centered and the seam is dead-center */
-  /* image comes from ASSETS.splash (set via --splash-img in app.js);
-     the url() here is a fallback if JS hasn't run yet */
-  background:var(--splash-img, url(/assets/splash-couple.png)) center center no-repeat;
-  background-size:contain;
-}
-.splash-half.left  { left:0;  transform-origin:left center;
-  animation:bookOpenL 1s cubic-bezier(.55,.02,.3,1) 1s forwards; }
-.splash-half.left::before  { left:0; }
-.splash-half.right { right:0; transform-origin:right center;
-  animation:bookOpenR 1s cubic-bezier(.55,.02,.3,1) 1s forwards; }
-.splash-half.right::before { right:0; }
-@keyframes bookOpenL{to{transform:rotateY(108deg);opacity:0}}
-@keyframes bookOpenR{to{transform:rotateY(-108deg);opacity:0}}
-@keyframes splashOut{to{opacity:0;visibility:hidden}}
+/* the flying clone the JS animates (styles set inline) */
+.couple-fly{will-change:left,top,width,height}
 @media(prefers-reduced-motion:reduce){
-  #splash{animation:splashOut .5s ease .5s forwards}
-  .splash-half{animation:none}
+  #splash{transition:none}
 }
 @media(pointer:coarse){a,button,select,input,textarea,label{cursor:auto}}
 
@@ -119,11 +98,11 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   animation:beat 2.4s ease-in-out infinite;
 }
 @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(1)}}
-.hero .when{
-  font-family:var(--display);font-weight:400;font-size:clamp(1.1rem,4.6vw,1.8rem);font-style:italic;
-  color:var(--cream);letter-spacing:.1em;animation:riseIn 1s .4s both;margin-top:8px;
+.when{
+  font-family:var(--display);font-weight:400;font-size:clamp(1.1rem,4.6vw,1.8rem);
+  color:var(--cream);letter-spacing:.1em;margin-top:8px;
 }
-.hero .weekday{font-size:.85rem;letter-spacing:.4em;color:var(--pink);margin-top:4px;animation:riseIn 1s .5s both}
+.weekday{font-size:.85rem;letter-spacing:.4em;color:var(--pink);margin-top:4px;margin-bottom:6px}
 @keyframes riseIn{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
 .scrolldn{
   display:block;margin:26px auto 0;color:var(--pink);line-height:0;
@@ -134,7 +113,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .scrolldn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:99px}
 .scrolldn.sec-arrow{margin-top:34px;color:var(--aqua)}
 /* the disco vignette already adds space, so tuck the details arrow closer */
-#details .sec-arrow{margin-top:0}
+#details .sec-arrow{margin-top:-18px}
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* countdown — giant editorial numerals */
@@ -203,7 +182,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 /* each section is its own framed card with clear space between cards.
    scroll-margin-top makes the arrow land at the card's top, not its middle. */
 section{
-  margin:70px auto 0;position:relative;text-align:center;
+  margin:120px auto 0;position:relative;text-align:center;
   max-width:560px;
   /* slightly brighter, lightly translucent card so it lifts off the background */
   background:rgba(255,253,248,.55);
@@ -306,7 +285,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 
 /* footer */
 footer{
-  margin:70px auto 40px;text-align:center;max-width:560px;
+  margin:120px auto 40px;text-align:center;max-width:560px;
   background:rgba(255,253,248,.55);
   backdrop-filter:blur(2px);
   border:1px solid rgba(168,88,107,.18);border-radius:26px;

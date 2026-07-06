@@ -3,14 +3,14 @@
 (function(){
   const A = window.ASSETS;
   if(!A) return;
-  // splash illustration
-  const splash = document.getElementById('splash');
-  if(splash) splash.style.setProperty('--splash-img', 'url(' + window.asset(A.splash) + ')');
   // hero corner clusters
   const L = document.querySelector('.hero-corner.left');
   const Rt = document.querySelector('.hero-corner.right');
   if(L)  L.src  = window.asset(A.heroCorners.left);
   if(Rt) Rt.src = window.asset(A.heroCorners.right);
+  // the flying intro couple
+  const hc = document.getElementById('heroCouple');
+  if(hc && A.couple) hc.src = window.asset(A.couple);
 })();
 
 // ---------- side motifs: scatter clipart down both edges of the page ----------
@@ -55,11 +55,16 @@
       for(let s = 0; s < 2 && i < spec.length; s++, i++){   // left + right per row
         const it = spec[i];
         const small = isSmall(it.file);
-        const w = small ? (narrow ? CFG.smallWidthPhone : CFG.smallWidthDesktop)
-                        : (narrow ? CFG.widthPhone : CFG.widthDesktop);
+        const box = small ? (narrow ? CFG.smallBoxPhone : CFG.smallBoxDesktop)
+                          : (narrow ? CFG.boxPhone : CFG.boxDesktop);
         const img = document.createElement('img');
         img.src = window.asset(it.file);
-        img.style.width = w + 'px';
+        // fit inside a square box, keeping aspect ratio → tall candles / wide
+        // bunting stay a consistent visual size instead of blowing up
+        img.style.maxWidth = box + 'px';
+        img.style.maxHeight = box + 'px';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
         img.style.top = (y + it.jitter) + 'px';
         img.style[it.side] = edge + 'px';
         img.style.opacity = it.opacity;
@@ -82,15 +87,56 @@
   }, {passive:true});
 })();
 
-// ---------- intro splash: remove once the book has opened ----------
+// ---------- intro: couple flies up from screen-center and lands above the names --
+// The couple image lives in the hero (its final spot). On load we clone its box,
+// blow the clone up to screen-center over the cream splash, then FLIP-animate it
+// down/into the hero position. When it arrives, the splash fades and the real
+// hero image takes over. No book, no disappearing — it "flies up" into place.
 (function(){
-  const s = document.getElementById('splash');
-  if(!s) return;
-  s.addEventListener('animationend', e=>{
-    if(e.animationName === 'splashOut') s.classList.add('done');
-  });
-  // safety net in case the animationend event is missed
-  setTimeout(()=> s.classList.add('done'), 2800);
+  const splash = document.getElementById('splash');
+  const couple = document.getElementById('heroCouple');
+  if(!splash || !couple){ if(splash) splash.classList.add('done'); return; }
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function finish(){ splash.classList.add('done'); couple.style.visibility=''; }
+
+  function run(){
+    if(reduce){ finish(); return; }
+    const dest = couple.getBoundingClientRect();
+    if(!dest.width){ finish(); return; }
+
+    // a flying clone, positioned fixed, starting big & centered on screen
+    const fly = couple.cloneNode(true);
+    fly.removeAttribute('id');
+    fly.className = 'couple-fly';
+    const vh = innerHeight, vw = innerWidth;
+    const startH = Math.min(vh * 0.62, vw * 0.9 * (dest.height/dest.width));
+    const startW = startH * (dest.width/dest.height);
+    fly.style.cssText = 'position:fixed;z-index:210;pointer-events:none;'
+      + 'height:'+startH+'px;width:'+startW+'px;'
+      + 'left:'+((vw-startW)/2)+'px;top:'+((vh-startH)/2)+'px;'
+      + 'transition:left .9s cubic-bezier(.5,.05,.3,1),top .9s cubic-bezier(.5,.05,.3,1),width .9s cubic-bezier(.5,.05,.3,1),height .9s cubic-bezier(.5,.05,.3,1);';
+    document.body.appendChild(fly);
+    couple.style.visibility = 'hidden';   // hide the real one until the clone lands
+
+    // hold big for a beat, then fly to the hero position
+    setTimeout(()=>{
+      splash.classList.add('fade');       // cream backing fades as it flies
+      const d = couple.getBoundingClientRect();  // re-measure (layout may have shifted)
+      fly.style.left = d.left+'px'; fly.style.top = d.top+'px';
+      fly.style.width = d.width+'px'; fly.style.height = d.height+'px';
+    }, 900);
+
+    // when it lands, swap to the real image and clean up
+    fly.addEventListener('transitionend', ()=>{
+      finish();
+      fly.remove();
+    }, {once:true});
+    setTimeout(()=>{ if(document.body.contains(fly)){ finish(); fly.remove(); } }, 2600);
+  }
+
+  if(document.readyState === 'complete') setTimeout(run, 150);
+  else addEventListener('load', ()=> setTimeout(run, 150));
 })();
 
 // ---------- scroll-down arrows jump to the next section ----------

@@ -12,8 +12,8 @@ window.ASSETS = {
   // folder every image is served from
   base: '/assets/',
 
-  // opening splash — the M&D couple illustration (transparent PNG)
-  splash: 'splash-couple.png',
+  // opening: the couple illustration that flies up and lands above the names
+  couple: 'nm-couple.png',
 
   // the two flower clusters tucked into the hero's top corners
   heroCorners: {
@@ -31,21 +31,23 @@ window.ASSETS = {
       'nm-bow.png', 'nm-doves.png', 'nm-mushroom.png', 'nm-coupe.png',
       'nm-cheers.png', 'nm-heart-plain.png', 'nm-wine-bottle.png', 'nm-wine-glass.png',
       'nm-grapes.png', 'nm-lights.png', 'nm-flower-single.png', 'nm-leaf-divider.png',
-      'nm-disco.png', 'nm-cheese-board.png',
+      'nm-disco.png',
     ],
     // images that should render smaller than the rest (e.g. tiny single flower)
     small: ['nm-flower-single.png'],
 
     // ---- styling knobs (tweak these to restyle the side decorations) ----
-    widthDesktop: 104,   // px width of a normal motif on wide screens
-    widthPhone:   72,    // px width on narrow screens
-    smallWidthDesktop: 36,
-    smallWidthPhone:   28,
+    // motifs are fit INSIDE a box (max width AND max height), preserving aspect
+    // ratio — so tall shapes (candles) and wide shapes (bunting) never blow up.
+    boxDesktop: 104,     // max width/height of a normal motif on wide screens
+    boxPhone:   72,      // max width/height on narrow screens
+    smallBoxDesktop: 40,
+    smallBoxPhone:   30,
     edgeOffsetDesktop: 14,  // px from the screen edge
     edgeOffsetPhone:   8,
     rowGapDesktop: 250,  // vertical spacing between motif rows
     rowGapPhone:   200,
-    startY: 330,         // px down the page where motifs begin (below the hero)
+    startY: 90,          // px down the page where motifs begin (flank the hero too)
     minOpacity: 0.82,    // motifs fade between this and 1
     swayMin: 5, swayMax: 9,   // seconds for the gentle sway animation
   },
