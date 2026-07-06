@@ -210,14 +210,17 @@ footer{margin-top:88px;text-align:center;padding-bottom:26px}
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
 }
 
-/* the watercolor floral frame stretches to fill the whole screen on every
-   device; content scrolls over it. 100% 100% forces it to hug all four
-   edges (the frame stays a border) even when the screen is wider than the
-   portrait image. */
+/* the watercolor floral frame fills the whole screen; content scrolls over it.
+   Two images: a tall (portrait) one for phones, a wide (landscape) one for
+   computers. The right one is chosen automatically by the screen shape. */
 #bgart{
   position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.92;
-  background:url(/bg.jpg) no-repeat;
+  background:url(/bg-phone.jpg) no-repeat;
   background-size:100% 100%;
+}
+/* landscape screens (computers / tablets held sideways) → wide frame */
+@media (min-aspect-ratio:1/1){
+  #bgart{background-image:url(/bg-desktop.jpg)}
 }
 
 /* ---------- painted scenery ---------- */
