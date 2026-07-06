@@ -110,7 +110,7 @@
     fly.removeAttribute('id');
     fly.className = 'couple-fly';
     const vh = innerHeight, vw = innerWidth;
-    const startH = Math.min(vh * 0.62, vw * 0.9 * (dest.height/dest.width));
+    const startH = Math.min(vh * 0.42, vw * 0.62 * (dest.height/dest.width));
     const startW = startH * (dest.width/dest.height);
     fly.style.cssText = 'position:fixed;z-index:210;pointer-events:none;'
       + 'height:'+startH+'px;width:'+startW+'px;'

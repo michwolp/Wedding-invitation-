@@ -37,7 +37,7 @@ a,button,select,input,textarea,label{cursor:none}
 #splash.done{display:none}
 /* the couple image in its final resting place, just above the names */
 .hero-couple{
-  display:block;margin:0 auto 6px;width:min(150px,42vw);height:auto;
+  display:block;margin:0 auto 34px;width:min(112px,32vw);height:auto;
 }
 /* the flying clone the JS animates (styles set inline) */
 .couple-fly{will-change:left,top,width,height}

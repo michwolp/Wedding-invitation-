@@ -10,7 +10,7 @@
 // ============================================================================
 
 // which motif set to use: 'watercolor' or 'red'
-const ACTIVE_STYLE = 'watercolor';
+const ACTIVE_STYLE = 'red';
 
 const STYLES = {
   // ---- colored watercolor set ----
