@@ -25,32 +25,35 @@ body{
 a,button,select,input,textarea,label{cursor:none}
 
 /* ---------- intro splash (opens like a book) ---------- */
-/* the M & D illustration shows briefly, then splits down the middle and the two
-   halves swing outward like book covers to reveal the page. Portrait image on
-   phones, landscape on computers. */
+/* the M & D couple illustration shows briefly, then splits down the middle and
+   the two halves swing outward like book covers to reveal the page. The image is
+   the same portrait illustration on all screens, shown whole (contain) and
+   centered so it's never distorted; the two halves share one centered image so
+   the seam lines up perfectly. */
 #splash{
-  position:fixed;inset:0;z-index:200;
-  perspective:1400px;                 /* gives the halves 3D depth as they open */
-  animation:splashOut .45s ease 1.55s forwards;   /* fade the cream backing once open */
+  position:fixed;inset:0;z-index:200;background:#F7EFE0;
+  perspective:1600px;                 /* gives the halves 3D depth as they open */
+  animation:splashOut .45s ease 1.65s forwards;   /* fade the cream backing once open */
 }
 #splash.done{display:none}
 .splash-half{
-  position:absolute;top:0;bottom:0;width:50%;
-  background-image:url(/splash-phone.jpg);
-  background-size:100vw 100vh;        /* both halves share the same scale → seamless seam */
-  background-repeat:no-repeat;
+  position:absolute;top:0;bottom:0;width:50%;overflow:hidden;
   backface-visibility:hidden;
-  animation:none;
 }
-.splash-half.left { left:0;  background-position:left center;  transform-origin:left center;
-  animation:bookOpenL .9s cubic-bezier(.6,.02,.35,1) 1s forwards; }
-.splash-half.right{ right:0; background-position:right center; transform-origin:right center;
-  animation:bookOpenR .9s cubic-bezier(.6,.02,.35,1) 1s forwards; }
-@media (min-aspect-ratio:1/1){
-  .splash-half{background-image:url(/splash-desktop.jpg)}
+.splash-half::before{
+  content:"";position:absolute;top:0;bottom:0;
+  width:100vw;                        /* full-viewport canvas so both halves align */
+  background:url(/splash-couple.jpg) center center no-repeat;
+  background-size:contain;
 }
-@keyframes bookOpenL{to{transform:rotateY(105deg);opacity:0}}
-@keyframes bookOpenR{to{transform:rotateY(-105deg);opacity:0}}
+.splash-half.left  { left:0;  transform-origin:left center;
+  animation:bookOpenL 1s cubic-bezier(.55,.02,.3,1) 1s forwards; }
+.splash-half.left::before  { left:0; }
+.splash-half.right { right:0; transform-origin:right center;
+  animation:bookOpenR 1s cubic-bezier(.55,.02,.3,1) 1s forwards; }
+.splash-half.right::before { right:0; }
+@keyframes bookOpenL{to{transform:rotateY(108deg);opacity:0}}
+@keyframes bookOpenR{to{transform:rotateY(-108deg);opacity:0}}
 @keyframes splashOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){
   #splash{animation:splashOut .5s ease .5s forwards}

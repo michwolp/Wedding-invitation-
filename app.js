@@ -2,9 +2,12 @@
 (function(){
   const layer = document.getElementById('sideflowers');
   if(!layer) return;
-  const flowers = ['motif-cluster.png','motif-bells.png','motif-spray.png','motif-vine.png','motif-spray-daisies.png','motif-sprig-bells.png'];
-  // disco ball & mushroom appear as occasional playful accents mixed into the flowers
-  const accents = ['motif-disco.png','motif-mushroom.png'];
+  // mostly flowers down the sides (bouquet, tulip, daisies, berries, red flower,
+  // leaf sprigs) — the lush look the couple wanted
+  const flowers = ['motif-bouquet.png','motif-tulip.png','motif-daisies.png','motif-berry.png','motif-redflower.png','motif-leafbranch.png','motif-olive.png','motif-sprig.png'];
+  // occasional party accents: disco ball, string lights, a few mushrooms, a cake.
+  // (weighted so flowers dominate; disco & lights show more than mushrooms)
+  const accents = ['motif-disco.png','motif-lights.png','motif-disco.png','motif-lights.png','motif-mushroom.png','motif-cake.png','motif-candle.png'];
   const R = (a,b)=> a + Math.random()*(b-a);
 
   function build(){
@@ -28,14 +31,14 @@
         }
         placed++;
         const isAccent = img.classList.contains('accent');
-        // accents (disco/mushroom) a touch smaller and pulled a bit more inward
-        const fw = isAccent ? (narrow ? R(46,64) : R(60,84)) : (narrow ? R(60,92) : R(85,150));
+        // accents (disco/martini/mushroom/shrimp) a touch smaller
+        const fw = isAccent ? (narrow ? R(44,60) : R(58,80)) : (narrow ? R(56,82) : R(80,120));
         img.style.width = fw + 'px';
         img.style.top = (y + R(-40,40)) + 'px';
-        // hug the edge; let a bit hang off-screen so it reads as a border
-        const off = isAccent ? (narrow ? R(2,14) : R(6,20)) : (narrow ? R(-26,-6) : R(-30,4));
-        // flowers have directional stems so we mirror them on the left; accents don't need flipping
-        if(side==='left'){ img.style.left = off + 'px'; if(!isAccent) img.classList.add('flip'); }
+        // these motifs are whole objects (glasses, disco, etc.) — keep them fully
+        // on-screen near the edge, and don't mirror-flip them.
+        const off = narrow ? R(2,12) : R(6,22);
+        if(side==='left'){ img.style.left = off + 'px'; }
         else { img.style.right = off + 'px'; }
         img.style.opacity = R(.82,1).toFixed(2);
         img.style.setProperty('--sway', R(5,9).toFixed(1)+'s');
