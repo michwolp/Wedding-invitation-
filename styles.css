@@ -10,7 +10,7 @@
   --blue-soft:#7E93B8;     /* soft blue — tertiary */
   /* legacy aliases remapped onto the new palette so existing rules restyle cleanly */
   --pink:#B06A86;          /* muted rose (was pink) */
-  --marigold:#3F5A7A;      /* → navy */
+  --marigold:#CDB56A;      /* warm gold/yellow accent */
   --lime:#7E93B8;          /* → soft blue */
   --aqua:#5A6E96;          /* → mid blue */
   --forest:#F3EEE4;        /* → paper */

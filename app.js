@@ -13,9 +13,7 @@
   if(hc && A.couple) hc.src = window.asset(A.couple);
 })();
 
-// ---------- side motifs: DISABLED (commented out, not deleted) ----------
-// Uncomment to re-enable the scattered clipart down both edges.
-/*
+// ---------- side motifs: scatter clipart down both edges of the page ----------
 (function(){
   const layer = document.getElementById('sideflowers');
   const CFG = (window.ASSETS && window.ASSETS.sideMotifs) || null;
@@ -67,7 +65,6 @@
     clearTimeout(rt); rt = setTimeout(build, 300);
   }, {passive:true});
 })();
-*/
 
 // ---------- intro: couple flies up from screen-center and lands above the names --
 // The couple image lives in the hero (its final spot). On load we clone its box,
