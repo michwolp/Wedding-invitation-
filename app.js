@@ -476,29 +476,32 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     return d;
   }
 
-  const nBack = innerWidth < 700 ? 12 : 20;
+  // background dots/flowers kept sparse — the page already has a floral border,
+  // so these are just a few gentle accents. x kept within 4–92% so nothing
+  // sticks past the screen edge and causes horizontal scroll.
+  const nBack = innerWidth < 700 ? 3 : 6;
   for(let i=0;i<nBack;i++){
-    const isDot = Math.random() < .35;
-    const size = isDot ? R(4,8) : R(14,30);
+    const isDot = Math.random() < .5;
+    const size = isDot ? R(4,7) : R(12,22);
     const pc = pick(petals);
     makeFloater({
       html: isDot
         ? `<svg width="${size}" height="${size}"><circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${pc}"/></svg>`
         : flowerSVG(size, pc, pick(petals), pick(centers), false),
-      opacity: isDot ? .55 : .7,
-      x: R(0,96), y: R(0,96), speed: R(.02,.08), front:false, clickable:false
+      opacity: isDot ? .45 : .55,
+      x: R(6,90), y: R(0,96), speed: R(.02,.08), front:false, clickable:false
     });
   }
 
-  const nEdge = innerWidth < 700 ? 5 : 8;
+  const nEdge = innerWidth < 700 ? 2 : 4;
   for(let i=0;i<nEdge;i++){
-    const size = R(26,42);
+    const size = R(24,38);
     const rose = i < 3;
     const pc = pick(petals);
     const el = makeFloater({
       html: flowerSVG(size, pc, pick(petals), pick(centers), rose),
-      opacity: .95,
-      x: Math.random() < .5 ? R(0,9) : R(88,96),
+      opacity: .9,
+      x: Math.random() < .5 ? R(4,10) : R(80,88),
       y: R(6,90), speed: R(.06,.14), front:true, clickable:true
     });
     if(rose) el.classList.add('rose');
