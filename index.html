@@ -13,9 +13,13 @@
 </head>
 <body>
 
-<!-- intro splash: the M & D floral illustration shows first, then dissolves to reveal the page.
-     Inline style paints it solid immediately, before styles.css loads, so the page text never flashes. -->
-<div id="splash" aria-hidden="true" style="position:fixed;inset:0;z-index:200;background-color:#FCFBF9"></div>
+<!-- intro splash: the M & D floral illustration shows briefly, then opens like a book
+     (two halves swing outward) to reveal the page. Inline style paints it solid
+     immediately, before styles.css loads, so the page text never flashes. -->
+<div id="splash" aria-hidden="true" style="position:fixed;inset:0;z-index:200;background-color:#FCFBF9">
+  <div class="splash-half left"></div>
+  <div class="splash-half right"></div>
+</div>
 
 <div id="bgart" aria-hidden="true"></div>
 <div id="sideflowers" aria-hidden="true"></div>
@@ -40,20 +44,18 @@
       <div class="unit"><b id="m">0</b><span>דקות</span></div>
       <div class="unit"><b id="s">0</b><span>שניות</span></div>
     </div>
-    <div class="scrolldn" aria-hidden="true">
+    <button class="scrolldn" data-next="#details" aria-label="גללו למטה">
       <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
-    </div>
+    </button>
   </header>
 
   <div class="marquee" aria-hidden="true"><div class="mqtrack"><span class="mq"></span><span class="mq"></span></div></div>
 
-  <div class="meadow" aria-hidden="true"></div>
 
   <section id="details">
     <h2 class="sec-title">מתי ואיפה</h2>
-    <img class="motif under-title" src="/motif-vine.png" alt="" aria-hidden="true">
     <div class="schedule">
       <div class="slot"><b>16:30</b><span>קבלת פנים</span></div>
       <div class="slot"><b>17:30</b><span>חופה</span></div>
@@ -100,11 +102,13 @@
       <a class="btn" href="https://waze.com/ul?q=אקליפטוסים%20בחולדה%20-%20החתונה&navigate=yes" target="_blank" rel="noopener">נווטו עם Waze</a>
       <a class="btn" href="https://maps.google.com/?q=אקליפטוסים+בחולדה+-+החתונה" target="_blank" rel="noopener">Google Maps</a>
     </div>
+    <button class="scrolldn sec-arrow" data-next="#rsvp" aria-label="גללו למטה">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
   </section>
 
   <section id="rsvp">
     <h2 class="sec-title">אישור הגעה</h2>
-    <img class="motif under-title" src="/motif-spray.png" alt="" aria-hidden="true">
     <form id="rsvpForm" novalidate>
       <div class="field" id="nameField">
         <label for="name">שם מלא</label>
@@ -166,15 +170,16 @@
         <a class="btn" id="calIcs" href="#" download="michal-dvir-wedding.ics">Apple / Outlook</a>
       </div>
     </div>
+    <button class="scrolldn sec-arrow" data-next="#gifts" aria-label="גללו למטה">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
   </section>
 
   <div class="marquee alt" aria-hidden="true"><div class="mqtrack"><span class="mq"></span><span class="mq"></span></div></div>
 
-  <div class="meadow" aria-hidden="true"></div>
 
   <section id="gifts">
     <h2 class="sec-title">מתנות</h2>
-    <img class="motif under-title" src="/motif-disco.png" alt="" aria-hidden="true">
     <p class="gift-sub">להשארת מתנה:</p>
     <div class="vignette" aria-hidden="true">
       <svg viewBox="0 0 200 150">
@@ -255,7 +260,6 @@
       </svg>
     </div>
     <p class="seeyou">נשמח לראותכם!</p>
-    <img class="motif footer-motif" src="/motif-vine.png" alt="" aria-hidden="true">
   </footer>
 </main>
 

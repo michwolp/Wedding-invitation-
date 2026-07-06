@@ -39,7 +39,7 @@
   addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(build, 300); }, {passive:true});
 })();
 
-// ---------- intro splash: remove once it has dissolved ----------
+// ---------- intro splash: remove once the book has opened ----------
 (function(){
   const s = document.getElementById('splash');
   if(!s) return;
@@ -47,7 +47,17 @@
     if(e.animationName === 'splashOut') s.classList.add('done');
   });
   // safety net in case the animationend event is missed
-  setTimeout(()=> s.classList.add('done'), 4000);
+  setTimeout(()=> s.classList.add('done'), 2800);
+})();
+
+// ---------- scroll-down arrows jump to the next section ----------
+(function(){
+  document.querySelectorAll('.scrolldn[data-next]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const target = document.querySelector(btn.dataset.next);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
 })();
 
 // ---------- marquee content (language-neutral, graphic) ----------
@@ -350,9 +360,12 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     return;
   }
   const attending = document.querySelector('input[name=attending]:checked').value;
+  // For recognised guests, save their full name to the DB (the on-screen field
+  // shows only a display nickname). Manual visitors send whatever they typed.
+  const dbName = (guest.code && guest.fullName) ? guest.fullName : name;
   const payload = {
     guest_id: guest.code || null,
-    name, phone, attending,
+    name: dbName, phone, attending,
     adults: attending==='yes' ? counts.adults : 0,
     children: attending==='yes' ? counts.children : 0,
     pickup: attending==='yes' ? document.getElementById('pickup').value : '',
@@ -465,40 +478,6 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
   }
   setTimeout(spawnButterfly, 4000);
   setInterval(spawnButterfly, 16000);
-})();
-
-// ---------- meadow bands ----------
-(function(){
-  const R = (a,b)=> a + Math.random()*(b-a);
-  const pick = arr => arr[Math.floor(Math.random()*arr.length)];
-  const petals = ['#C99AA8','#CDB56A','#A9B98C','#A8586B','#E3C9D0'];
-  document.querySelectorAll('.meadow').forEach(m=>{
-    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.setAttribute('viewBox','0 0 400 74');
-    svg.setAttribute('preserveAspectRatio','none');
-    let inner = '';
-    const n = 26;
-    for(let i=0;i<n;i++){
-      const x = 6 + i*(388/n) + R(-5,5);
-      const h = R(18,52);
-      const isFlower = Math.random() < .6;
-      const sway = R(4,7).toFixed(1), del = (-R(0,5)).toFixed(1);
-      const bend = R(-6,6).toFixed(1);
-      let head;
-      if(isFlower){
-        const c = pick(petals);
-        let ps='';
-        for(let k=0;k<5;k++) ps += `<ellipse cx="0" cy="-3.4" rx="1.7" ry="2.6" fill="${c}" transform="rotate(${k*72})"/>`;
-        head = `<g transform="translate(0,${-h})">${ps}<circle r="1.1" fill="#DDBE62"/></g>`;
-      } else {
-        head = `<ellipse cx="0" cy="${-h}" rx="2" ry="4.5" fill="#8B9A70" opacity=".8"/>`;
-      }
-      inner += `<g class="mf" style="--sdur:${sway}s;--sdel:${del}s" transform="translate(${x.toFixed(1)},74)">
-        <path class="stem" d="M0,0 Q${bend},${-h*.55} 0,${-h}"/>${head}</g>`;
-    }
-    svg.innerHTML = inner;
-    m.appendChild(svg);
-  });
 })();
 
 // ---------- enchanted forest ----------
@@ -658,35 +637,6 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     if(!reduced) heart.animate([{transform:'scale(1)'},{transform:'scale(1.6)'},{transform:'scale(1)'}],{duration:450,easing:'ease'});
   });
 
-  const vine = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  vine.id = 'vine';
-  vine.setAttribute('viewBox','0 0 34 1000');
-  vine.setAttribute('preserveAspectRatio','none');
-  let dPath = 'M17,0';
-  for(let y=0; y<1000; y+=125){
-    const bend = (y/125)%2 ? 28 : 6;
-    dPath += ` C ${bend},${y+40} ${34-bend},${y+85} 17,${y+125}`;
-  }
-  vine.innerHTML = `<path id="vinepath" d="${dPath}" fill="none" stroke="#8B9A70" stroke-width="2.2" stroke-linecap="round"/>`;
-  const deco = [];
-  for(let i=1;i<=6;i++){
-    const y = i*150, side = i%2 ? 6 : 28;
-    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('class','leafdot');
-    g.setAttribute('transform',`translate(${side},${y})`);
-    g.innerHTML = i%3===0
-      ? `<circle r="4.5" fill="${pick(petals)}" opacity=".95"/><circle r="1.8" fill="${pick(centers)}"/>`
-      : `<ellipse rx="3" ry="6.5" fill="#8B9A70" opacity=".9" transform="rotate(${i%2?40:-40})"/>`;
-    g.dataset.at = i/7;
-    vine.appendChild(g); deco.push(g);
-  }
-  document.body.appendChild(vine);
-  const vp = vine.querySelector('#vinepath');
-  const vlen = vp.getTotalLength();
-  vp.style.strokeDasharray = vlen;
-  vp.style.strokeDashoffset = reduced ? 0 : vlen;
-  if(reduced) deco.forEach(g=> g.classList.add('on'));
-
   document.querySelectorAll('section, footer').forEach(el=> el.classList.add('reveal'));
   const io = new IntersectionObserver(es=> es.forEach(e=>{
     if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
@@ -699,10 +649,7 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
       if(ticking) return; ticking = true;
       requestAnimationFrame(()=>{
         const sy = scrollY;
-        const prog = Math.min(1, sy / Math.max(1, document.documentElement.scrollHeight - innerHeight));
         parallaxed.forEach(w=>{ w.style.transform = `translateY(${-sy * w.dataset.speed}px)`; });
-        vp.style.strokeDashoffset = vlen * (1 - prog);
-        deco.forEach(g=> g.classList.toggle('on', prog >= +g.dataset.at));
         ticking = false;
       });
     },{passive:true});

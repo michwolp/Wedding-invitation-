@@ -3,46 +3,52 @@
 // e.g.  https://wedding-michwolp.vercel.app/?g=a1
 //
 // Fields:
-//   name  – how the guest is greeted and what pre-fills the RSVP name field
-//   phone – pre-fills the RSVP phone field (any format; digits are what matter)
-//   lang  – default language the site opens in: 'he' | 'en' | 'ru'
-//   form  – who the invite is addressed to, controls Hebrew grammar:
-//             'm'      → one man    (מגיע?  נשמח לראותך)
-//             'f'      → one woman  (מגיעה? נשמח לראותך)
-//             'plural' → a group / couple / family (מגיעים? נשמח לראותכם)
-//           Defaults to 'plural' if omitted. Only affects Hebrew wording.
+//   name     – DISPLAY name: how the guest is greeted on screen (a nickname is
+//              fine, e.g. 'אופיר', 'ליאורי'). Shown in the greeting only.
+//   fullName – the guest's REAL / full name. This is what gets saved to the
+//              RSVP database. Falls back to `name` if left out.
+//   phone    – pre-fills the RSVP phone field (any format; digits are what matter)
+//   lang     – default language the site opens in: 'he' | 'en' | 'ru'
+//   form     – who the invite is addressed to, controls Hebrew grammar:
+//                'm'      → one man    (מגיע?  נשמח לראותך)
+//                'f'      → one woman  (מגיעה? נשמח לראותך)
+//                'plural' → a group / couple / family (מגיעים? נשמח לראותכם)
+//              Defaults to 'plural' if omitted. Only affects Hebrew wording.
 //
 // To add a guest, copy a line and give it a unique code. Keep codes short and
 // hard to guess-by-counting (mix letters + digits) so links don't overlap.
 
 window.GUESTS = {
-  // code:            { name,               phone,          lang,  form }
-  OfirLevin:        { name: 'אופיר',           phone: '0546644905', lang: 'he', form: 'f' },
-  ViktoriaSharay:   { name: 'Viktoria Sharay', phone: '0504247004', lang: 'ru', form: 'f' },
-  DvirSasson:       { name: 'דביר',            phone: '0502566643', lang: 'he', form: 'm' },
-  DanKedmi:         { name: 'דןדן',            phone: '0509878804', lang: 'he', form: 'm' },
-  LiorMandelboim:   { name: 'ליאורי',          phone: '0546213030', lang: 'he', form: 'f' },
-
+  // code:            { name (display),  fullName (to DB),          phone,          lang,  form }
+  OfirLevin:        { name: 'אופיר',   fullName: 'אופיר לוין',        phone: '0546644905', lang: 'he', form: 'f' },
+  ViktoriaSharay:   { name: 'Viktoria', fullName: 'Viktoria Sharay',  phone: '0504247004', lang: 'ru', form: 'f' },
+  DvirSasson:       { name: 'דביר',    fullName: 'דביר ששון',         phone: '0502566643', lang: 'he', form: 'm' },
+  DanKedmi:         { name: 'דן',      fullName: 'דן קדמי',           phone: '0509878804', lang: 'he', form: 'm' },
+  LiorMandelboim:   { name: 'ליאורי',  fullName: 'ליאור מנדלבוים',     phone: '0546213030', lang: 'he', form: 'f' },
 };
 
 // Look up a guest from the current URL.
 // Priority:
 //   1) ?g=CODE            → full guest record from the registry above
 //   2) ?to=NAME&lang=..   → legacy links (name/lang straight from the URL)
-// Returns { code, name, phone, lang } with any field possibly undefined.
+// Returns { code, name, fullName, phone, lang, form } with any field possibly
+// undefined. fullName falls back to name when not set.
 window.getGuest = function getGuest(search) {
   const params = new URLSearchParams(search != null ? search : location.search);
 
   const code = params.get('g');
   if (code && window.GUESTS[code]) {
-    return { code, ...window.GUESTS[code] };
+    const g = window.GUESTS[code];
+    return { code, ...g, fullName: g.fullName || g.name };
   }
 
   // legacy / manual links
   const legacyLang = params.get('lang');
+  const to = params.get('to') || undefined;
   return {
     code: params.get('id') || null,
-    name: params.get('to') || undefined,
+    name: to,
+    fullName: to,
     phone: undefined,
     lang: ['he', 'en', 'ru'].includes(legacyLang) ? legacyLang : undefined,
     form: undefined,
