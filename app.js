@@ -1,3 +1,14 @@
+// ---------- intro splash: remove once it has dissolved ----------
+(function(){
+  const s = document.getElementById('splash');
+  if(!s) return;
+  s.addEventListener('animationend', e=>{
+    if(e.animationName === 'splashOut') s.classList.add('done');
+  });
+  // safety net in case the animationend event is missed
+  setTimeout(()=> s.classList.add('done'), 4000);
+})();
+
 // ---------- marquee content (language-neutral, graphic) ----------
 (function(){
   const chunk = 'Michal <i>&#x2665;&#xFE0E;</i> Dvir <i>&#x2726;</i> 16.10.26 <i>&#x2726;</i> ';

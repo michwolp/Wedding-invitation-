@@ -23,6 +23,31 @@ body{
 }
 @media(pointer:coarse){body{cursor:auto}}
 a,button,select,input,textarea,label{cursor:none}
+
+/* ---------- intro splash ---------- */
+#splash{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  background:#FCFBF9;
+  animation:splashOut .9s ease 2.2s forwards;   /* hold ~2.2s, then dissolve */
+}
+#splash.done{display:none}
+.splash-mono{
+  display:flex;align-items:center;justify-content:center;gap:.18em;direction:ltr;
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(3rem,16vw,6rem);color:var(--cream);
+  letter-spacing:.02em;
+}
+.splash-mono .sm{opacity:0;display:inline-block}
+.sm1{animation:smIn .7s ease .15s forwards}
+.smh{color:var(--red);font-size:.62em;animation:smHeart .8s ease .55s forwards}
+.sm2{animation:smIn .7s ease .95s forwards}
+@keyframes smIn{from{opacity:0;transform:translateY(24px) scale(.8)}to{opacity:1;transform:none}}
+@keyframes smHeart{0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+@keyframes splashOut{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){
+  #splash{animation:splashOut .4s ease .3s forwards}
+  .splash-mono .sm{opacity:1;animation:none}
+}
 @media(pointer:coarse){a,button,select,input,textarea,label{cursor:auto}}
 
 /* film grain */
@@ -55,7 +80,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .lang-seg button:focus-visible{outline:3px solid var(--marigold);outline-offset:-3px}
 
 /* ---------- HERO ---------- */
-.hero{min-height:auto;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 0 24px;position:relative}
+.hero{min-height:auto;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:110px 0 40px;position:relative}
 .hero .opening{
   font-weight:400;font-size:.92rem;letter-spacing:.34em;color:var(--aqua);
   animation:riseIn 1s .1s both;
@@ -119,7 +144,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 @keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
-section{margin-top:52px;position:relative;text-align:center}
+section{margin-top:70px;position:relative;text-align:center}
 
 .sec-title{
   font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,6.4vw,2.7rem);line-height:1.15;
@@ -202,7 +227,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .gift-sub{color:rgba(79,74,56,.85);max-width:380px;margin:0 auto}
 
 /* footer */
-footer{margin-top:56px;text-align:center;padding-bottom:26px}
+footer{margin-top:74px;text-align:center;padding-bottom:26px}
 .parents{display:flex;justify-content:center;gap:60px;margin-top:6px}
 .parents .p b{font-family:var(--display);font-weight:400;font-size:1.7rem;display:block;color:var(--pink);letter-spacing:.04em}
 .parents .p span{color:rgba(79,74,56,.8);font-size:.95rem}
