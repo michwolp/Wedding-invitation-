@@ -108,10 +108,10 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .hero .weekday{font-size:.85rem;letter-spacing:.4em;color:var(--pink);margin-top:4px;animation:riseIn 1s .5s both}
 @keyframes riseIn{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
 .scrolldn{
-  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
-  font-size:1.3rem;color:var(--pink);animation:hop 1.8s ease-in-out infinite;
+  margin:26px auto 0;color:var(--pink);line-height:0;
+  animation:hop 1.8s ease-in-out infinite;
 }
-@keyframes hop{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* countdown — giant editorial numerals */
 .count{display:flex;justify-content:center;align-items:baseline;gap:clamp(10px,4vw,30px);margin:24px 0 0;direction:ltr;animation:riseIn 1s .6s both}
@@ -164,6 +164,11 @@ section{margin-top:104px;position:relative;text-align:center}
 #rsvp .stepctl b{color:var(--red)}
 #rsvp .choice input:checked + span{background:var(--red);border-color:var(--red);color:#fff}
 #rsvp input:focus,#rsvp select:focus,#rsvp textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(168,88,107,.2)}
+/* add-to-calendar widget */
+.cal-widget{margin-top:30px;text-align:center}
+.cal-sub{color:var(--red);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+#rsvp .cal-widget .btn{border-color:var(--red);color:var(--red)}
+#rsvp .cal-widget .btn:hover{background:var(--red);color:#fff}
 #gifts .sec-title{color:var(--pink)}
 #gifts .gift-sub{color:var(--pink)}
 #gifts .btn{border-color:var(--pink);color:var(--pink)}

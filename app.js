@@ -62,6 +62,35 @@ document.querySelectorAll('input[name=attending]').forEach(r=>{
   });
 });
 
+// ---------- add to calendar ----------
+(function(){
+  // 16 Oct 2026, 16:30–23:59 Israel time (UTC+3). In UTC that's 13:30–20:59.
+  const start = '20261016T133000Z';
+  const end   = '20261016T205900Z';
+  const title = 'החתונה של מיכל ודביר 💍';
+  const loc   = 'אקליפטוסים בחולדה, כרמי יוסף';
+  const details = 'מתרגשים לחגוג איתכם! קבלת פנים 16:30, חופה 17:30.';
+  const g = document.getElementById('calGoogle');
+  if(g){
+    g.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(title)
+      + '&dates=' + start + '/' + end
+      + '&location=' + encodeURIComponent(loc)
+      + '&details=' + encodeURIComponent(details);
+  }
+  const ics = document.getElementById('calIcs');
+  if(ics){
+    const body = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//michal-dvir//wedding//HE','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT','UID:michal-dvir-2026@wedding',
+      'DTSTAMP:' + start,'DTSTART:' + start,'DTEND:' + end,
+      'SUMMARY:' + title,'LOCATION:' + loc,'DESCRIPTION:' + details,
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    ics.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(body);
+  }
+})();
+
 // per-guest link support: /?g=CODE  (see guests.js). Also handles legacy /?to=&lang=&id=
 const guest = (typeof getGuest === 'function') ? getGuest() : {};
 if(guest.name)  document.getElementById('name').value  = guest.name;

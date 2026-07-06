@@ -26,8 +26,8 @@
 
 <main>
   <header class="hero">
-    <img class="hero-corner left" src="/motif-spray-daisies.png" alt="" aria-hidden="true">
-    <img class="hero-corner right" src="/motif-sprig-bells.png" alt="" aria-hidden="true">
+    <img class="hero-corner left" src="/motif-cluster.png" alt="" aria-hidden="true">
+    <img class="hero-corner right" src="/motif-bells.png" alt="" aria-hidden="true">
     <p class="opening">מתרגשים להזמין אתכם לחתונה שלנו</p>
     <h1 class="names">מיכל <span class="heart" aria-hidden="true">&#x2665;&#xFE0E;</span> דביר</h1>
     <p class="when">כרמי יוסף · 16.10.26</p>
@@ -39,7 +39,11 @@
       <div class="unit"><b id="m">0</b><span>דקות</span></div>
       <div class="unit"><b id="s">0</b><span>שניות</span></div>
     </div>
-    <div class="scrolldn" aria-hidden="true">✦</div>
+    <div class="scrolldn" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
   </header>
 
   <div class="marquee" aria-hidden="true"><div class="mqtrack"><span class="mq"></span><span class="mq"></span></div></div>
@@ -48,7 +52,7 @@
 
   <section id="details">
     <h2 class="sec-title">מתי ואיפה</h2>
-    <img class="motif under-title" src="/motif-flower-vine.png" alt="" aria-hidden="true">
+    <img class="motif under-title" src="/motif-vine.png" alt="" aria-hidden="true">
     <div class="schedule">
       <div class="slot"><b>16:30</b><span>קבלת פנים</span></div>
       <div class="slot"><b>17:30</b><span>חופה</span></div>
@@ -97,11 +101,9 @@
     </div>
   </section>
 
-  <div class="marquee alt" aria-hidden="true"><div class="mqtrack"><span class="mq"></span><span class="mq"></span></div></div>
-
   <section id="rsvp">
     <h2 class="sec-title">אישור הגעה</h2>
-    <img class="motif under-title" src="/motif-moon-bow.png" alt="" aria-hidden="true">
+    <img class="motif under-title" src="/motif-spray.png" alt="" aria-hidden="true">
     <form id="rsvpForm" novalidate>
       <div class="field" id="nameField">
         <label for="name">שם מלא</label>
@@ -155,6 +157,14 @@
         <p class="formmsg" id="formMsg" role="status"></p>
       </div>
     </form>
+
+    <div class="cal-widget">
+      <p class="cal-sub">שמרו את התאריך:</p>
+      <div class="btnrow">
+        <a class="btn" id="calGoogle" href="#" target="_blank" rel="noopener">Google Calendar</a>
+        <a class="btn" id="calIcs" href="#" download="michal-dvir-wedding.ics">Apple / Outlook</a>
+      </div>
+    </div>
   </section>
 
   <div class="marquee alt" aria-hidden="true"><div class="mqtrack"><span class="mq"></span><span class="mq"></span></div></div>
@@ -163,7 +173,7 @@
 
   <section id="gifts">
     <h2 class="sec-title">מתנות</h2>
-    <img class="motif under-title" src="/motif-mushroom.png" alt="" aria-hidden="true">
+    <img class="motif under-title" src="/motif-disco.png" alt="" aria-hidden="true">
     <p class="gift-sub">להשארת מתנה:</p>
     <div class="vignette" aria-hidden="true">
       <svg viewBox="0 0 200 150">
@@ -244,7 +254,7 @@
       </svg>
     </div>
     <p class="seeyou">נשמח לראותכם!</p>
-    <img class="motif footer-motif" src="/motif-moon-bow.png" alt="" aria-hidden="true">
+    <img class="motif footer-motif" src="/motif-vine.png" alt="" aria-hidden="true">
   </footer>
 </main>
 
