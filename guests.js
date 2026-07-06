@@ -26,7 +26,7 @@ window.GUESTS = {
   DanKedmi:         { name: 'דן',      fullName: 'דן קדמי',           phone: '0509878804', lang: 'he', form: 'm' },
   LiorMandelboim:   { name: 'ליאורי',  fullName: 'ליאור מנדלבוים',     phone: '0546213030', lang: 'he', form: 'f' },
   RotemAgmon:   { name: 'רתמי',  fullName: 'רתם אגמון',     phone: '0544317502', lang: 'he', form: 'f' },
-  RonDeitch:   { name: 'notron',  fullName: 'רון דיטש',     phone: '0547911403', lang: 'he', form: 'm' },
+  RonDeitch:   { name: 'רון הבובון',  fullName: 'רון דיטש',     phone: '0547911403', lang: 'he', form: 'm' },
 };
 
 // Look up a guest from the current URL.
