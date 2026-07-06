@@ -55,6 +55,12 @@ document.querySelectorAll('input[name=attending]').forEach(r=>{
 const guest = (typeof getGuest === 'function') ? getGuest() : {};
 if(guest.name)  document.getElementById('name').value  = guest.name;
 if(guest.phone) document.getElementById('phone').value = guest.phone;
+// recognised guests already have name+phone from their link — hide those fields
+// (the values are still submitted). Anyone without a personal link still sees them.
+if(guest.name && guest.phone){
+  document.getElementById('nameField').style.display  = 'none';
+  document.getElementById('phoneField').style.display = 'none';
+}
 
 // ---------- i18n ----------
 let lang = 'he';
