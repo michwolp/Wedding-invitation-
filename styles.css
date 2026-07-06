@@ -174,7 +174,9 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 
 /* ---------- marquee ticker ---------- */
 .marquee{
-  overflow:hidden;white-space:nowrap;margin:54px -24px 0;padding:10px 0;direction:ltr;
+  overflow:hidden;white-space:nowrap;padding:10px 0;direction:ltr;
+  /* break out of the 680px main container so the tape spans the full screen width */
+  width:100vw;margin-left:calc(50% - 50vw);margin-top:54px;
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
   transform:rotate(-1.2deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
@@ -324,7 +326,7 @@ footer{
 
 /* ---------- story vignettes ---------- */
 .vignette{margin:20px auto 0;width:min(250px,72vw);pointer-events:none}
-#details .vignette{margin-top:34px}
+#details .vignette{margin-top:46px}
 #gifts .vignette{width:min(210px,60vw);margin-top:20px}
 .gifty{transform-origin:100px 95px;animation:giftbounce 2.6s ease-in-out infinite}
 @keyframes giftbounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-7px) rotate(-1.5deg)}60%{transform:translateY(0) rotate(1deg)}}

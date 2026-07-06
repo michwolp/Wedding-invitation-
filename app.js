@@ -73,9 +73,31 @@
 })();
 
 // ---------- marquee content (language-neutral, graphic) ----------
+// The track holds two identical .mq halves and animates by -50%, so the loop is
+// seamless ONLY if each half is at least as wide as the screen. We repeat the
+// chunk enough times to guarantee that on any viewport, and re-fill on resize.
 (function(){
   const chunk = 'Michal <i>&#x2665;&#xFE0E;</i> Dvir <i>&#x2726;</i> 16.10.26 <i>&#x2726;</i> ';
-  document.querySelectorAll('.mq').forEach(el=>{ el.innerHTML = chunk.repeat(6); });
+  const halves = document.querySelectorAll('.mq');
+  if(!halves.length) return;
+
+  function fill(){
+    // measure one chunk's width using a hidden probe
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em';
+    probe.innerHTML = chunk;
+    document.body.appendChild(probe);
+    const chunkW = probe.getBoundingClientRect().width || 200;
+    probe.remove();
+    // enough copies to exceed the viewport width, with a safety margin
+    const reps = Math.max(4, Math.ceil((innerWidth * 1.4) / chunkW) + 1);
+    const html = chunk.repeat(reps);
+    halves.forEach(el=>{ el.innerHTML = html; });
+  }
+  fill();
+  setTimeout(fill, 1200);   // re-fill after the display font loads (chunk width changes)
+  let rt;
+  addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(fill, 250); }, {passive:true});
 })();
 
 // ---------- custom cursor ----------
@@ -390,15 +412,55 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify(payload)
     });
-    if(!res.ok) throw new Error();
+    if(!res.ok){
+      // surface the specific validation error the server reported
+      let code = '';
+      try{ code = (await res.json()).error || ''; }catch(_){}
+      throw new Error(code);
+    }
     msg.textContent = attending==='yes' ? themsg('okYes') : themsg('okNo');
     msg.className = 'formmsg ok';
     e.target.querySelector('button[type=submit]').disabled = true;
   }catch(err){
-    msg.textContent = themsg('err');
+    msg.textContent = errText(err && err.message);
     msg.className = 'formmsg err';
   }
 });
+
+// map a server error code to a friendly, translated message
+function errText(code){
+  const M = {
+    he: {
+      'missing name':'שם חסר או קצר מדי — בדקו את שם המלא',
+      'missing phone':'מספר טלפון חסר או לא תקין',
+      'bad attending value':'בחרו אם אתם מגיעים',
+      'server not configured':'תקלה זמנית בשרת — נסו שוב מאוחר יותר',
+      'db unreachable':'לא הצלחנו להתחבר לשרת — בדקו את החיבור ונסו שוב',
+      'db insert failed':'השמירה נכשלה — נסו שוב עוד רגע',
+      '':'משהו השתבש בשליחה — נסו שוב עוד רגע'
+    },
+    en: {
+      'missing name':'Name is missing or too short',
+      'missing phone':'Phone number is missing or invalid',
+      'bad attending value':'Please choose whether you are attending',
+      'server not configured':'Temporary server issue — please try again later',
+      'db unreachable':"Couldn't reach the server — check your connection and retry",
+      'db insert failed':'Saving failed — please try again in a moment',
+      '':'Something went wrong — please try again in a moment'
+    },
+    ru: {
+      'missing name':'Имя отсутствует или слишком короткое',
+      'missing phone':'Номер телефона отсутствует или неверный',
+      'bad attending value':'Пожалуйста, выберите, придёте ли вы',
+      'server not configured':'Временная ошибка сервера — попробуйте позже',
+      'db unreachable':'Не удалось связаться с сервером — проверьте соединение',
+      'db insert failed':'Не удалось сохранить — попробуйте ещё раз',
+      '':'Что-то пошло не так — попробуйте ещё раз'
+    }
+  };
+  const table = M[lang] || M.he;
+  return table[code] != null ? table[code] : table[''];
+}
 
 // ---------- playground: trail, garden, butterflies ----------
 (function(){
