@@ -25,28 +25,23 @@ body{
 a,button,select,input,textarea,label{cursor:none}
 
 /* ---------- intro splash ---------- */
+/* the M & D floral illustration fills the screen, gently fades/zooms in,
+   holds, then dissolves to reveal the page. Portrait image on phones,
+   landscape on computers. */
 #splash{
-  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
-  background:#FCFBF9;
-  animation:splashOut .9s ease 2.2s forwards;   /* hold ~2.2s, then dissolve */
+  position:fixed;inset:0;z-index:200;
+  background:#FCFBF9 url(/splash-phone.jpg) center center no-repeat;
+  background-size:contain;
+  animation:splashIn 1.1s ease both, splashOut 1s ease 2.6s forwards;
 }
 #splash.done{display:none}
-.splash-mono{
-  display:flex;align-items:center;justify-content:center;gap:.18em;direction:ltr;
-  font-family:var(--display);font-weight:400;
-  font-size:clamp(3rem,16vw,6rem);color:var(--cream);
-  letter-spacing:.02em;
+@media (min-aspect-ratio:1/1){
+  #splash{background-image:url(/splash-desktop.jpg)}
 }
-.splash-mono .sm{opacity:0;display:inline-block}
-.sm1{animation:smIn .7s ease .15s forwards}
-.smh{color:var(--red);font-size:.62em;animation:smHeart .8s ease .55s forwards}
-.sm2{animation:smIn .7s ease .95s forwards}
-@keyframes smIn{from{opacity:0;transform:translateY(24px) scale(.8)}to{opacity:1;transform:none}}
-@keyframes smHeart{0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+@keyframes splashIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
 @keyframes splashOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){
-  #splash{animation:splashOut .4s ease .3s forwards}
-  .splash-mono .sm{opacity:1;animation:none}
+  #splash{animation:splashOut .5s ease .4s forwards}
 }
 @media(pointer:coarse){a,button,select,input,textarea,label{cursor:auto}}
 
