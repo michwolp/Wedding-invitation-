@@ -210,16 +210,15 @@ footer{margin-top:88px;text-align:center;padding-bottom:26px}
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
 }
 
-/* the watercolor painting fills the screen; content scrolls over it */
+/* the watercolor floral frame sits behind the hero, framing the names,
+   then scrolls away with the page so it never overlaps the form below.
+   The image is a portrait frame (1024x1536), so we keep that aspect ratio
+   and center it in a card-width column instead of stretching to the screen. */
 #bgart{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:url(/bg.jpg) center top no-repeat;
-  background-size:cover;
-  opacity:.9;
-}
-/* on tall/desktop viewports show the whole floral frame instead of cropping it */
-@media (min-aspect-ratio:3/4){
-  #bgart{background-size:contain;background-position:center;background-color:#F3ECDA}
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:min(100%,760px);aspect-ratio:1024/1536;
+  z-index:0;pointer-events:none;opacity:.92;
+  background:url(/bg.jpg) center top/contain no-repeat;
 }
 
 /* ---------- painted scenery ---------- */
