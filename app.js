@@ -1,3 +1,44 @@
+// ---------- side flowers: scatter motifs down both edges of the page ----------
+(function(){
+  const layer = document.getElementById('sideflowers');
+  if(!layer) return;
+  const flowers = ['motif-cluster.png','motif-bells.png','motif-spray.png','motif-vine.png','motif-spray-daisies.png','motif-sprig-bells.png'];
+  const R = (a,b)=> a + Math.random()*(b-a);
+
+  function build(){
+    layer.innerHTML = '';
+    const pageH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    const narrow = innerWidth < 640;
+    const w = narrow ? R(66,96) : R(90,150);   // flower width range
+    const step = narrow ? 200 : 250;           // vertical spacing between flowers on a side
+    let idx = 0;
+    // start a little below the hero so we don't fight the corner motifs / countdown
+    for(let y = 330; y < pageH - 120; y += R(step*0.8, step*1.2)){
+      ['left','right'].forEach(side=>{
+        const img = document.createElement('img');
+        img.src = '/' + flowers[idx % flowers.length];
+        idx++;
+        const fw = narrow ? R(60,92) : R(85,150);
+        img.style.width = fw + 'px';
+        img.style.top = (y + R(-40,40)) + 'px';
+        // hug the edge; let a bit hang off-screen so it reads as a border
+        const off = narrow ? R(-26,-6) : R(-30,4);
+        if(side==='left'){ img.style.left = off + 'px'; img.classList.add('flip'); }
+        else { img.style.right = off + 'px'; }
+        img.style.opacity = R(.82,1).toFixed(2);
+        img.style.setProperty('--sway', R(5,9).toFixed(1)+'s');
+        img.style.setProperty('--swayDelay', (-R(0,5)).toFixed(1)+'s');
+        layer.appendChild(img);
+      });
+    }
+  }
+  // build after layout settles, and rebuild on resize / orientation change
+  if('requestIdleCallback' in window) requestIdleCallback(build); else setTimeout(build, 300);
+  setTimeout(build, 1200);   // rebuild once fonts/images have shifted layout
+  let rt;
+  addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(build, 300); }, {passive:true});
+})();
+
 // ---------- intro splash: remove once it has dissolved ----------
 (function(){
   const s = document.getElementById('splash');
