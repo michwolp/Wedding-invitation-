@@ -166,6 +166,43 @@ ru: {
 };
 const HE = new Map();
 
+// ---------- Hebrew singular (gendered) per guest ----------
+// The page is written in plural (מגיעים / אתכם). For a single guest we overlay
+// gendered singular wording. form 'm'=male, 'f'=female; 'plural'/undefined = no change.
+const HE_SINGULAR = {
+  m: {
+    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו',
+    '#rsvpForm .field:nth-of-type(3) > label': 'מגיע?',
+    'label[for=pickup]': 'מגיע בהסעה? ההסעה יוצאת מתל אביב',
+    '#pickup option[value=""]': 'מגיע עצמאית',
+    '.seeyou': 'נשמח לראותך!'
+  },
+  f: {
+    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו',
+    '#rsvpForm .field:nth-of-type(3) > label': 'מגיעה?',
+    'label[for=pickup]': 'מגיעה בהסעה? ההסעה יוצאת מתל אביב',
+    '#pickup option[value=""]': 'מגיעה עצמאית',
+    '.seeyou': 'נשמח לראותך!'
+  }
+};
+const MSG_HE_SINGULAR = {
+  m: { okYes:'התקבל! מחכים לראות אותך 🤍', okNo:'התקבל, תודה שעדכנת 🤍', err:'משהו השתבש בשליחה — נסה שוב עוד רגע' },
+  f: { okYes:'התקבל! מחכים לראות אותך 🤍', okNo:'התקבל, תודה שעדכנת 🤍', err:'משהו השתבש בשליחה — נסי שוב עוד רגע' }
+};
+function applyHeForm(){
+  if(lang !== 'he' || !guest.form || guest.form === 'plural') return;
+  const ov = HE_SINGULAR[guest.form];
+  if(!ov) return;
+  Object.keys(ov).forEach(sel=>{ const el = document.querySelector(sel); if(el) el.innerHTML = ov[sel]; });
+}
+// gendered message lookup for the submit handler
+function themsg(key){
+  if(lang === 'he' && guest.form && MSG_HE_SINGULAR[guest.form] && MSG_HE_SINGULAR[guest.form][key] != null){
+    return MSG_HE_SINGULAR[guest.form][key];
+  }
+  return MSG[lang][key];
+}
+
 function applyLang(next){
   lang = next;
   const dict = L[next];
@@ -187,10 +224,14 @@ function applyLang(next){
   document.querySelectorAll('.lang-seg button').forEach(b=>{
     b.classList.toggle('active', b.dataset.lang === next);
   });
+  applyHeForm();
 }
 document.querySelectorAll('.lang-seg button').forEach(b=>{
   b.addEventListener('click', ()=> applyLang(b.dataset.lang));
 });
+// apply gendered Hebrew on first load (Hebrew is the default, so applyLang
+// hasn't run yet for it)
+applyHeForm();
 // open in the guest's default language (falls back to Hebrew)
 if(['en','ru'].includes(guest.lang)) applyLang(guest.lang);
 
@@ -223,7 +264,7 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   if(!name || !phone){
-    msg.textContent = MSG[lang].need;
+    msg.textContent = themsg('need');
     msg.className = 'formmsg err';
     return;
   }
@@ -236,7 +277,7 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
     pickup: attending==='yes' ? document.getElementById('pickup').value : '',
     notes: document.getElementById('notes').value.trim()
   };
-  msg.textContent = MSG[lang].sending; msg.className = 'formmsg';
+  msg.textContent = themsg('sending'); msg.className = 'formmsg';
   try{
     const res = await fetch('/api/rsvp', {
       method:'POST',
@@ -244,11 +285,11 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
       body: JSON.stringify(payload)
     });
     if(!res.ok) throw new Error();
-    msg.textContent = attending==='yes' ? MSG[lang].okYes : MSG[lang].okNo;
+    msg.textContent = attending==='yes' ? themsg('okYes') : themsg('okNo');
     msg.className = 'formmsg ok';
     e.target.querySelector('button[type=submit]').disabled = true;
   }catch(err){
-    msg.textContent = MSG[lang].err;
+    msg.textContent = themsg('err');
     msg.className = 'formmsg err';
   }
 });
