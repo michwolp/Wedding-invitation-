@@ -26,18 +26,23 @@ const STYLES = {
     ],
     small: ['flower-single'],
   },
-  // ---- red line-art set ----
+  // ---- red line-art set (two sheets merged) ----
   red: {
     dir: 'red/',
-    prefix: 'red-',
-    heroCorners: { left: 'bouquet', right: 'rose' },
+    prefix: '',   // mixed prefixes: red- and red2-
+    heroCorners: { left: 'red-bouquet', right: 'red-rose' },
     images: [
-      'disco', 'mushroom', 'swirl', 'monogram', 'rose', 'bouquet',
-      'coupe', 'cheers', 'bow', 'heart', 'fairy', 'candle', 'ribbon',
-      'dove', 'cake', 'wine-bottle', 'grapes', 'sprig', 'envelope',
-      'place-setting', 'flower', 'cherries', 'wreath',
+      // sheet 1
+      'red-disco', 'red-mushroom', 'red-swirl', 'red-monogram', 'red-rose', 'red-bouquet',
+      'red-coupe', 'red-cheers', 'red-bow', 'red-heart', 'red-fairy', 'red-candle', 'red-ribbon',
+      'red-dove', 'red-cake', 'red-wine-bottle', 'red-grapes', 'red-sprig', 'red-envelope',
+      'red-place-setting', 'red-flower', 'red-cherries', 'red-wreath',
+      // sheet 2
+      'red2-00','red2-01','red2-02','red2-03','red2-04','red2-05','red2-06','red2-07',
+      'red2-08','red2-09','red2-10','red2-11','red2-12','red2-13','red2-14','red2-15',
+      'red2-16','red2-17','red2-18','red2-19','red2-20','red2-21','red2-22','red2-23','red2-24',
     ],
-    small: ['sparkle'],
+    small: ['red-sparkle'],
   },
 };
 
