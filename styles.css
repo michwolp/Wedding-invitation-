@@ -42,7 +42,9 @@ a,button,select,input,textarea,label{cursor:none}
 }
 .splash-half::before{
   content:"";position:absolute;top:0;bottom:0;
-  width:100vw;                        /* full-viewport canvas so both halves align */
+  width:200%;                         /* 200% of the 50%-wide half = full splash width.
+                                         using % (not vw) avoids scrollbar-width misalignment
+                                         so the image stays centered and the seam is dead-center */
   background:url(/assets/splash-couple.jpg) center center no-repeat;
   background-size:contain;
 }
