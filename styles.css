@@ -14,7 +14,7 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:400;
-  background:#F3ECDA;
+  background:#FCFBF9;
   color:var(--cream);
   line-height:1.7;
   overflow-x:hidden;
@@ -211,13 +211,14 @@ footer{margin-top:88px;text-align:center;padding-bottom:26px}
 }
 
 /* the watercolor image is the full-screen background; content scrolls over it.
-   cover = fills the whole screen with no distortion (crops the outer edge a
-   little). Two images: portrait for phones, landscape for computers, chosen
-   automatically by the screen shape. */
+   contain = the WHOLE frame is always visible (all four floral edges), no
+   cropping. Any leftover margin is filled with the image's paper white so it
+   blends seamlessly. Two images: portrait for phones, landscape for computers,
+   chosen automatically by the screen shape. */
 #bgart{
   position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:url(/bg-phone.jpg) center center no-repeat;
-  background-size:cover;
+  background:#FCFBF9 url(/bg-phone.jpg) center center no-repeat;
+  background-size:contain;
 }
 /* landscape screens (computers / tablets held sideways) → wide image */
 @media (min-aspect-ratio:1/1){
