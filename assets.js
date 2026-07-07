@@ -75,7 +75,7 @@ window.ASSETS = {
     edgeOffsetPhone:   8,
     rowGapDesktop: 250,      // vertical spacing between motif rows
     rowGapPhone:   200,
-    startY: 90,              // px down the page where motifs begin (flank the hero)
+    startY: 40,              // px down the page where motifs begin (very top)
     minOpacity: 0.82,
     swayMin: 5, swayMax: 9,  // seconds for the gentle sway
   },

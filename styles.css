@@ -181,11 +181,11 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .mqtrack{display:flex;width:max-content;animation:mqmove 26s linear infinite}
 .marquee.alt .mqtrack{animation-duration:34s;animation-direction:reverse}
 .mq{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em}
-/* both marquees use two blues */
-.marquee .mq{color:var(--blue)}
-.mq i{font-style:normal;color:var(--blue-soft);padding:0 .5em}
-.marquee.alt .mq{color:var(--blue-soft)}
-.marquee.alt .mq i{color:var(--blue)}
+/* first marquee: gold text + pink accents; last (alt) marquee: blue */
+.marquee .mq{color:var(--marigold)}
+.mq i{font-style:normal;color:var(--pink);padding:0 .5em}
+.marquee.alt .mq{color:var(--blue)}
+.marquee.alt .mq i{color:var(--blue-soft)}
 @keyframes mqmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
@@ -193,7 +193,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
    scroll-margin-top makes the arrow land at the card's top, not its middle. */
 section{
   margin:150px auto 0;position:relative;text-align:center;
-  max-width:560px;
+  max-width:460px;
   /* slightly brighter, lightly translucent card so it lifts off the background */
   background:rgba(255,253,248,.55);
   backdrop-filter:blur(2px);
@@ -227,15 +227,15 @@ section{
 .schedule .slot b{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,4.5vw,1.7rem);display:block;line-height:1;color:var(--marigold)}
 .schedule .slot span{font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--marigold);opacity:.85}
 .note{max-width:430px;margin:18px auto 0;color:rgba(79,74,56,.85);font-size:.88rem}
-.note .hand{font-family:var(--display);font-weight:400;font-size:1.7rem;color:var(--marigold);letter-spacing:.04em}
+.note .hand{font-family:var(--display);font-weight:400;font-size:1.2rem;color:var(--marigold);letter-spacing:.04em}
 #details .btn{border-color:var(--marigold);color:var(--marigold)}
 #details .btn:hover{background:var(--marigold);color:#fff}
 
 /* buttons */
 .btnrow{display:flex;justify-content:center;gap:14px;margin-top:18px;flex-wrap:wrap}
 .btn{
-  font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:500;font-size:1rem;
-  padding:13px 26px;background:transparent;color:var(--cream);text-decoration:none;
+  font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:500;font-size:.85rem;
+  padding:10px 20px;background:transparent;color:var(--cream);text-decoration:none;
   border:1.5px solid var(--cream);border-radius:99px;
   transition:background .22s,color .22s,transform .22s;display:inline-block;
 }
@@ -295,7 +295,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 
 /* footer */
 footer{
-  margin:150px auto 40px;text-align:center;max-width:560px;
+  margin:150px auto 40px;text-align:center;max-width:460px;
   background:rgba(255,253,248,.55);
   backdrop-filter:blur(2px);
   border:1px solid rgba(168,88,107,.18);border-radius:26px;
