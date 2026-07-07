@@ -255,7 +255,7 @@ section{
 
 /* ---------- RSVP form ---------- */
 form{max-width:440px;margin:8px auto 0;text-align:start}
-.field{margin-top:14px}
+.field{margin-top:9px}
 label{display:block;font-weight:600;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--aqua)}
 input[type=text],input[type=tel],select,textarea{
   width:100%;padding:13px 14px;font:inherit;font-weight:400;color:var(--cream);
@@ -286,7 +286,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 @media(pointer:coarse){.stepctl button{cursor:auto}}
 .stepctl button:hover{border-color:var(--pink);color:var(--pink)}
 .stepctl b{font-family:var(--display);font-weight:400;font-size:1.9rem;min-width:30px;color:var(--marigold)}
-.submit-row{text-align:center;margin-top:30px}
+.submit-row{text-align:center;margin-top:16px}
 .formmsg{margin-top:14px;font-weight:600;min-height:1.4em}
 .formmsg.ok{color:var(--lime)}
 .formmsg.err{color:var(--red)}
