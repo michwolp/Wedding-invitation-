@@ -30,6 +30,7 @@ window.GUESTS = {
   RonWolpert:   { name: 'רון המתוק',  fullName: 'רון וולפרט',     phone: '0526998033', lang: 'he', form: 'm' },
   AlinaDronov:   { name: 'אלינקי',  fullName: 'אלינה דרונוב',     phone: '0545488475', lang: 'he', form: 'f' },
   YuvalGoldstein:   { name: 'יוב',  fullName: 'יובל גולדשטיין',     phone: '0547090583', lang: 'he', form: 'f' },
+  RomiHeller:   { name: 'רומ',  fullName: 'רומי הלר',     phone: '0547981025', lang: 'he', form: 'f' },
 
 
 };
