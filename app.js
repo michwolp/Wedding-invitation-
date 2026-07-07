@@ -431,7 +431,7 @@ if(['en','ru'].includes(guest.lang)) applyLang(guest.lang);
 // ---------- personal greeting ----------
 // If we recognised the guest, greet them by name above the invitation.
 if(guest.name){
-  const firstName = guest.name.trim().split(/\s+/)[0];
+  const displayName = guest.name.trim();
   const HELLO = {
     he: n => `שלום ${n} 🤍`,
     en: n => `Hi ${n} 🤍`,
@@ -439,7 +439,7 @@ if(guest.name){
   };
   const g = document.createElement('p');
   g.className = 'greeting';
-  g.dataset.name = firstName;
+  g.dataset.name = displayName;
   const renderGreeting = () => { g.textContent = (HELLO[lang] || HELLO.he)(g.dataset.name); };
   renderGreeting();
   const opening = document.querySelector('.hero .opening');
