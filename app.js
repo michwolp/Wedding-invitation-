@@ -569,7 +569,7 @@ function errText(code){
   addEventListener('click', e=>{
     if(liveHearts > 24) return;
     const t = e.target;
-    if(t.closest('a,button,input,select,textarea,label,.unit,.floater,.lang-seg,.heart,form,.butterfly')) return;
+    if(t.closest('a,button,input,select,textarea,label,.unit,.floater,.lang-seg,.heart,.butterfly,.stepctl,.btnrow,.choices')) return;
     if(!t.closest('body')) return;
     const n = 1 + Math.floor(Math.random()*2);
     for(let i=0;i<n;i++){
