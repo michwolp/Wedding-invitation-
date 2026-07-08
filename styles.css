@@ -66,8 +66,8 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 
 /* language switch */
 .lang-seg{
-  /* always pinned to the right, even in LTR languages (use right, not inset-inline-end) */
-  position:fixed;top:16px;right:16px;z-index:20;display:flex;overflow:hidden;
+  /* always pinned to the right; direction:ltr keeps button order fixed regardless of page dir */
+  position:fixed;top:16px;right:16px;z-index:20;display:flex;direction:ltr;overflow:hidden;
   background:rgba(255,255,255,.65);backdrop-filter:blur(8px);
   border:1.5px solid var(--cream);border-radius:99px;
 }
