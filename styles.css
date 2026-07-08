@@ -1,5 +1,9 @@
-@font-face{font-family:'Abraham';src:url('/assets/fonts/abraham.woff') format('woff'),url('/assets/fonts/abraham.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+/* Hebrew title font — Trashim (covers Hebrew characters) */
+@font-face{font-family:'Trashim';src:url('/assets/fonts/trashim.woff') format('woff'),url('/assets/fonts/trashim.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+/* Hebrew body font — Hillel */
 @font-face{font-family:'Hillel';src:url('/assets/fonts/hillel.woff') format('woff'),url('/assets/fonts/hillel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+/* Abraham kept as fallback */
+@font-face{font-family:'Abraham';src:url('/assets/fonts/abraham.woff') format('woff'),url('/assets/fonts/abraham.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
 
 :root{
   color-scheme: only light;
@@ -18,9 +22,10 @@
   --aqua:#5A6E96;          /* → mid blue */
   --forest:#F3EEE4;        /* → paper */
   --forest2:#E2E5CC;
-  /* titles: Abraham; body text: Hillel */
-  --display:'Abraham', serif;
-  --body:'Hillel', 'Frank Ruhl Libre', sans-serif;
+  /* titles: Trashim (Hebrew) + Playfair Display (Latin/Cyrillic) */
+  --display:'Trashim', 'Playfair Display', serif;
+  /* body: Hillel (Hebrew) + Cormorant Garamond (Latin/Cyrillic) */
+  --body:'Hillel', 'Cormorant Garamond', serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
@@ -178,9 +183,9 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   position:relative;left:50%;right:50%;width:100vw;
   margin-left:-50vw;margin-right:-50vw;margin-top:54px;
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
-  transform:rotate(-1.2deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
+  transform:rotate(-2.5deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
-.marquee.alt{transform:rotate(1.2deg);margin-top:18px}
+.marquee.alt{transform:rotate(2.5deg);margin-top:18px}
 .mqtrack{display:flex;width:max-content;animation:mqmove 26s linear infinite}
 .marquee.alt .mqtrack{animation-duration:34s;animation-direction:reverse}
 .mq{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em}

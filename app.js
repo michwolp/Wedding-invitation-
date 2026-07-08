@@ -163,7 +163,10 @@
     }
   }
   fill();
-  setTimeout(fill, 1200);   // re-fill after the display font loads (chunk width changes)
+  setTimeout(fill, 1200);   // re-fill after initial layout settles
+  setTimeout(fill, 3000);   // re-fill again after custom fonts load (belt + suspenders)
+  // also re-fill when fonts actually finish loading
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fill);
   let rt;
   addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(fill, 250); }, {passive:true});
 })();
