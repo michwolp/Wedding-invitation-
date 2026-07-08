@@ -1,9 +1,9 @@
-/* Hebrew title font — Trashim (covers Hebrew characters) */
-@font-face{font-family:'Trashim';src:url('/assets/fonts/trashim.woff') format('woff'),url('/assets/fonts/trashim.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
-/* Hebrew body font — Hillel */
-@font-face{font-family:'Hillel';src:url('/assets/fonts/hillel.woff') format('woff'),url('/assets/fonts/hillel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
-/* Abraham kept as fallback */
-@font-face{font-family:'Abraham';src:url('/assets/fonts/abraham.woff') format('woff'),url('/assets/fonts/abraham.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+/* Hebrew title font — Trashim (restricted to Hebrew unicode range so it doesn't eat Latin chars) */
+@font-face{font-family:'Trashim';src:url('/assets/fonts/trashim.woff') format('woff'),url('/assets/fonts/trashim.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F}
+/* Hebrew body font — Hillel (restricted to Hebrew) */
+@font-face{font-family:'Hillel';src:url('/assets/fonts/hillel.woff') format('woff'),url('/assets/fonts/hillel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F}
+/* Abraham kept as fallback (restricted to Hebrew) */
+@font-face{font-family:'Abraham';src:url('/assets/fonts/abraham.woff') format('woff'),url('/assets/fonts/abraham.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F}
 
 :root{
   color-scheme: only light;
@@ -22,11 +22,14 @@
   --aqua:#5A6E96;          /* → mid blue */
   --forest:#F3EEE4;        /* → paper */
   --forest2:#E2E5CC;
-  /* titles: Trashim (Hebrew) + Playfair Display (Latin/Cyrillic) */
-  --display:'Trashim', 'Playfair Display', serif;
-  /* body: Hillel (Hebrew) + Cormorant Garamond (Latin/Cyrillic) */
+  /* default fonts (Hebrew): Trashim titles + Hillel body */
+  --display:'Trashim', 'Cormorant Garamond', serif;
   --body:'Hillel', 'Cormorant Garamond', serif;
 }
+/* per-language font overrides */
+html[lang="en"]{--display:'Cormorant Garamond', serif; --body:'Cormorant Garamond', serif}
+html[lang="ru"]{--display:'PT Serif', serif; --body:'PT Serif', serif}
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{
@@ -350,10 +353,10 @@ footer{
 @keyframes danceB{from{transform:rotate(6deg) translateY(-6px)}to{transform:rotate(-5deg) translateY(0)}}
 .tw{animation:twinkle var(--td,2.4s) ease-in-out var(--tdel,0s) infinite}
 @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.95}}
-.hugg{transform-origin:105px 90px;animation:breathe 3.6s ease-in-out infinite alternate}
-@keyframes breathe{from{transform:scale(1)}to{transform:scale(1.035)}}
-.hugFront{transform-origin:93px 89px;animation:nuzzle 3.6s ease-in-out infinite alternate}
-@keyframes nuzzle{from{transform:rotate(-1.5deg)}to{transform:rotate(2deg)}}
+.hugg{transform-origin:105px 90px;animation:breathe 3s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(1) rotate(-2deg)}to{transform:scale(1.06) rotate(2deg)}}
+.hugFront{transform-origin:93px 89px;animation:nuzzle 2.8s ease-in-out infinite alternate}
+@keyframes nuzzle{from{transform:rotate(-3deg) translateY(0)}to{transform:rotate(3deg) translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){.disco,.dancerA,.dancerB,.tw,.hugg,.hugFront,.gifty{animation:none}}
 
 /* ---------- interactive layers ---------- */
