@@ -1,3 +1,6 @@
+@font-face{font-family:'Abraham';src:url('/assets/fonts/abraham.woff') format('woff'),url('/assets/fonts/abraham.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Hillel';src:url('/assets/fonts/hillel.woff') format('woff'),url('/assets/fonts/hillel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+
 :root{
   color-scheme: only light;
   /* ---- deep romantic red + blue palette on cream ---- */
@@ -15,9 +18,9 @@
   --aqua:#5A6E96;          /* → mid blue */
   --forest:#F3EEE4;        /* → paper */
   --forest2:#E2E5CC;
-  /* titles use Suez One (bold display serif); body uses Gveret Levin (handwriting script) */
-  --display:'Suez One', serif;
-  --body:'Gveret Levin AlefAlefAlef', 'Frank Ruhl Libre', cursive;
+  /* titles: Abraham; body text: Hillel */
+  --display:'Abraham', serif;
+  --body:'Hillel', 'Frank Ruhl Libre', sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
