@@ -287,7 +287,7 @@ en: {
   '.unit:nth-child(2) span': 'hours',
   '.unit:nth-child(3) span': 'minutes',
   '.unit:nth-child(4) span': 'seconds',
-  '#details .sec-title': 'When &amp; Where',
+  '#details .sec-title': 'When & Where',
   '.schedule .slot:nth-child(1) span': 'Reception',
   '.schedule .slot:nth-child(2) span': 'Chuppah',
   '.note': '<span class="hand">An open-field celebration —</span><br>comfortable shoes recommended.<br>Dancing till the small hours? Bring a change of clothes :)',
@@ -312,10 +312,11 @@ en: {
   '#gifts .btnrow a:nth-child(1)': 'Gift via PayBox',
   '#gifts .btnrow a:nth-child(2)': 'Gift via Bit',
   '.parents .p:nth-child(1) b': 'Parents of the bride',
-  '.parents .p:nth-child(1) span': 'Victoria Sharay<br>&amp; Alexander Wolpert',
+  '.parents .p:nth-child(1) span': 'Victoria Sharay<br>& Alexander Wolpert',
   '.parents .p:nth-child(2) b': 'Parents of the groom',
-  '.parents .p:nth-child(2) span': 'Eyal &amp; Sigal Sasson',
+  '.parents .p:nth-child(2) span': 'Eyal & Sigal Sasson',
   '.seeyou': "Can't wait to see you!",
+  '.cal-sub': 'Save the date:',
   _name1: 'Michal ', _name2: ' Dvir',
   _title: 'Michal ♥ Dvir — 16.10.26', _dir: 'ltr'
 },
@@ -356,6 +357,7 @@ ru: {
   '.parents .p:nth-child(2) b': 'Родители жениха',
   '.parents .p:nth-child(2) span': 'Эяль и Сигаль Сасон',
   '.seeyou': 'Будем рады вас видеть!',
+  '.cal-sub': 'Сохраните дату:',
   _name1: 'Михаль ', _name2: ' Двир',
   _title: 'Михаль ♥ Двир — 16.10.26', _dir: 'ltr'
 }

@@ -32,7 +32,11 @@ window.GUESTS = {
   YuvalGoldstein:   { name: 'יוב',  fullName: 'יובל גולדשטיין',     phone: '0547090583', lang: 'he', form: 'f' },
   RomiHeller:   { name: 'רומ',  fullName: 'רומי הלר',     phone: '0547981025', lang: 'he', form: 'f' },
 
-
+  // --- Michal's work friends ---
+  MorFilo:      { name: 'מורוש',  fullName: 'מור פילו',       phone: '0506863116', lang: 'he', form: 'f' },
+  OrrBinyamini: { name: 'אור',    fullName: 'אור בנימיני',    phone: '0509349101', lang: 'he', form: 'm' },
+  MorBenAmi:    { name: 'מורוש',  fullName: 'מור בן עמי',     phone: '0549439445', lang: 'he', form: 'f' },
+  ThaiHayut:    { name: 'תאי',    fullName: 'תאי חיות',       phone: '0542604840', lang: 'he', form: 'f' },
 };
 
 // Look up a guest from the current URL.
