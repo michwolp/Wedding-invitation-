@@ -316,8 +316,8 @@ footer{
   scroll-margin-top:26px;position:relative;
 }
 .parents{display:flex;justify-content:center;gap:60px;margin-top:30px;padding-top:26px;border-top:1px solid rgba(168,88,107,.14)}
-.parents .p b{font-family:var(--display);font-weight:400;font-size:1.7rem;display:block;color:var(--pink);letter-spacing:.04em}
-.parents .p span{color:rgba(79,74,56,.8);font-size:.95rem}
+.parents .p b{font-family:var(--body);font-weight:400;font-size:.8rem;display:block;color:var(--pink);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.parents .p span{font-family:var(--display);color:var(--cream);font-size:1.2rem}
 .seeyou{
   font-family:var(--display);font-weight:400;font-style:italic;margin-top:34px;line-height:1.1;
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
