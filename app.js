@@ -123,7 +123,7 @@
   document.querySelectorAll('.scrolldn[data-next]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const target = document.querySelector(btn.dataset.next);
-      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      if(target) target.scrollIntoView({behavior:'smooth', block:'center'});
     });
   });
 })();
