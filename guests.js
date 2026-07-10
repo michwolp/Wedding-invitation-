@@ -21,7 +21,7 @@
 window.GUESTS = {
   // code:            { name (display),  fullName (to DB),          phone,          lang,  form }
   OfirLevin:        { name: 'אופיר',   fullName: 'אופיר לוין',        phone: '0546644905', lang: 'he', form: 'f' },
-  ViktoriaSharay:   { name: 'Viktoria', fullName: 'Viktoria Sharay',  phone: '0504247004', lang: 'ru', form: 'f' },
+  ViktoriaSharay:   { name: 'Мамик', fullName: 'Viktoria Sharay',  phone: '0504247004', lang: 'ru', form: 'f' },
   DvirSasson:       { name: 'דביר',    fullName: 'דביר ששון',         phone: '0502566643', lang: 'he', form: 'm' },
   DanKedmi:         { name: 'דן',      fullName: 'דן קדמי',           phone: '0509878804', lang: 'he', form: 'm' },
   LiorMandelboim:   { name: 'ליאורי',  fullName: 'ליאור מנדלבוים',     phone: '0546213030', lang: 'he', form: 'f' },
@@ -31,6 +31,11 @@ window.GUESTS = {
   AlinaDronov:   { name: 'אלינקי',  fullName: 'אלינה דרונוב',     phone: '0545488475', lang: 'he', form: 'f' },
   YuvalGoldstein:   { name: 'יוב',  fullName: 'יובל גולדשטיין',     phone: '0547090583', lang: 'he', form: 'f' },
   RomiHeller:   { name: 'רומ',  fullName: 'רומי הלר',     phone: '0547981025', lang: 'he', form: 'f' },
+
+  // --- Michal's work friends ---
+  YotamSuliman: { name: 'יות וגיל האהובים', fullName: 'יותם סולימן', phone: '0504600888', lang: 'he', form: 'plural' },
+  LarisaSharay: { name: 'Лялик',  fullName: 'Larisa Sharay',   phone: '0544575308', lang: 'ru', form: 'f' },
+  OlegSharay:   { name: 'Олешака', fullName: 'Oleg Sharay',    phone: '0503421703', lang: 'ru', form: 'm' },
 
   // --- Michal's work friends ---
   MorFilo:      { name: 'מורוש',  fullName: 'מור פילו',       phone: '0506863116', lang: 'he', form: 'f' },
