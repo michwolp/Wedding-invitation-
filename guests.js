@@ -38,7 +38,7 @@ window.GUESTS = {
   YuvalGoldstein:   { name: 'יוב',     fullName: 'יובל גולדשטיין',     phone: '0547090583', lang: 'he', form: 'f' },
   RomiHeller:       { name: 'רומ',     fullName: 'רומי הלר',          phone: '0547981025', lang: 'he', form: 'f' },
   YotamSuliman:     { name: 'יות וגיל האהובים', fullName: 'יותם סולימן', phone: '0504600888', lang: 'he', form: 'plural' },
-  MichalYafe:       { name: 'מיכאל',   fullName: 'מיכאל יפה',         phone: '0526462911', lang: 'he', form: 'm' },
+  MichaelYafe:       { name: 'מיכאל',   fullName: 'מיכאל יפה',         phone: '0526462911', lang: 'he', form: 'm' },
 
   // --- Michal's work friends ---
   MorFilo:          { name: 'מורוש',   fullName: 'מור פילו',          phone: '0506863116', lang: 'he', form: 'f' },
