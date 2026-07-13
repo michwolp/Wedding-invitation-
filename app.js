@@ -495,17 +495,44 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
       try{ code = (await res.json()).error || ''; }catch(_){}
       throw new Error(code);
     }
-    msg.textContent = attending==='yes' ? themsg('okYes') : themsg('okNo');
-    msg.className = 'formmsg ok';
+    // success → collapse form, show thank-you
+    const thankMsg = attending==='yes' ? themsg('okYes') : themsg('okNo');
+    collapseRsvp(thankMsg);
   }catch(err){
     msg.textContent = errText(err && err.message);
     msg.className = 'formmsg err';
   }finally{
-    // always return the button to its normal (dark) state and re-enable it, so a
-    // guest can UPDATE their RSVP — a re-submit replaces their record (upsert).
     btn.classList.remove('sending'); btn.disabled = false;
   }
 });
+
+// collapse the RSVP form and show the thank-you + edit button
+function collapseRsvp(message){
+  const form = document.getElementById('rsvpForm');
+  const done = document.getElementById('rsvpDone');
+  if(!form || !done) return;
+  form.style.display = 'none';
+  done.classList.remove('hidden');
+  done.querySelector('.rsvp-thanks').textContent = message;
+  // remember that this guest already submitted (survives page refresh)
+  try{ localStorage.setItem('rsvp_done', message); }catch(_){}
+}
+// on page load: if already submitted, collapse immediately
+(function(){
+  try{
+    const saved = localStorage.getItem('rsvp_done');
+    if(saved) collapseRsvp(saved);
+  }catch(_){}
+})();
+// edit button re-opens the form
+(function(){
+  const editBtn = document.querySelector('.rsvp-edit');
+  if(!editBtn) return;
+  editBtn.addEventListener('click', ()=>{
+    document.getElementById('rsvpForm').style.display = '';
+    document.getElementById('rsvpDone').classList.add('hidden');
+  });
+})();
 
 // map a server error code to a friendly, translated message
 function errText(code){
