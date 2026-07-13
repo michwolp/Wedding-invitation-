@@ -436,7 +436,7 @@ function applyLang(next){
     b.classList.toggle('active', b.dataset.lang === next);
   });
   applyHeForm();
-  if(typeof renderRsvpSummary === 'function') renderRsvpSummary();
+  if(typeof renderRsvpThanks === 'function') renderRsvpThanks();
   // restore scroll position after direction change
   requestAnimationFrame(()=> window.scrollTo(0, scrollY));
 }
@@ -521,8 +521,8 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
   }
 });
 
-// collapse the RSVP form and show a summary of their answer + edit button
-let rsvpData = null;  // cached RSVP data for rendering summary
+// collapse the RSVP form and show thank-you + edit button
+let rsvpData = null;  // cached RSVP data for pre-filling on edit
 function collapseRsvp(data){
   const form = document.getElementById('rsvpForm');
   const done = document.getElementById('rsvpDone');
@@ -530,24 +530,29 @@ function collapseRsvp(data){
   rsvpData = data;
   form.style.display = 'none';
   done.classList.remove('hidden');
-  renderRsvpSummary();
+  renderRsvpThanks();
   try{ localStorage.setItem('rsvp_done', JSON.stringify(data)); }catch(_){}
 }
-function renderRsvpSummary(){
+function renderRsvpThanks(){
   const el = document.querySelector('.rsvp-thanks');
   if(!el || !rsvpData) return;
-  const d = rsvpData;
-  if(d.attending === 'no'){
-    el.textContent = themsg('okNo');
-    return;
-  }
-  // show: confirmed + headcount
-  const SUMMARY = {
-    he: (a,c) => `✅ מגיעים! ${a} מבוגרים` + (c ? ` + ${c} ילדים` : ''),
-    en: (a,c) => `✅ Confirmed! ${a} adult${a>1?'s':''}` + (c ? ` + ${c} child${c>1?'ren':''}` : ''),
-    ru: (a,c) => `✅ Подтверждено! ${a} взросл.` + (c ? ` + ${c} дет.` : ''),
-  };
-  el.textContent = (SUMMARY[lang] || SUMMARY.he)(d.adults || 1, d.children || 0);
+  el.textContent = rsvpData.attending === 'yes' ? themsg('okYes') : themsg('okNo');
+}
+// pre-fill form fields from saved data when edit is pressed
+function prefillForm(data){
+  if(!data) return;
+  // attending radio
+  const radio = document.querySelector(`input[name=attending][value="${data.attending}"]`);
+  if(radio) radio.checked = true;
+  // headcount
+  if(data.adults != null){ counts.adults = data.adults; document.getElementById('adults').textContent = data.adults; }
+  if(data.children != null){ counts.children = data.children; document.getElementById('children').textContent = data.children; }
+  // pickup
+  const pickup = document.getElementById('pickup');
+  if(pickup && data.pickup != null) pickup.value = data.pickup;
+  // show/hide headcount section based on attending
+  const wc = document.getElementById('whenComing');
+  if(wc) wc.classList.toggle('hidden', data.attending === 'no');
 }
 // on page load: check if guest already submitted (DB for recognised guests, localStorage fallback)
 (function(){
@@ -571,6 +576,7 @@ function renderRsvpSummary(){
   const editBtn = document.querySelector('.rsvp-edit');
   if(!editBtn) return;
   editBtn.addEventListener('click', ()=>{
+    if(rsvpData) prefillForm(rsvpData);
     document.getElementById('rsvpForm').style.display = '';
     document.getElementById('rsvpDone').classList.add('hidden');
   });
