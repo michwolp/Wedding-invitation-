@@ -317,6 +317,7 @@ en: {
   '.parents .p:nth-child(2) span': 'Eyal & Sigal Sasson',
   '.seeyou': "Can't wait to see you!",
   '.cal-sub': 'Save the date:',
+  '.rsvp-edit': '✏️ Edit',
   _name1: 'Michal ', _name2: ' Dvir',
   _title: 'Michal ♥ Dvir — 16.10.26', _dir: 'ltr'
 },
@@ -358,6 +359,7 @@ ru: {
   '.parents .p:nth-child(2) span': 'Эяль и Сигаль Сасон',
   '.seeyou': 'Будем рады вас видеть!',
   '.cal-sub': 'Сохраните дату:',
+  '.rsvp-edit': '✏️ Изменить',
   _name1: 'Михаль ', _name2: ' Двир',
   _title: 'Михаль ♥ Двир — 16.10.26', _dir: 'ltr'
 }
