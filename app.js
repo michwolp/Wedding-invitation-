@@ -218,6 +218,16 @@ document.querySelectorAll('input[name=attending]').forEach(r=>{
   });
 });
 
+// ---------- Bit gift link (alternates between two links for balanced load) ----------
+(function(){
+  const links = [
+    'https://www.bitpay.co.il/app/me/F43FC80D-8CEF-BF4D-47C7-2E5AB046F737DB61',
+    'https://www.bitpay.co.il/app/me/3D3EBAE2-78CC-A34F-E4D8-257F19EB2C8DD06B'
+  ];
+  const el = document.getElementById('bitLink');
+  if(el) el.href = links[Math.floor(Math.random() * links.length)];
+})();
+
 // ---------- add to calendar ----------
 (function(){
   // 16 Oct 2026, 16:30–23:59 Israel time (UTC+3). In UTC that's 13:30–20:59.
@@ -404,6 +414,7 @@ function themsg(key){
 }
 
 function applyLang(next){
+  const scrollY = window.scrollY;   // preserve scroll position across direction change
   lang = next;
   const dict = L[next];
   const selectors = Object.keys(L.en).filter(k => !k.startsWith('_'));
@@ -425,6 +436,9 @@ function applyLang(next){
     b.classList.toggle('active', b.dataset.lang === next);
   });
   applyHeForm();
+  if(typeof renderRsvpSummary === 'function') renderRsvpSummary();
+  // restore scroll position after direction change
+  requestAnimationFrame(()=> window.scrollTo(0, scrollY));
 }
 document.querySelectorAll('.lang-seg button').forEach(b=>{
   b.addEventListener('click', ()=> applyLang(b.dataset.lang));
@@ -497,9 +511,8 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
       try{ code = (await res.json()).error || ''; }catch(_){}
       throw new Error(code);
     }
-    // success → collapse form, show thank-you
-    const thankMsg = attending==='yes' ? themsg('okYes') : themsg('okNo');
-    collapseRsvp(thankMsg);
+    // success → collapse form, show summary of what they submitted
+    collapseRsvp({ attending, adults: payload.adults, children: payload.children, pickup: payload.pickup });
   }catch(err){
     msg.textContent = errText(err && err.message);
     msg.className = 'formmsg err';
@@ -508,36 +521,49 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
   }
 });
 
-// collapse the RSVP form and show the thank-you + edit button
-function collapseRsvp(message){
+// collapse the RSVP form and show a summary of their answer + edit button
+let rsvpData = null;  // cached RSVP data for rendering summary
+function collapseRsvp(data){
   const form = document.getElementById('rsvpForm');
   const done = document.getElementById('rsvpDone');
   if(!form || !done) return;
+  rsvpData = data;
   form.style.display = 'none';
   done.classList.remove('hidden');
-  done.querySelector('.rsvp-thanks').textContent = message;
-  // remember that this guest already submitted (survives page refresh)
-  try{ localStorage.setItem('rsvp_done', message); }catch(_){}
+  renderRsvpSummary();
+  try{ localStorage.setItem('rsvp_done', JSON.stringify(data)); }catch(_){}
 }
-// on page load: check if guest already submitted (DB check for recognised guests,
-// localStorage fallback for anonymous visitors)
+function renderRsvpSummary(){
+  const el = document.querySelector('.rsvp-thanks');
+  if(!el || !rsvpData) return;
+  const d = rsvpData;
+  if(d.attending === 'no'){
+    el.textContent = themsg('okNo');
+    return;
+  }
+  // show: confirmed + headcount
+  const SUMMARY = {
+    he: (a,c) => `✅ מגיעים! ${a} מבוגרים` + (c ? ` + ${c} ילדים` : ''),
+    en: (a,c) => `✅ Confirmed! ${a} adult${a>1?'s':''}` + (c ? ` + ${c} child${c>1?'ren':''}` : ''),
+    ru: (a,c) => `✅ Подтверждено! ${a} взросл.` + (c ? ` + ${c} дет.` : ''),
+  };
+  el.textContent = (SUMMARY[lang] || SUMMARY.he)(d.adults || 1, d.children || 0);
+}
+// on page load: check if guest already submitted (DB for recognised guests, localStorage fallback)
 (function(){
-  // localStorage quick check (instant, no network)
+  // localStorage quick check (instant)
   try{
     const saved = localStorage.getItem('rsvp_done');
-    if(saved){ collapseRsvp(saved); return; }
+    if(saved){ collapseRsvp(JSON.parse(saved)); return; }
   }catch(_){}
-  // for recognised guests, ask the server if they already have a record
+  // for recognised guests, ask the server
   if(guest.code){
     fetch('/api/rsvp-status?guest_id=' + encodeURIComponent(guest.code))
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if(data && data.exists){
-          const msg = data.attending === 'yes' ? themsg('okYes') : themsg('okNo');
-          collapseRsvp(msg);
-        }
+        if(data && data.exists) collapseRsvp(data);
       })
-      .catch(()=>{});  // silently fail — form stays open if network is down
+      .catch(()=>{});
   }
 })();
 // edit button re-opens the form

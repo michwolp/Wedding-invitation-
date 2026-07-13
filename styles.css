@@ -253,6 +253,7 @@ section{
   transition:background .22s,color .22s,transform .22s;display:inline-block;
 }
 .btn::after{content:" ✦"}
+.rsvp-edit::after{content:none}
 .btn:hover{background:var(--cream);color:var(--forest);transform:translateY(-3px)}
 .btn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
 /* submit button: DARK by default; BRIGHTER while pressed / sending; dark again after */
