@@ -517,12 +517,26 @@ function collapseRsvp(message){
   // remember that this guest already submitted (survives page refresh)
   try{ localStorage.setItem('rsvp_done', message); }catch(_){}
 }
-// on page load: if already submitted, collapse immediately
+// on page load: check if guest already submitted (DB check for recognised guests,
+// localStorage fallback for anonymous visitors)
 (function(){
+  // localStorage quick check (instant, no network)
   try{
     const saved = localStorage.getItem('rsvp_done');
-    if(saved) collapseRsvp(saved);
+    if(saved){ collapseRsvp(saved); return; }
   }catch(_){}
+  // for recognised guests, ask the server if they already have a record
+  if(guest.code){
+    fetch('/api/rsvp-status?guest_id=' + encodeURIComponent(guest.code))
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if(data && data.exists){
+          const msg = data.attending === 'yes' ? themsg('okYes') : themsg('okNo');
+          collapseRsvp(msg);
+        }
+      })
+      .catch(()=>{});  // silently fail — form stays open if network is down
+  }
 })();
 // edit button re-opens the form
 (function(){
