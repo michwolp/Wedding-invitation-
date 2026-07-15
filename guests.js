@@ -21,7 +21,8 @@
 window.GUESTS = {
   // code:            { name (display),  fullName (to DB),          phone,          lang,  form }
 
-  // --- Michal's family (Russian) ---
+  // --- Michal's family ---
+  NikolWolpert:     { name: 'Nikol',    fullName: 'Nikol Wolpert',    phone: '+19296225141', lang: 'en', form: 'f' },
   ViktoriaSharay:   { name: 'Мамик',    fullName: 'Viktoria Sharay',  phone: '0504247004', lang: 'ru', form: 'f' },
   LarisaSharay:     { name: 'Лялик',    fullName: 'Larisa Sharay',    phone: '0544575308', lang: 'ru', form: 'f' },
   OlegSharay:       { name: 'Олешака',  fullName: 'Oleg Sharay',      phone: '0503421703', lang: 'ru', form: 'm' },
