@@ -123,7 +123,12 @@
   document.querySelectorAll('.scrolldn[data-next]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const target = document.querySelector(btn.dataset.next);
-      if(target) target.scrollIntoView({behavior:'smooth', block:'center'});
+      if(!target) return;
+      // scroll so the section title lands ~20% from the top of the viewport
+      // (consistent across languages regardless of section height)
+      const rect = target.getBoundingClientRect();
+      const y = window.scrollY + rect.top - window.innerHeight * 0.18;
+      window.scrollTo({top: Math.max(0, y), behavior:'smooth'});
     });
   });
 })();
@@ -416,7 +421,18 @@ function themsg(key){
 }
 
 function applyLang(next){
-  const scrollY = window.scrollY;   // preserve scroll position across direction change
+  // find which section is currently visible + relative offset within it, so we
+  // can scroll back to the SAME section after the language changes text length.
+  const sections = [...document.querySelectorAll('section, header.hero, footer')];
+  let anchorEl = null, anchorOffset = 0;
+  for(const s of sections){
+    const r = s.getBoundingClientRect();
+    if(r.top <= window.innerHeight * 0.5 && r.bottom > 0){
+      anchorEl = s;
+      anchorOffset = (window.innerHeight * 0.4 - r.top) / (r.height || 1); // 0–1 progress through section
+    }
+  }
+
   lang = next;
   const dict = L[next];
   const selectors = Object.keys(L.en).filter(k => !k.startsWith('_'));
@@ -439,8 +455,15 @@ function applyLang(next){
   });
   applyHeForm();
   if(typeof renderRsvpThanks === 'function') renderRsvpThanks();
-  // restore scroll position after direction change
-  requestAnimationFrame(()=> window.scrollTo(0, scrollY));
+
+  // scroll back to the same section at the same relative offset
+  if(anchorEl){
+    requestAnimationFrame(()=>{
+      const r = anchorEl.getBoundingClientRect();
+      const targetY = window.scrollY + r.top + anchorOffset * r.height - window.innerHeight * 0.4;
+      window.scrollTo(0, Math.max(0, targetY));
+    });
+  }
 }
 document.querySelectorAll('.lang-seg button').forEach(b=>{
   b.addEventListener('click', ()=> applyLang(b.dataset.lang));
@@ -457,7 +480,7 @@ if(guest.name){
   const displayName = guest.name.trim();
   const HELLO = {
     he: n => `שלום ${n} 🤍`,
-    en: n => `Hi ${n} 🤍`,
+    en: n => `Hello ${n} 🤍`,
     ru: n => `Привет, ${n} 🤍`
   };
   const g = document.createElement('p');
