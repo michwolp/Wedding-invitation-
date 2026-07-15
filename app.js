@@ -532,7 +532,7 @@ function collapseRsvp(data){
   form.style.display = 'none';
   done.classList.remove('hidden');
   renderRsvpThanks();
-  try{ localStorage.setItem('rsvp_done', JSON.stringify(data)); }catch(_){}
+  // no localStorage — DB is the single source of truth
 }
 function renderRsvpThanks(){
   const el = document.querySelector('.rsvp-thanks');
@@ -555,14 +555,8 @@ function prefillForm(data){
   const wc = document.getElementById('whenComing');
   if(wc) wc.classList.toggle('hidden', data.attending === 'no');
 }
-// on page load: check if guest already submitted (DB for recognised guests, localStorage fallback)
+// on page load: check if guest already submitted — always ask the DB (source of truth)
 (function(){
-  // localStorage quick check (instant)
-  try{
-    const saved = localStorage.getItem('rsvp_done');
-    if(saved){ collapseRsvp(JSON.parse(saved)); return; }
-  }catch(_){}
-  // for recognised guests, ask the server
   if(guest.code){
     fetch('/api/rsvp-status?guest_id=' + encodeURIComponent(guest.code))
       .then(r => r.ok ? r.json() : null)
