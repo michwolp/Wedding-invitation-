@@ -257,6 +257,8 @@ document.querySelectorAll('input[name=attending]').forEach(r=>{
   }
 })();
 
+let rsvpData = null;  // cached RSVP data for pre-filling on edit (declared early to avoid TDZ)
+
 // per-guest link support: /?g=CODE  (see guests.js). Also handles legacy /?to=&lang=&id=
 const guest = (typeof getGuest === 'function') ? getGuest() : {};
 if(guest.name)  document.getElementById('name').value  = guest.name;
@@ -522,7 +524,6 @@ document.getElementById('rsvpForm').addEventListener('submit', async e=>{
 });
 
 // collapse the RSVP form and show thank-you + edit button
-let rsvpData = null;  // cached RSVP data for pre-filling on edit
 function collapseRsvp(data){
   const form = document.getElementById('rsvpForm');
   const done = document.getElementById('rsvpDone');
