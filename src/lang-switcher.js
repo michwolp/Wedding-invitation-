@@ -62,10 +62,12 @@ export function applyLang(next, guestForm) {
   listeners.forEach(fn => fn(next));
 
   if (anchorEl) {
+    // snap instantly — html has scroll-behavior:smooth, which would otherwise
+    // turn every re-anchor into a visible glide across the page
     const reAnchor = () => {
       const r = anchorEl.getBoundingClientRect();
       const targetY = window.scrollY + r.top + anchorOffset * r.height - window.innerHeight * 0.4;
-      window.scrollTo(0, Math.max(0, targetY));
+      window.scrollTo({ top: Math.max(0, targetY), behavior: 'instant' });
     };
     requestAnimationFrame(reAnchor);
     // fonts arriving late (or the Russian font-size bump) can reflow the page
