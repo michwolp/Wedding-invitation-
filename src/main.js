@@ -13,15 +13,6 @@ import { initSideMotifs } from './side-motifs.js';
 import { initEffects } from './effects.js';
 import { initScenery } from './scenery.js';
 
-// apply asset paths to HTML elements
-(function applyAssets() {
-  const hc = document.getElementById('heroCouple');
-  if (hc && ASSETS.couple) hc.src = asset(ASSETS.couple);
-  const L = document.querySelector('.hero-corner.left');
-  const R = document.querySelector('.hero-corner.right');
-  if (L) L.src = asset(ASSETS.heroCorners.left);
-  if (R) R.src = asset(ASSETS.heroCorners.right);
-})();
 
 // resolve guest from URL
 const guest = resolveGuest(location.search);

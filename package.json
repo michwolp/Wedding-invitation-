@@ -3,10 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "vite": "^6.3.0",
     "vitest": "^3.1.0",
     "jsdom": "^26.0.0"
   }
