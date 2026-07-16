@@ -90,4 +90,28 @@ describe('buildPayload', () => {
     );
     expect(payload.guest_id).toBe('OfirLevin');
   });
+
+  it('sends adults=2 for plural guest using default counts', () => {
+    const pluralGuest = { code: 'RonnyAndGuy', name: 'רוני וגיא האהובים', fullName: 'רוני וגיא', form: 'plural' };
+    const pluralCounts = { adults: 2, children: 0 };
+    const payload = buildPayload(
+      { name: 'רוני וגיא', phone: '0546826789', attending: 'yes', pickup: '', notes: '' },
+      pluralGuest,
+      pluralCounts,
+    );
+    expect(payload.adults).toBe(2);
+    expect(payload.children).toBe(0);
+    expect(payload.guest_id).toBe('RonnyAndGuy');
+  });
+
+  it('sends adults=1 for singular guest using default counts', () => {
+    const singularGuest = { code: 'DanKedmi', name: 'דן', fullName: 'דן קדמי', form: 'm' };
+    const singularCounts = { adults: 1, children: 0 };
+    const payload = buildPayload(
+      { name: 'דן קדמי', phone: '0509878804', attending: 'yes', pickup: '', notes: '' },
+      singularGuest,
+      singularCounts,
+    );
+    expect(payload.adults).toBe(1);
+  });
 });
