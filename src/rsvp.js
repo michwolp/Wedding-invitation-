@@ -28,7 +28,9 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
   const form = document.getElementById('rsvpForm');
   const doneEl = document.getElementById('rsvpDone');
   const msgEl = document.getElementById('formMsg');
-  const counts = { adults: 1, children: 0 };
+  const defaultAdults = guest.form === 'plural' ? 2 : 1;
+  const counts = { adults: defaultAdults, children: 0 };
+  document.getElementById('adults').textContent = defaultAdults;
   let rsvpData = null;
 
   document.querySelectorAll('.stepctl button').forEach(btn => {
