@@ -1,4 +1,7 @@
 {
-  "buildCommand": null,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install --registry=https://registry.npmjs.org",
+  "buildCommand": "",
   "outputDirectory": "."
 }
