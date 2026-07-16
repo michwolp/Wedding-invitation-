@@ -11,3 +11,4 @@ motifs*.jpg
 s5-*.png
 m4-*.png
 m3-*.png
+node_modules/
