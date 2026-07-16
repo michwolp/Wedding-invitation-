@@ -12,6 +12,11 @@ import { initSplash } from './splash.js';
 import { initSideMotifs } from './side-motifs.js';
 import { initEffects } from './effects.js';
 import { initScenery } from './scenery.js';
+import { warmFonts } from './fonts.js';
+
+// download all language fonts up-front so switching languages never
+// causes a late font swap + layout jump
+warmFonts();
 
 
 // resolve guest from URL

@@ -62,11 +62,15 @@ export function applyLang(next, guestForm) {
   listeners.forEach(fn => fn(next));
 
   if (anchorEl) {
-    requestAnimationFrame(() => {
+    const reAnchor = () => {
       const r = anchorEl.getBoundingClientRect();
       const targetY = window.scrollY + r.top + anchorOffset * r.height - window.innerHeight * 0.4;
       window.scrollTo(0, Math.max(0, targetY));
-    });
+    };
+    requestAnimationFrame(reAnchor);
+    // fonts arriving late (or the Russian font-size bump) can reflow the page
+    // after the first anchor — re-anchor once everything has settled
+    if (document.fonts?.ready) document.fonts.ready.then(() => requestAnimationFrame(reAnchor));
   }
 }
 
