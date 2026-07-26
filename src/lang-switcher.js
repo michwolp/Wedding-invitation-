@@ -91,7 +91,7 @@ export function initLangSwitcher(document, guest) {
     const g = document.createElement('p');
     g.className = 'greeting';
     g.dataset.name = guest.name.trim();
-    const render = () => { g.textContent = getGreeting(currentLang, g.dataset.name); };
+    const render = () => { g.textContent = getGreeting(currentLang, g.dataset.name, guest.form); };
     render();
     const opening = document.querySelector('.hero .opening');
     if (opening) opening.parentNode.insertBefore(g, opening);

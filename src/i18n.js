@@ -177,11 +177,14 @@ export function getErrorMessage(lang, code) {
   return table[code] != null ? table[code] : table[''];
 }
 
-export function getGreeting(lang, name) {
+// "Dear <name>" — inflected by guest form where the language requires it.
+// form: 'm' | 'f' | 'plural' (default plural)
+export function getGreeting(lang, name, form = 'plural') {
   const templates = {
-    he: n => `שלום ${n} 🤍`,
-    en: n => `Hello ${n} 🤍`,
-    ru: n => `Привет, ${n} 🤍`,
+    he: { m: n => `${n} היקר 🤍`, f: n => `${n} היקרה 🤍`, plural: n => `${n} היקרים 🤍` },
+    en: { m: n => `Dear ${n} 🤍`, f: n => `Dear ${n} 🤍`, plural: n => `Dear ${n} 🤍` },
+    ru: { m: n => `Дорогой ${n} 🤍`, f: n => `Дорогая ${n} 🤍`, plural: n => `Дорогие ${n} 🤍` },
   };
-  return (templates[lang] || templates.he)(name);
+  const byLang = templates[lang] || templates.he;
+  return (byLang[form] || byLang.plural)(name);
 }

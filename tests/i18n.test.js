@@ -54,19 +54,44 @@ describe('getErrorMessage', () => {
 });
 
 describe('getGreeting', () => {
-  it('returns Hebrew greeting', () => {
-    expect(getGreeting('he', 'אופיר')).toBe('שלום אופיר 🤍');
+  describe('Hebrew', () => {
+    it('greets a man: היקר', () => {
+      expect(getGreeting('he', 'דן', 'm')).toBe('דן היקר 🤍');
+    });
+    it('greets a woman: היקרה', () => {
+      expect(getGreeting('he', 'אופיר', 'f')).toBe('אופיר היקרה 🤍');
+    });
+    it('greets a group: היקרים', () => {
+      expect(getGreeting('he', 'רוני וגיא', 'plural')).toBe('רוני וגיא היקרים 🤍');
+    });
   });
 
-  it('returns English greeting', () => {
-    expect(getGreeting('en', 'Nikol')).toBe('Hello Nikol 🤍');
+  describe('English', () => {
+    it('greets everyone with Dear (gender-neutral)', () => {
+      expect(getGreeting('en', 'Dan', 'm')).toBe('Dear Dan 🤍');
+      expect(getGreeting('en', 'Nikol', 'f')).toBe('Dear Nikol 🤍');
+      expect(getGreeting('en', 'Nikol & Julian', 'plural')).toBe('Dear Nikol & Julian 🤍');
+    });
   });
 
-  it('returns Russian greeting', () => {
-    expect(getGreeting('ru', 'Мамик')).toBe('Привет, Мамик 🤍');
+  describe('Russian', () => {
+    it('greets a man: Дорогой', () => {
+      expect(getGreeting('ru', 'Олешака', 'm')).toBe('Дорогой Олешака 🤍');
+    });
+    it('greets a woman: Дорогая', () => {
+      expect(getGreeting('ru', 'Мамик', 'f')).toBe('Дорогая Мамик 🤍');
+    });
+    it('greets a group: Дорогие', () => {
+      expect(getGreeting('ru', 'Olga', 'plural')).toBe('Дорогие Olga 🤍');
+    });
+  });
+
+  it('defaults to plural when form is omitted', () => {
+    expect(getGreeting('he', 'חברים')).toBe('חברים היקרים 🤍');
+    expect(getGreeting('ru', 'семья')).toBe('Дорогие семья 🤍');
   });
 
   it('falls back to Hebrew for unknown language', () => {
-    expect(getGreeting('jp', 'Test')).toBe('שלום Test 🤍');
+    expect(getGreeting('jp', 'Test', 'f')).toBe('Test היקרה 🤍');
   });
 });
