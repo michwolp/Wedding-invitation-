@@ -7,15 +7,15 @@
 export const OG_META = {
   he: {
     title: 'מיכל ♥ דביר — 16.10.26',
-    description: 'מתרגשים להזמין אתכם לחתונה שלנו · כרמי יוסף',
+    description: 'מתרגשים להזמין אתכם לחתונה שלנו! · כרמי יוסף',
   },
   en: {
     title: 'Michal ♥ Dvir — 16.10.26',
-    description: "We're excited to invite you to our wedding · Karmei Yosef",
+    description: "We're excited to invite you to our wedding! · Karmei Yosef",
   },
   ru: {
     title: 'Михаль ♥ Двир — 16.10.26',
-    description: 'Мы рады пригласить вас на нашу свадьбу · Кармей Йосеф',
+    description: 'Мы рады пригласить вас на нашу свадьбу! · Кармей Йосеф',
   },
 };
 

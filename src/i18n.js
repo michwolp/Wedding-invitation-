@@ -24,7 +24,7 @@ export const MESSAGES = {
 
 export const LABELS = {
   en: {
-    '.opening': "We're excited to invite you to our wedding",
+    '.opening': "We're excited to invite you to our wedding!",
     '.when': 'Karmei Yosef · 16.10.26',
     '.weekday': 'Friday',
     '.unit:nth-child(1) span': 'days',
@@ -68,7 +68,7 @@ export const LABELS = {
     _dir: 'ltr',
   },
   ru: {
-    '.opening': 'Мы рады пригласить вас на нашу свадьбу',
+    '.opening': 'Мы рады пригласить вас на нашу свадьбу!',
     '.when': 'Кармей Йосеф · 16.10.26',
     '.weekday': 'Пятница',
     '.unit:nth-child(1) span': 'дней',
@@ -115,14 +115,14 @@ export const LABELS = {
 
 export const HE_SINGULAR = {
   m: {
-    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו',
+    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו!',
     '#rsvpForm .field:nth-of-type(3) > label': 'מגיע?',
     'label[for=pickup]': 'מגיע בהסעה? ההסעה יוצאת מתל אביב',
     '#pickup option[value=""]': 'מגיע עצמאית',
     '.seeyou': 'נשמח לראותך!',
   },
   f: {
-    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו',
+    '.opening': 'מתרגשים להזמין אותך לחתונה שלנו!',
     '#rsvpForm .field:nth-of-type(3) > label': 'מגיעה?',
     'label[for=pickup]': 'מגיעה בהסעה? ההסעה יוצאת מתל אביב',
     '#pickup option[value=""]': 'מגיעה עצמאית',
