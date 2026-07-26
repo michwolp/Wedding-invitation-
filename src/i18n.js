@@ -181,7 +181,7 @@ export function getErrorMessage(lang, code) {
 // form: 'm' | 'f' | 'plural' (default plural)
 export function getGreeting(lang, name, form = 'plural') {
   const templates = {
-    he: { m: n => `${n} היקר 🤍`, f: n => `${n} היקרה 🤍`, plural: n => `${n} היקרים 🤍` },
+    he: { m: n => `שלום ${n} 🤍`, f: n => `שלום ${n} 🤍`, plural: n => `שלום ${n} 🤍` },
     en: { m: n => `Dear ${n} 🤍`, f: n => `Dear ${n} 🤍`, plural: n => `Dear ${n} 🤍` },
     ru: { m: n => `Дорогой ${n} 🤍`, f: n => `Дорогая ${n} 🤍`, plural: n => `Дорогие ${n} 🤍` },
   };
