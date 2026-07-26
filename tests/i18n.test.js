@@ -30,6 +30,11 @@ describe('getMessage', () => {
     expect(getMessage('he', 'okYes', 'plural')).toBe('התקבל! מחכים לראות אתכם 🤍');
   });
 
+  it('uses feminine plural (אתכן) for plural_f form', () => {
+    expect(getMessage('he', 'okYes', 'plural_f')).toBe('התקבל! מחכים לראות אתכן 🤍');
+    expect(getMessage('he', 'okNo', 'plural_f')).toBe('התקבל, תודה שעדכנתן 🤍');
+  });
+
   it('falls back to Hebrew for unknown language', () => {
     expect(getMessage('jp', 'sending')).toBe('שולחים…');
   });

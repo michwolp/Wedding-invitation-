@@ -128,11 +128,19 @@ export const HE_SINGULAR = {
     '#pickup option[value=""]': 'מגיעה עצמאית',
     '.seeyou': 'נשמח לראותך!',
   },
+  // feminine plural — the base page is masculine plural (מגיעים/אתכם)
+  plural_f: {
+    '#rsvpForm .field:nth-of-type(3) > label': 'מגיעות?',
+    'label[for=pickup]': 'מגיעות בהסעה? ההסעה יוצאת מתל אביב',
+    '#pickup option[value=""]': 'מגיעות עצמאית',
+    '.seeyou': 'נשמח לראותכן!',
+  },
 };
 
 export const MSG_HE_SINGULAR = {
   m: { okYes: 'התקבל! מחכים לראות אותך 🤍', okNo: 'התקבל, תודה שעדכנת 🤍', err: 'משהו השתבש בשליחה — נסה שוב עוד רגע' },
   f: { okYes: 'התקבל! מחכים לראות אותך 🤍', okNo: 'התקבל, תודה שעדכנת 🤍', err: 'משהו השתבש בשליחה — נסי שוב עוד רגע' },
+  plural_f: { okYes: 'התקבל! מחכים לראות אתכן 🤍', okNo: 'התקבל, תודה שעדכנתן 🤍', err: 'משהו השתבש בשליחה — נסו שוב עוד רגע' },
 };
 
 export const ERROR_MESSAGES = {

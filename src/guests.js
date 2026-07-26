@@ -21,7 +21,7 @@ const GUESTS = {
   RonnyAndGuy: { name: 'רוני וגיא האהובים', fullName: 'רוני וגיא', phone: '0546826789', lang: 'he', form: 'plural' },
   SigalSasson: { name: 'סיגל ואייל', fullName: 'Sigal Sasson', phone: '0547949355', lang: 'he', form: 'plural' },
   ItaySasson: { name: 'איתי ועמיר', fullName: 'Itay Sasson', phone: '0535301805', lang: 'he', form: 'plural' },
-  ShellyReizis: { name: 'שלי ונויה', fullName: 'Shelly Reizis', phone: '0527027829', lang: 'he', form: 'plural' },
+  ShellyReizis: { name: 'שלי ונויה', fullName: 'Shelly Reizis', phone: '0527027829', lang: 'he', form: 'plural_f' },
   MichaelYafe: { name: 'מיכאל', fullName: 'מיכאל יפה', phone: '0526462911', lang: 'he', form: 'm' },
 
   // --- Michal's work friends ---

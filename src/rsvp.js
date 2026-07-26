@@ -28,7 +28,7 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
   const form = document.getElementById('rsvpForm');
   const doneEl = document.getElementById('rsvpDone');
   const msgEl = document.getElementById('formMsg');
-  const defaultAdults = guest.form === 'plural' ? 2 : 1;
+  const defaultAdults = guest.form?.startsWith('plural') ? 2 : 1;
   const counts = { adults: defaultAdults, children: 0 };
   document.getElementById('adults').textContent = defaultAdults;
   let rsvpData = null;

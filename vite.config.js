@@ -12,6 +12,7 @@ export default defineConfig({
       closeBundle() {
         cpSync('assets/red', 'dist/assets/red', { recursive: true });
         cpSync('assets/watercolor', 'dist/assets/watercolor', { recursive: true });
+        cpSync('assets/og-preview.jpg', 'dist/assets/og-preview.jpg');
       },
     },
   ],
