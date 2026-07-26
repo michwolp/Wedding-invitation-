@@ -20,6 +20,7 @@ const GUESTS = {
   YotamSuliman: { name: 'יות וגיל האהובים', fullName: 'יותם סולימן', phone: '0504600888', lang: 'he', form: 'plural' },
   RonnyAndGuy: { name: 'רוני וגיא האהובים', fullName: 'רוני וגיא', phone: '0546826789', lang: 'he', form: 'plural' },
   SigalSasson: { name: 'סיגל ואייל', fullName: 'Sigal Sasson', phone: '0547949355', lang: 'he', form: 'plural' },
+  ItaySasson: { name: 'איתי ועמיר', fullName: 'Itay Sasson', phone: '0535301805', lang: 'he', form: 'plural' },
   MichaelYafe: { name: 'מיכאל', fullName: 'מיכאל יפה', phone: '0526462911', lang: 'he', form: 'm' },
 
   // --- Michal's work friends ---
