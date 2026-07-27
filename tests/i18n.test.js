@@ -60,10 +60,11 @@ describe('getErrorMessage', () => {
 
 describe('getGreeting', () => {
   describe('Hebrew', () => {
-    it('greets everyone with שלום (no inflection needed)', () => {
-      expect(getGreeting('he', 'דן', 'm')).toBe('שלום דן 🤍');
-      expect(getGreeting('he', 'אופיר', 'f')).toBe('שלום אופיר 🤍');
-      expect(getGreeting('he', 'רוני וגיא', 'plural')).toBe('שלום רוני וגיא 🤍');
+    it('greets with יקר/יקרה/יקרים/יקרות inflected by form', () => {
+      expect(getGreeting('he', 'דן', 'm')).toBe('דן היקר 🤍');
+      expect(getGreeting('he', 'אופיר', 'f')).toBe('אופיר היקרה 🤍');
+      expect(getGreeting('he', 'רוני וגיא', 'plural')).toBe('רוני וגיא היקרים 🤍');
+      expect(getGreeting('he', 'שלי ונויה', 'plural_f')).toBe('שלי ונויה היקרות 🤍');
     });
   });
 
@@ -88,11 +89,11 @@ describe('getGreeting', () => {
   });
 
   it('defaults to plural when form is omitted', () => {
-    expect(getGreeting('he', 'חברים')).toBe('שלום חברים 🤍');
+    expect(getGreeting('he', 'חברים')).toBe('חברים היקרים 🤍');
     expect(getGreeting('ru', 'семья')).toBe('Дорогие семья 🤍');
   });
 
   it('falls back to Hebrew for unknown language', () => {
-    expect(getGreeting('jp', 'Test', 'f')).toBe('שלום Test 🤍');
+    expect(getGreeting('jp', 'Test', 'f')).toBe('Test היקרה 🤍');
   });
 });

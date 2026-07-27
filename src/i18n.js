@@ -186,12 +186,18 @@ export function getErrorMessage(lang, code) {
 }
 
 // "Dear <name>" — inflected by guest form where the language requires it.
-// form: 'm' | 'f' | 'plural' (default plural)
+// form: 'm' | 'f' | 'plural' | 'plural_f' (default plural)
+// Hebrew: "<name> היקר/היקרה/היקרים/היקרות" (adjective follows the name).
 export function getGreeting(lang, name, form = 'plural') {
   const templates = {
-    he: { m: n => `שלום ${n} 🤍`, f: n => `שלום ${n} 🤍`, plural: n => `שלום ${n} 🤍` },
-    en: { m: n => `Dear ${n} 🤍`, f: n => `Dear ${n} 🤍`, plural: n => `Dear ${n} 🤍` },
-    ru: { m: n => `Дорогой ${n} 🤍`, f: n => `Дорогая ${n} 🤍`, plural: n => `Дорогие ${n} 🤍` },
+    he: {
+      m: n => `${n} היקר 🤍`,
+      f: n => `${n} היקרה 🤍`,
+      plural: n => `${n} היקרים 🤍`,
+      plural_f: n => `${n} היקרות 🤍`,
+    },
+    en: { m: n => `Dear ${n} 🤍`, f: n => `Dear ${n} 🤍`, plural: n => `Dear ${n} 🤍`, plural_f: n => `Dear ${n} 🤍` },
+    ru: { m: n => `Дорогой ${n} 🤍`, f: n => `Дорогая ${n} 🤍`, plural: n => `Дорогие ${n} 🤍`, plural_f: n => `Дорогие ${n} 🤍` },
   };
   const byLang = templates[lang] || templates.he;
   return (byLang[form] || byLang.plural)(name);
