@@ -31,20 +31,20 @@ describe('buildOgHtml', () => {
   it('serves Hebrew meta for he', () => {
     const html = buildOgHtml('he', url, img);
     expect(html).toContain('מיכל ♥ דביר');
-    expect(html).toContain('כרמי יוסף');
+    expect(html).toContain('כל מה שצריך לדעת נמצא כאן');
     expect(html).toContain('lang="he"');
   });
 
   it('serves English meta for en', () => {
     const html = buildOgHtml('en', url, img);
     expect(html).toContain('Michal ♥ Dvir');
-    expect(html).toContain('Karmei Yosef');
+    expect(html).toContain('Everything you need to know is here');
   });
 
   it('serves Russian meta for ru', () => {
     const html = buildOgHtml('ru', url, img);
     expect(html).toContain('Михаль ♥ Двир');
-    expect(html).toContain('Кармей Йосеф');
+    expect(html).toContain('Всё, что нужно знать');
   });
 
   it('falls back to Hebrew for unknown language', () => {
