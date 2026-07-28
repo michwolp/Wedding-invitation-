@@ -23,4 +23,11 @@ export function initScrollArrows(document) {
       window.scrollTo({ top, behavior: 'smooth' });
     });
   });
+
+  // "back to top" arrow — scrolls all the way up to the hero
+  document.querySelectorAll('.scrolldn[data-top]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
 }

@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { computeScrollTop } from '../src/navigation.js';
+import { describe, it, expect, vi } from 'vitest';
+import { computeScrollTop, initScrollArrows } from '../src/navigation.js';
 
 describe('computeScrollTop', () => {
   const vh = 800;
@@ -29,5 +29,18 @@ describe('computeScrollTop', () => {
   it('never returns a negative scroll position', () => {
     const top = computeScrollTop({ scrollY: 0, rectTop: 50, rectHeight: 300, viewportHeight: vh });
     expect(top).toBe(0);
+  });
+});
+
+describe('initScrollArrows — back to top', () => {
+  it('scrolls to the very top when a [data-top] arrow is clicked', () => {
+    document.body.innerHTML = '<button class="scrolldn scrollup" data-top></button>';
+    const spy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+
+    initScrollArrows(document);
+    document.querySelector('[data-top]').click();
+
+    expect(spy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+    spy.mockRestore();
   });
 });
