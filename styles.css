@@ -132,7 +132,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .scrolldn.sec-arrow{margin-top:34px;color:var(--aqua)}
 .scrolldn.scrollup{margin-top:30px;color:var(--pink)}
 /* the disco vignette already adds space, so tuck the details arrow closer */
-#details .sec-arrow{margin-top:-28px}
+#details .sec-arrow{margin-top:-52px}
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* countdown — giant editorial numerals */
