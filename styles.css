@@ -266,11 +266,11 @@ section{
 .btn.primary:disabled{cursor:default;opacity:.9}
 
 /* ---------- RSVP form ---------- */
-form{max-width:440px;margin:8px auto 0;text-align:start}
-.field{margin-top:9px}
-label{display:block;font-weight:600;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;color:var(--aqua)}
+form{max-width:400px;margin:8px auto 0;text-align:start}
+.field{margin-top:7px}
+label{display:block;font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;color:var(--aqua)}
 input[type=text],input[type=tel],select,textarea{
-  width:100%;padding:13px 14px;font:inherit;font-weight:400;color:var(--cream);
+  width:100%;padding:10px 13px;font:inherit;font-weight:400;color:var(--cream);
   background:rgba(255,255,255,.7);backdrop-filter:blur(3px);
   border:1.5px solid rgba(79,74,56,.35);border-radius:14px;
 }
@@ -282,23 +282,23 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .choice{flex:1;position:relative}
 .choice input{position:absolute;opacity:0}
 .choice span{
-  display:block;text-align:center;padding:9px;border:1.5px solid rgba(79,74,56,.4);cursor:none;
-  font-weight:600;font-size:.88rem;border-radius:99px;transition:all .2s;
+  display:block;text-align:center;padding:7px;border:1.5px solid rgba(79,74,56,.4);cursor:none;
+  font-weight:600;font-size:.85rem;border-radius:99px;transition:all .2s;
 }
 @media(pointer:coarse){.choice span{cursor:auto}}
 .choice input:checked + span{background:var(--lime);border-color:var(--lime);color:var(--forest)}
 .choice input:focus-visible + span{outline:3px solid var(--marigold);outline-offset:2px}
 .steppers{display:flex;gap:14px}
 .stepper{flex:1;text-align:center}
-.stepctl{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:4px}
+.stepctl{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:4px}
 .stepctl button{
-  width:42px;height:42px;font-size:1.4rem;line-height:1;cursor:none;background:transparent;color:var(--cream);
+  width:36px;height:36px;font-size:1.25rem;line-height:1;cursor:none;background:transparent;color:var(--cream);
   border:1.5px solid rgba(79,74,56,.4);border-radius:50%;transition:all .2s;
 }
 @media(pointer:coarse){.stepctl button{cursor:auto}}
 .stepctl button:hover{border-color:var(--pink);color:var(--pink)}
-.stepctl b{font-family:var(--display);font-weight:400;font-size:1.9rem;min-width:30px;color:var(--marigold)}
-.submit-row{text-align:center;margin-top:16px}
+.stepctl b{font-family:var(--display);font-weight:400;font-size:1.65rem;min-width:28px;color:var(--marigold)}
+.submit-row{text-align:center;margin-top:14px}
 /* RSVP done state — form collapsed, thank-you shown */
 .rsvp-done{text-align:center;padding:20px 0}
 .rsvp-done.hidden{display:none}
