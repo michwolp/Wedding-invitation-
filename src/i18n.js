@@ -25,7 +25,7 @@ export const MESSAGES = {
 export const LABELS = {
   en: {
     '.opening': "We're excited to invite you to our wedding!",
-    '.when': 'Karmei Yosef<span class="date">16.10.26</span>',
+    '.when': 'Karmei Yosef · 16.10.26',
     '.weekday': 'Friday',
     '.unit:nth-child(1) span': 'days',
     '.unit:nth-child(2) span': 'hours',
@@ -69,7 +69,7 @@ export const LABELS = {
   },
   ru: {
     '.opening': 'Мы рады пригласить вас на нашу свадьбу!',
-    '.when': 'Кармей Йосеф<span class="date">16.10.26</span>',
+    '.when': 'Кармей Йосеф · 16.10.26',
     '.weekday': 'Пятница',
     '.unit:nth-child(1) span': 'дней',
     '.unit:nth-child(2) span': 'часов',

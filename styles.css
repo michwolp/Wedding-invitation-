@@ -117,11 +117,8 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 }
 @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(1)}}
 .when{
-  font-family:var(--display);font-weight:400;font-size:clamp(1rem,4vw,1.5rem);
+  font-family:var(--display);font-weight:400;font-size:clamp(1.1rem,4.6vw,1.8rem);
   color:var(--cream);letter-spacing:.1em;margin-top:8px;
-}
-.when .date{
-  display:block;font-size:clamp(1.6rem,6.4vw,2.5rem);line-height:1.05;margin-top:2px;
 }
 .weekday{font-size:.85rem;letter-spacing:.4em;color:var(--pink);margin-top:4px;margin-bottom:6px}
 @keyframes riseIn{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
@@ -339,7 +336,7 @@ footer{
 .parents .p b{font-family:var(--body);font-weight:400;font-size:.8rem;display:block;color:var(--pink);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
 .parents .p span{font-family:var(--display);color:var(--cream);font-size:1.2rem}
 .seeyou{
-  font-family:var(--display);font-weight:400;font-style:italic;margin-top:34px;line-height:1.1;
+  font-family:var(--display);font-weight:400;font-style:normal;margin-top:34px;line-height:1.1;
   font-size:clamp(2.1rem,8vw,3.2rem);letter-spacing:.1em;color:var(--red);
 }
 
