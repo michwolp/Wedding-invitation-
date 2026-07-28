@@ -75,7 +75,7 @@ export function initScenery() {
   }
 
   // background dots/flowers
-  const nBack = innerWidth < 700 ? 3 : 6;
+  const nBack = innerWidth < 700 ? 5 : 9;
   for (let i = 0; i < nBack; i++) {
     const isDot = Math.random() < .5;
     const size = isDot ? rand(4, 7) : rand(12, 22);
@@ -90,7 +90,7 @@ export function initScenery() {
   }
 
   // edge flowers
-  const nEdge = innerWidth < 700 ? 2 : 4;
+  const nEdge = innerWidth < 700 ? 3 : 6;
   for (let i = 0; i < nEdge; i++) {
     const size = rand(24, 38);
     const rose = i < 3;
