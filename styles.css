@@ -130,6 +130,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 .scrolldn:hover{color:var(--red)}
 .scrolldn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:99px}
 .scrolldn.sec-arrow{margin-top:34px;color:var(--aqua)}
+#rsvp .sec-arrow{margin-top:18px}
 .scrolldn.scrollup{margin-top:30px;color:var(--pink)}
 /* the disco vignette already adds space, so tuck the details arrow closer */
 #details .sec-arrow{margin-top:-76px}
