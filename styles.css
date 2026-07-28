@@ -259,6 +259,7 @@ section{
 .btn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
 /* submit button: DARK by default; BRIGHTER while pressed / sending; dark again after */
 .btn.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:800;
+  font-size:1rem;padding:13px 30px;
   transition:background .18s,border-color .18s,transform .12s}
 .btn.primary::after{content:""}
 .btn.primary:hover{background:#96455a;border-color:#96455a}       /* slightly deeper on hover */
