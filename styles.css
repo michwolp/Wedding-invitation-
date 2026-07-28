@@ -186,7 +186,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   /* break out of the 680px main container so the tape spans the full screen width.
      position+left pins it to the viewport regardless of the parent's padding. */
   position:relative;left:50%;right:50%;width:100vw;
-  margin-left:-50vw;margin-right:-50vw;margin-top:54px;
+  margin-left:-50vw;margin-right:-50vw;margin-top:24px;
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
   transform:rotate(-2.5deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
