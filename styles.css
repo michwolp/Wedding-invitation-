@@ -117,8 +117,11 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
 }
 @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(1)}}
 .when{
-  font-family:var(--display);font-weight:400;font-size:clamp(1.1rem,4.6vw,1.8rem);
+  font-family:var(--display);font-weight:400;font-size:clamp(1rem,4vw,1.5rem);
   color:var(--cream);letter-spacing:.1em;margin-top:8px;
+}
+.when .date{
+  display:block;font-size:clamp(1.6rem,6.4vw,2.5rem);line-height:1.05;margin-top:2px;
 }
 .weekday{font-size:.85rem;letter-spacing:.4em;color:var(--pink);margin-top:4px;margin-bottom:6px}
 @keyframes riseIn{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
