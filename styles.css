@@ -224,6 +224,8 @@ section{
   font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,5.2vw,2.2rem);line-height:1.15;
   letter-spacing:.06em;margin-bottom:14px;color:var(--cream);
 }
+/* pull "when & where" up closer to the first rolling tape above it */
+#details{margin-top:70px}
 #details .sec-title{color:var(--marigold)}
 #rsvp .sec-title{color:var(--red)}
 #rsvp label{color:var(--red)}
