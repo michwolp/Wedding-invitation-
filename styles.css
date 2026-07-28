@@ -190,10 +190,14 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   border-top:1px solid rgba(79,74,56,.35);border-bottom:1px solid rgba(79,74,56,.35);
   transform:rotate(-2.5deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
-.marquee.alt{transform:rotate(2.5deg);margin-top:18px}
+.marquee.alt{transform:rotate(2.5deg);margin-top:4px}
 .mqtrack{display:flex;width:max-content;animation:mqmove 26s linear infinite}
 .marquee.alt .mqtrack{animation-duration:34s;animation-direction:reverse}
 .mq{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em}
+/* on narrow screens shrink the text so a full "Michal ♥ Dvir · 16.10.26" chunk
+   is well under the screen width — otherwise the names can scroll off both edges
+   at once, leaving only the date visible */
+@media(max-width:520px){.mq{font-size:.95rem;letter-spacing:.08em}}
 /* first marquee: gold text + pink accents; last (alt) marquee: blue */
 .marquee .mq{color:var(--marigold)}
 .mq i{font-style:normal;color:var(--pink);padding:0 .5em}
