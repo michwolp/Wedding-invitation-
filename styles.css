@@ -227,7 +227,7 @@ section{
 #rsvp .choice input:checked + span{background:var(--red);border-color:var(--red);color:#fff}
 #rsvp input:focus,#rsvp select:focus,#rsvp textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(168,88,107,.2)}
 /* add-to-calendar widget */
-.cal-widget{margin-top:12px;text-align:center}
+.cal-widget{margin-top:2px;text-align:center}
 .cal-widget .btnrow{flex-wrap:nowrap;gap:8px}
 .cal-widget .btn{font-size:.75rem;padding:8px 14px}
 .cal-sub{color:var(--red);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
