@@ -191,7 +191,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   transform:rotate(-2.5deg);background:rgba(255,255,255,.5);backdrop-filter:blur(3px);
 }
 .marquee.alt{transform:rotate(2.5deg);margin-top:4px}
-.mqtrack{display:flex;width:max-content;animation:mqmove 26s linear infinite}
+.mqtrack{display:flex;width:max-content;animation:mqmove 38s linear infinite}
 .marquee.alt .mqtrack{animation-duration:34s;animation-direction:reverse}
 .mq{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.12em}
 /* on narrow screens shrink the text so a full "Michal ♥ Dvir · 16.10.26" chunk
