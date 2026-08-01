@@ -61,6 +61,10 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
     rsvpData = data;
     form.style.display = 'none';
     doneEl.classList.remove('hidden');
+    // clear any lingering status text (e.g. "sending…") so it isn't
+    // still showing if the form is reopened via Edit
+    msgEl.textContent = '';
+    msgEl.className = 'formmsg';
     renderThanks();
     if (onCollapse) onCollapse();
   }
@@ -128,6 +132,8 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
   if (editBtn) {
     editBtn.addEventListener('click', () => {
       if (rsvpData) prefill(rsvpData);
+      msgEl.textContent = '';
+      msgEl.className = 'formmsg';
       form.style.display = '';
       doneEl.classList.add('hidden');
     });

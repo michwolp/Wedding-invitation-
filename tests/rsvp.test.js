@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { buildPayload, validateForm } from '../src/rsvp.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { buildPayload, validateForm, initRsvpForm } from '../src/rsvp.js';
 
 describe('validateForm', () => {
   it('returns null for valid input', () => {
@@ -113,5 +113,59 @@ describe('buildPayload', () => {
       singularCounts,
     );
     expect(payload.adults).toBe(1);
+  });
+});
+
+describe('initRsvpForm — edit flow', () => {
+  function mountForm() {
+    document.body.innerHTML = `
+      <form id="rsvpForm">
+        <input id="name" value="דן קדמי">
+        <input id="phone" value="0509878804">
+        <input type="radio" name="attending" value="yes" checked>
+        <input type="radio" name="attending" value="no">
+        <div id="whenComing"></div>
+        <b id="adults">1</b><b id="children">0</b>
+        <select id="pickup"><option value=""></option></select>
+        <textarea id="notes"></textarea>
+        <button type="submit"></button>
+        <p id="formMsg"></p>
+      </form>
+      <div id="rsvpDone" class="hidden">
+        <p class="rsvp-thanks"></p>
+        <button class="rsvp-edit"></button>
+      </div>`;
+  }
+
+  beforeEach(() => {
+    mountForm();
+    global.fetch = vi.fn(() =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve({}) }));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete global.fetch;
+  });
+
+  it('clears the "sending…" status when reopening via Edit after a submit', async () => {
+    const guest = { code: 'DanKedmi', name: 'דן', fullName: 'דן קדמי', form: 'm' };
+    initRsvpForm(document, { guest, getLang: () => 'he', onCollapse: () => {} });
+
+    const form = document.getElementById('rsvpForm');
+    const msgEl = document.getElementById('formMsg');
+
+    // submit → shows "sending…", then collapses on success
+    form.dispatchEvent(new Event('submit'));
+    await Promise.resolve(); await Promise.resolve(); await Promise.resolve();
+
+    // form is collapsed and the status text is cleared
+    expect(form.style.display).toBe('none');
+    expect(msgEl.textContent).toBe('');
+
+    // reopen via Edit — status must still be empty (the bug: "sending…" lingered)
+    document.querySelector('.rsvp-edit').click();
+    expect(form.style.display).not.toBe('none');
+    expect(msgEl.textContent).toBe('');
   });
 });
