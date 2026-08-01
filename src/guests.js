@@ -25,6 +25,9 @@ const GUESTS = {
   MichaelYafe: { name: 'מיכאל', fullName: 'מיכאל יפה', phone: '0526462911', lang: 'he', form: 'm' },
   OmriAmit: { name: 'עומרי ומיה', fullName: 'Omri Amit', phone: '0545655099', lang: 'he', form: 'plural' },
 
+  // --- test entry ---
+  testMichal: { name: 'מיכלי', fullName: 'Michal (test)', phone: '0507155207', lang: 'he', form: 'f' },
+
   // --- Michal's work friends ---
   MorFilo: { name: 'מור ותומר', fullName: 'מור פילו', phone: '0506863116', lang: 'he', form: 'plural' },
   OrrBinyamini: { name: 'אור ורוני', fullName: 'אור בנימיני', phone: '0509349101', lang: 'he', form: 'plural' },
