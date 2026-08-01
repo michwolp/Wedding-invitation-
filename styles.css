@@ -27,7 +27,7 @@
   --body:'Hillel', 'Cormorant Garamond', serif;
 }
 /* per-language font overrides */
-html[lang="en"]{--display:'Cormorant Garamond', serif; --body:'Cormorant Garamond', serif}
+html[lang="en"]{--display:'Caveat', cursive; --body:'Cormorant Garamond', serif}
 html[lang="ru"]{--display:'Caveat', cursive; --body:'PT Serif', serif; font-size:1.22rem}
 
 *{margin:0;padding:0;box-sizing:border-box}
