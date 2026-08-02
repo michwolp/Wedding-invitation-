@@ -46,6 +46,11 @@ export function initSplash(document) {
     setTimeout(() => { if (document.body.contains(fly)) { finish(); fly.remove(); } }, 2600);
   }
 
-  if (document.readyState === 'complete') setTimeout(run, 150);
-  else addEventListener('load', () => setTimeout(run, 150));
+  // Reveal on load, but never let a slow/stalled asset keep the page hidden:
+  // fall back to revealing after 2.5s no matter what.
+  let started = false;
+  const start = () => { if (started) return; started = true; run(); };
+  if (document.readyState === 'complete') setTimeout(start, 150);
+  else addEventListener('load', () => setTimeout(start, 150));
+  setTimeout(start, 2500);
 }

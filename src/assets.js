@@ -35,7 +35,7 @@ const stylePath = f => S.dir + S.prefix + f + '.png';
 
 export const ASSETS = {
   base: '/assets/',
-  couple: 'couple-lineart.png',
+  couple: 'couple-lineart.webp',
   heroCorners: {
     left: stylePath(S.heroCorners.left),
     right: stylePath(S.heroCorners.right),

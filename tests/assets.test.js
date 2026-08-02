@@ -7,7 +7,7 @@ describe('ASSETS config', () => {
   });
 
   it('has a couple image path', () => {
-    expect(ASSETS.couple).toBe('couple-lineart.png');
+    expect(ASSETS.couple).toBe('couple-lineart.webp');
   });
 
   it('has hero corner images in the red/ directory', () => {
