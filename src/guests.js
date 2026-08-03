@@ -34,7 +34,7 @@ const GUESTS = {
   MorBenAmi: { name: 'מורוש', fullName: 'מור בן עמי', phone: '0549439445', lang: 'he', form: 'f' },
   ThaiHayut: { name: 'תאי', fullName: 'תאי חיות', phone: '0542604840', lang: 'he', form: 'f' },
 
-  // --- added from contact list (Russian-speaking family/friends) ---
+  // --- Michal's family (Russian-speaking) ---
   StasaGetelman: { name: 'Стыся и Сеня', fullName: 'Stasa Getelman', phone: '0505683789', lang: 'ru', form: 'plural' },
   OlgaAltshul: { name: 'Оля и Боря', fullName: 'Olga Altshul', phone: '0544951380', lang: 'ru', form: 'plural' },
   MarinaAgizin: { name: 'Марина', fullName: 'Marina Agizin', phone: '0528895280', lang: 'ru', form: 'f' },
@@ -57,7 +57,7 @@ const GUESTS = {
   JuliaSharay: { name: 'Юля и Сева', fullName: 'Julia Sharay', phone: '+79162212070', lang: 'ru', form: 'plural' },
   BochkoLena: { name: 'Алена и Боря', fullName: 'Lena Bochko', phone: '+19087397619', lang: 'ru', form: 'plural' },
 
-  // --- added from contact list (Hebrew-speaking family/friends) ---
+  // --- Michal's family (Hebrew-speaking) ---
   ValeriaRejabek: { name: 'לרה', fullName: 'Valeria Rejabek', phone: '0524548984', lang: 'he', form: 'f' },
   AlexRejabek: { name: 'סשה ושחר', fullName: 'Alex Rejabek', phone: '0509250099', lang: 'he', form: 'plural' },
   MichaelRejabek: { name: 'מיכאל וריקי', fullName: 'Michael Rejabek', phone: '0525582965', lang: 'he', form: 'plural' },
