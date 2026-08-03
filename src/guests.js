@@ -56,6 +56,7 @@ const GUESTS = {
   SimonIkirson: { name: 'Сема и Лена', fullName: 'Simon Ikirson', phone: '0535272556', lang: 'ru', form: 'plural' },
   JuliaSharay: { name: 'Юля и Сева', fullName: 'Julia Sharay', phone: '+79162212070', lang: 'ru', form: 'plural' },
   BochkoLena: { name: 'Алена и Боря', fullName: 'Lena Bochko', phone: '+19087397619', lang: 'ru', form: 'plural' },
+  AlexanderUnger: { name: 'Шулим', fullName: 'Alexander Unger', phone: '+4917684384736', lang: 'ru', form: 'm' },
 
   // --- Michal's family (Hebrew-speaking) ---
   ValeriaRejabek: { name: 'לרה', fullName: 'Valeria Rejabek', phone: '0524548984', lang: 'he', form: 'f' },
