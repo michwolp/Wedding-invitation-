@@ -1,28 +1,57 @@
 import { getMessage, getErrorMessage } from './i18n.js';
 import { parsePickup, encodePickup } from './pickup.js';
 
-// read the pickup radios/checkbox out of the form into a stored string
+// read the ride controls out of the form into a stored pickup string.
+// Flow: want? → from where? → direction (to/from/both) → return time (if "from").
 export function readPickup(document) {
+  const wantEl = document.querySelector('input[name=rideWant]:checked');
+  if (!wantEl || wantEl.value !== 'yes') return '';
   const cityEl = document.querySelector('input[name=pickupCity]:checked');
   const city = cityEl ? cityEl.value : '';
   if (!city) return '';
-  const to = !!document.getElementById('pickupTo')?.checked;
+  const dirEl = document.querySelector('input[name=rideDir]:checked');
+  const dir = dirEl ? dirEl.value : 'both'; // to | from | both
+  const to = dir === 'to' || dir === 'both';
+  const hasReturn = dir === 'from' || dir === 'both';
   const retEl = document.querySelector('input[name=pickupRet]:checked');
-  const ret = retEl ? retEl.value : '';
+  const ret = hasReturn ? (retEl ? retEl.value : 'after') : '';
   return encodePickup({ city, to, ret });
 }
 
-// reflect a stored pickup string back into the radios/checkbox + leg visibility
+// reflect a stored pickup string back into the ride controls + visibility.
 export function writePickup(document, value) {
   const { city, to, ret } = parsePickup(value);
-  const cityRadio = document.querySelector(`input[name=pickupCity][value="${city}"]`);
-  if (cityRadio) cityRadio.checked = true;
-  const toEl = document.getElementById('pickupTo');
-  if (toEl) toEl.checked = to;
-  const retRadio = document.querySelector(`input[name=pickupRet][value="${ret}"]`);
-  if (retRadio) retRadio.checked = true;
-  const legs = document.getElementById('pickupLegs');
-  if (legs) legs.classList.toggle('hidden', !city);
+  const want = city ? 'yes' : 'no';
+  const wantRadio = document.querySelector(`input[name=rideWant][value="${want}"]`);
+  if (wantRadio) wantRadio.checked = true;
+
+  if (city) {
+    const cityRadio = document.querySelector(`input[name=pickupCity][value="${city}"]`);
+    if (cityRadio) cityRadio.checked = true;
+    const hasReturn = !!ret;
+    const dir = to && hasReturn ? 'both' : to ? 'to' : 'from';
+    const dirRadio = document.querySelector(`input[name=rideDir][value="${dir}"]`);
+    if (dirRadio) dirRadio.checked = true;
+    if (hasReturn) {
+      const retRadio = document.querySelector(`input[name=pickupRet][value="${ret}"]`);
+      if (retRadio) retRadio.checked = true;
+    }
+  }
+  syncPickupVisibility(document);
+}
+
+// show/hide the ride detail sections based on current selections
+export function syncPickupVisibility(document) {
+  const wantEl = document.querySelector('input[name=rideWant]:checked');
+  const wantsRide = wantEl && wantEl.value === 'yes';
+  const details = document.getElementById('rideDetails');
+  if (details) details.classList.toggle('hidden', !wantsRide);
+
+  const dirEl = document.querySelector('input[name=rideDir]:checked');
+  const dir = dirEl ? dirEl.value : 'both';
+  const timing = document.getElementById('rideTiming');
+  // return-time only matters when the ride includes the trip back
+  if (timing) timing.classList.toggle('hidden', !(wantsRide && (dir === 'from' || dir === 'both')));
 }
 
 export function buildPayload(formData, guest, counts) {
@@ -74,12 +103,10 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
     });
   });
 
-  // show the "to the wedding / return" legs only once a city is chosen
-  document.querySelectorAll('input[name=pickupCity]').forEach(r => {
-    r.addEventListener('change', () => {
-      const legs = document.getElementById('pickupLegs');
-      if (legs) legs.classList.toggle('hidden', !r.value);
-    });
+  // reveal ride details when "yes", and the return-time only when the ride
+  // includes the trip back
+  document.querySelectorAll('input[name=rideWant], input[name=rideDir]').forEach(r => {
+    r.addEventListener('change', () => syncPickupVisibility(document));
   });
 
   function renderThanks() {

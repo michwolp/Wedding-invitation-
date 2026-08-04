@@ -119,42 +119,62 @@ describe('buildPayload', () => {
 describe('readPickup / writePickup (DOM)', () => {
   function mountPickup() {
     document.body.innerHTML = `
-      <input type="radio" name="pickupCity" value="" checked>
-      <input type="radio" name="pickupCity" value="tlv">
-      <input type="radio" name="pickupCity" value="rhv">
-      <div id="pickupLegs" class="hidden">
-        <input type="checkbox" id="pickupTo">
-        <input type="radio" name="pickupRet" value="" checked>
-        <input type="radio" name="pickupRet" value="noafter">
-        <input type="radio" name="pickupRet" value="after">
+      <input type="radio" name="rideWant" value="no" checked>
+      <input type="radio" name="rideWant" value="yes">
+      <div id="rideDetails" class="hidden">
+        <input type="radio" name="pickupCity" value="tlv" checked>
+        <input type="radio" name="pickupCity" value="rhv">
+        <input type="radio" name="rideDir" value="to">
+        <input type="radio" name="rideDir" value="from">
+        <input type="radio" name="rideDir" value="both" checked>
+        <div id="rideTiming">
+          <input type="radio" name="pickupRet" value="noafter">
+          <input type="radio" name="pickupRet" value="after" checked>
+        </div>
       </div>`;
   }
 
-  it('reads empty when no city selected', () => {
+  it('reads empty when "no ride" is selected', () => {
     mountPickup();
     expect(readPickup(document)).toBe('');
   });
 
-  it('round-trips a legacy value and reveals the legs', () => {
+  it('round-trips a legacy return-only value (back only)', () => {
     mountPickup();
     writePickup(document, 'tlv_after');
+    expect(document.querySelector('input[name=rideWant]:checked').value).toBe('yes');
     expect(document.querySelector('input[name=pickupCity]:checked').value).toBe('tlv');
-    expect(document.getElementById('pickupLegs').classList.contains('hidden')).toBe(false);
+    expect(document.querySelector('input[name=rideDir]:checked').value).toBe('from');
+    expect(document.getElementById('rideDetails').classList.contains('hidden')).toBe(false);
     expect(readPickup(document)).toBe('tlv_after');
   });
 
-  it('round-trips a combined to+return value', () => {
+  it('round-trips there-and-back with a return time', () => {
     mountPickup();
     writePickup(document, 'rhv_to,rhv_after');
-    expect(document.getElementById('pickupTo').checked).toBe(true);
+    expect(document.querySelector('input[name=rideDir]:checked').value).toBe('both');
+    expect(document.querySelector('input[name=pickupRet]:checked').value).toBe('after');
     expect(readPickup(document)).toBe('rhv_to,rhv_after');
   });
 
-  it('writing empty hides the legs again', () => {
+  it('round-trips there-only (no return time stored)', () => {
+    mountPickup();
+    writePickup(document, 'tlv_to');
+    expect(document.querySelector('input[name=rideDir]:checked').value).toBe('to');
+    expect(readPickup(document)).toBe('tlv_to');
+  });
+
+  it('hides the return-time when direction is "there only"', () => {
+    mountPickup();
+    writePickup(document, 'tlv_to');
+    expect(document.getElementById('rideTiming').classList.contains('hidden')).toBe(true);
+  });
+
+  it('writing empty hides the details again', () => {
     mountPickup();
     writePickup(document, 'tlv_after');
     writePickup(document, '');
-    expect(document.getElementById('pickupLegs').classList.contains('hidden')).toBe(true);
+    expect(document.getElementById('rideDetails').classList.contains('hidden')).toBe(true);
     expect(readPickup(document)).toBe('');
   });
 });
@@ -169,14 +189,18 @@ describe('initRsvpForm — edit flow', () => {
         <input type="radio" name="attending" value="no">
         <div id="whenComing"></div>
         <b id="adults">1</b><b id="children">0</b>
-        <input type="radio" name="pickupCity" value="" checked>
-        <input type="radio" name="pickupCity" value="tlv">
-        <input type="radio" name="pickupCity" value="rhv">
-        <div id="pickupLegs" class="hidden">
-          <input type="checkbox" id="pickupTo">
-          <input type="radio" name="pickupRet" value="" checked>
-          <input type="radio" name="pickupRet" value="noafter">
-          <input type="radio" name="pickupRet" value="after">
+        <input type="radio" name="rideWant" value="no" checked>
+        <input type="radio" name="rideWant" value="yes">
+        <div id="rideDetails" class="hidden">
+          <input type="radio" name="pickupCity" value="tlv" checked>
+          <input type="radio" name="pickupCity" value="rhv">
+          <input type="radio" name="rideDir" value="to">
+          <input type="radio" name="rideDir" value="from">
+          <input type="radio" name="rideDir" value="both" checked>
+          <div id="rideTiming">
+            <input type="radio" name="pickupRet" value="noafter">
+            <input type="radio" name="pickupRet" value="after" checked>
+          </div>
         </div>
         <textarea id="notes"></textarea>
         <button type="submit"></button>

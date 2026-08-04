@@ -300,12 +300,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .choice input:checked + span{background:var(--lime);border-color:var(--lime);color:var(--forest)}
 .choice input:focus-visible + span{outline:3px solid var(--marigold);outline-offset:2px}
 .pickup-q{display:block;font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;color:var(--aqua)}
-.pickup-legs{margin-top:10px}
-.pickup-legs.hidden{display:none}
+.pickup-details{margin-top:10px}
+.pickup-details.hidden,.pickup-timing.hidden{display:none}
 .pickup-sub{font-weight:600;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua);margin:10px 0 5px}
-.pickup-check{display:flex;align-items:center;gap:9px;font-weight:600;font-size:.85rem;letter-spacing:normal;text-transform:none;color:var(--cream);cursor:none}
-@media(pointer:coarse){.pickup-check{cursor:auto}}
-.pickup-check input{width:18px;height:18px;flex:0 0 auto;accent-color:var(--lime);cursor:none}
 .steppers{display:flex;gap:14px}
 .stepper{flex:1;text-align:center}
 .stepctl{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:3px}
