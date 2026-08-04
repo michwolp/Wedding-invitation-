@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'server not configured' });
   }
 
-  const url = `${process.env.SUPABASE_URL}/rest/v1/rsvps?guest_id=eq.${encodeURIComponent(guestId)}&select=attending,adults,children,pickup`;
+  const url = `${process.env.SUPABASE_URL}/rest/v1/rsvps?guest_id=eq.${encodeURIComponent(guestId)}&select=attending,adults,children,pickup,notes`;
 
   try {
     const resp = await fetch(url, {
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const rows = await resp.json();
     if (rows.length > 0) {
       const r = rows[0];
-      return res.status(200).json({ exists: true, attending: r.attending, adults: r.adults, children: r.children, pickup: r.pickup });
+      return res.status(200).json({ exists: true, attending: r.attending, adults: r.adults, children: r.children, pickup: r.pickup, notes: r.notes });
     }
     return res.status(200).json({ exists: false });
   } catch (err) {

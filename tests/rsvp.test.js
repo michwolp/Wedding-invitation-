@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { buildPayload, validateForm, initRsvpForm } from '../src/rsvp.js';
+import { buildPayload, validateForm, initRsvpForm, readPickup, writePickup } from '../src/rsvp.js';
 
 describe('validateForm', () => {
   it('returns null for valid input', () => {
@@ -116,6 +116,49 @@ describe('buildPayload', () => {
   });
 });
 
+describe('readPickup / writePickup (DOM)', () => {
+  function mountPickup() {
+    document.body.innerHTML = `
+      <input type="radio" name="pickupCity" value="" checked>
+      <input type="radio" name="pickupCity" value="tlv">
+      <input type="radio" name="pickupCity" value="rhv">
+      <div id="pickupLegs" class="hidden">
+        <input type="checkbox" id="pickupTo">
+        <input type="radio" name="pickupRet" value="" checked>
+        <input type="radio" name="pickupRet" value="noafter">
+        <input type="radio" name="pickupRet" value="after">
+      </div>`;
+  }
+
+  it('reads empty when no city selected', () => {
+    mountPickup();
+    expect(readPickup(document)).toBe('');
+  });
+
+  it('round-trips a legacy value and reveals the legs', () => {
+    mountPickup();
+    writePickup(document, 'tlv_after');
+    expect(document.querySelector('input[name=pickupCity]:checked').value).toBe('tlv');
+    expect(document.getElementById('pickupLegs').classList.contains('hidden')).toBe(false);
+    expect(readPickup(document)).toBe('tlv_after');
+  });
+
+  it('round-trips a combined to+return value', () => {
+    mountPickup();
+    writePickup(document, 'rhv_to,rhv_after');
+    expect(document.getElementById('pickupTo').checked).toBe(true);
+    expect(readPickup(document)).toBe('rhv_to,rhv_after');
+  });
+
+  it('writing empty hides the legs again', () => {
+    mountPickup();
+    writePickup(document, 'tlv_after');
+    writePickup(document, '');
+    expect(document.getElementById('pickupLegs').classList.contains('hidden')).toBe(true);
+    expect(readPickup(document)).toBe('');
+  });
+});
+
 describe('initRsvpForm — edit flow', () => {
   function mountForm() {
     document.body.innerHTML = `
@@ -126,7 +169,15 @@ describe('initRsvpForm — edit flow', () => {
         <input type="radio" name="attending" value="no">
         <div id="whenComing"></div>
         <b id="adults">1</b><b id="children">0</b>
-        <select id="pickup"><option value=""></option></select>
+        <input type="radio" name="pickupCity" value="" checked>
+        <input type="radio" name="pickupCity" value="tlv">
+        <input type="radio" name="pickupCity" value="rhv">
+        <div id="pickupLegs" class="hidden">
+          <input type="checkbox" id="pickupTo">
+          <input type="radio" name="pickupRet" value="" checked>
+          <input type="radio" name="pickupRet" value="noafter">
+          <input type="radio" name="pickupRet" value="after">
+        </div>
         <textarea id="notes"></textarea>
         <button type="submit"></button>
         <p id="formMsg"></p>

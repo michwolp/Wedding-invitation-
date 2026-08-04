@@ -1,4 +1,29 @@
 import { getMessage, getErrorMessage } from './i18n.js';
+import { parsePickup, encodePickup } from './pickup.js';
+
+// read the pickup radios/checkbox out of the form into a stored string
+export function readPickup(document) {
+  const cityEl = document.querySelector('input[name=pickupCity]:checked');
+  const city = cityEl ? cityEl.value : '';
+  if (!city) return '';
+  const to = !!document.getElementById('pickupTo')?.checked;
+  const retEl = document.querySelector('input[name=pickupRet]:checked');
+  const ret = retEl ? retEl.value : '';
+  return encodePickup({ city, to, ret });
+}
+
+// reflect a stored pickup string back into the radios/checkbox + leg visibility
+export function writePickup(document, value) {
+  const { city, to, ret } = parsePickup(value);
+  const cityRadio = document.querySelector(`input[name=pickupCity][value="${city}"]`);
+  if (cityRadio) cityRadio.checked = true;
+  const toEl = document.getElementById('pickupTo');
+  if (toEl) toEl.checked = to;
+  const retRadio = document.querySelector(`input[name=pickupRet][value="${ret}"]`);
+  if (retRadio) retRadio.checked = true;
+  const legs = document.getElementById('pickupLegs');
+  if (legs) legs.classList.toggle('hidden', !city);
+}
 
 export function buildPayload(formData, guest, counts) {
   const { name, phone, attending, pickup, notes } = formData;
@@ -49,6 +74,14 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
     });
   });
 
+  // show the "to the wedding / return" legs only once a city is chosen
+  document.querySelectorAll('input[name=pickupCity]').forEach(r => {
+    r.addEventListener('change', () => {
+      const legs = document.getElementById('pickupLegs');
+      if (legs) legs.classList.toggle('hidden', !r.value);
+    });
+  });
+
   function renderThanks() {
     const el = document.querySelector('.rsvp-thanks');
     if (!el || !rsvpData) return;
@@ -75,8 +108,9 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
     if (radio) radio.checked = true;
     if (data.adults != null) { counts.adults = data.adults; document.getElementById('adults').textContent = data.adults; }
     if (data.children != null) { counts.children = data.children; document.getElementById('children').textContent = data.children; }
-    const pickup = document.getElementById('pickup');
-    if (pickup && data.pickup != null) pickup.value = data.pickup;
+    if (data.pickup != null) writePickup(document, data.pickup);
+    const notes = document.getElementById('notes');
+    if (notes && data.notes != null) notes.value = data.notes;
     const wc = document.getElementById('whenComing');
     if (wc) wc.classList.toggle('hidden', data.attending === 'no');
   }
@@ -96,7 +130,7 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
 
     const attending = document.querySelector('input[name=attending]:checked').value;
     const payload = buildPayload(
-      { name, phone, attending, pickup: document.getElementById('pickup').value, notes: document.getElementById('notes').value.trim() },
+      { name, phone, attending, pickup: readPickup(document), notes: document.getElementById('notes').value.trim() },
       guest,
       counts,
     );
@@ -118,7 +152,7 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
         try { code = (await res.json()).error || ''; } catch (_) {}
         throw new Error(code);
       }
-      collapse({ attending, adults: payload.adults, children: payload.children, pickup: payload.pickup });
+      collapse({ attending, adults: payload.adults, children: payload.children, pickup: payload.pickup, notes: payload.notes });
     } catch (err) {
       msgEl.textContent = getErrorMessage(lang, err?.message || '');
       msgEl.className = 'formmsg err';

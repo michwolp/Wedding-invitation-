@@ -57,12 +57,22 @@ describe('API: /api/rsvp-status', () => {
     it('returns exists:true with attending data', async () => {
       fetchSpy.mockResolvedValue({
         ok: true,
-        json: async () => [{ attending: 'yes', adults: 2, children: 1, pickup: 'tlv_after' }],
+        json: async () => [{ attending: 'yes', adults: 2, children: 1, pickup: 'tlv_after', notes: 'Vegetarian' }],
       });
       const res = mockRes();
       await handler(mockReq('GET', { guest_id: 'OfirLevin' }), res);
       expect(res.statusCode).toBe(200);
-      expect(res.body).toEqual({ exists: true, attending: 'yes', adults: 2, children: 1, pickup: 'tlv_after' });
+      expect(res.body).toEqual({ exists: true, attending: 'yes', adults: 2, children: 1, pickup: 'tlv_after', notes: 'Vegetarian' });
+    });
+
+    it('returns the saved notes so an edit does not wipe them', async () => {
+      fetchSpy.mockResolvedValue({
+        ok: true,
+        json: async () => [{ attending: 'yes', adults: 2, children: 0, pickup: '', notes: 'אבונדה לקקה זה המשפחה שלי' }],
+      });
+      const res = mockRes();
+      await handler(mockReq('GET', { guest_id: 'RonDeitch' }), res);
+      expect(res.body.notes).toBe('אבונדה לקקה זה המשפחה שלי');
     });
 
     it('returns attending:no when guest declined', async () => {
@@ -99,7 +109,7 @@ describe('API: /api/rsvp-status', () => {
 
       const [url, opts] = fetchSpy.mock.calls[0];
       expect(url).toContain('guest_id=eq.TestGuest');
-      expect(url).toContain('select=attending,adults,children,pickup');
+      expect(url).toContain('select=attending,adults,children,pickup,notes');
       expect(opts.headers.apikey).toBe('test-key-123');
       expect(opts.headers.Authorization).toBe('Bearer test-key-123');
     });

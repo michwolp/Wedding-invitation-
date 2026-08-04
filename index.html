@@ -151,15 +151,22 @@
             </div>
           </div>
         </div>
-        <div class="field">
-          <label for="pickup">מגיעים בהסעה?</label>
-          <select id="pickup" name="pickup">
-            <option value="">מגיעים עצמאית</option>
-            <option value="tlv_after">הסעה מתל אביב — נשארים לאפטר</option>
-            <option value="tlv_noafter">הסעה מתל אביב — חותכים לפני האפטר</option>
-            <option value="rhv_after">הסעה מרחובות — נשארים לאפטר</option>
-            <option value="rhv_noafter">הסעה מרחובות — חותכים לפני האפטר</option>
-          </select>
+        <div class="field pickup-block">
+          <label class="pickup-q">איזו הסעה תרצו?</label>
+          <div class="choices pickup-city">
+            <label class="choice"><input type="radio" name="pickupCity" value="" checked><span data-pk="city-none">אין צורך</span></label>
+            <label class="choice"><input type="radio" name="pickupCity" value="tlv"><span data-pk="city-tlv">מתל אביב</span></label>
+            <label class="choice"><input type="radio" name="pickupCity" value="rhv"><span data-pk="city-rhv">מרחובות</span></label>
+          </div>
+          <div class="pickup-legs hidden" id="pickupLegs">
+            <label class="pickup-check"><input type="checkbox" id="pickupTo" name="pickupTo"><span data-pk="leg-to">צריכים הסעה לחתונה (הלוך)</span></label>
+            <p class="pickup-sub" data-pk="ret-q">והחזרה?</p>
+            <div class="choices pickup-return">
+              <label class="choice"><input type="radio" name="pickupRet" value="" checked><span data-pk="ret-none">בלי חזרה</span></label>
+              <label class="choice"><input type="radio" name="pickupRet" value="noafter"><span data-pk="ret-before">לפני האפטר</span></label>
+              <label class="choice"><input type="radio" name="pickupRet" value="after"><span data-pk="ret-after">בסוף הערב</span></label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="field">

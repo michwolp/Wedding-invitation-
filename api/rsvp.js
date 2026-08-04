@@ -1,6 +1,8 @@
 // /api/rsvp — Vercel serverless function with verbose logging.
 // Every request logs its journey; read them in Vercel → your project → Logs.
 
+import { sanitizePickup } from '../src/pickup.js';
+
 export default async function handler(req, res) {
   const t0 = Date.now();
   console.log('[rsvp] --- request start ---');
@@ -65,7 +67,7 @@ export default async function handler(req, res) {
     attending,
     adults: clampInt(adults, 0, 15),
     children: clampInt(children, 0, 15),
-    pickup: ['tlv_after', 'tlv_noafter', 'rhv_after', 'rhv_noafter', ''].includes(pickup) ? pickup : '',
+    pickup: sanitizePickup(pickup),
     notes: (notes || '').toString().slice(0, 500),
     updated_at: new Date().toISOString(),
   };
