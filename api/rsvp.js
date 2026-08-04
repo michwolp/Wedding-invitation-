@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     attending,
     adults: clampInt(adults, 0, 15),
     children: clampInt(children, 0, 15),
-    pickup: ['tlv_after', 'tlv_noafter', ''].includes(pickup) ? pickup : '',
+    pickup: ['tlv_after', 'tlv_noafter', 'rhv_after', 'rhv_noafter', ''].includes(pickup) ? pickup : '',
     notes: (notes || '').toString().slice(0, 500),
     updated_at: new Date().toISOString(),
   };

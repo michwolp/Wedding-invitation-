@@ -269,5 +269,17 @@ describe('API: /api/rsvp', () => {
       const sent = JSON.parse(opts.body);
       expect(sent.pickup).toBe('');
     });
+
+    it.each(['tlv_after', 'tlv_noafter', 'rhv_after', 'rhv_noafter'])(
+      'accepts valid pickup value %s',
+      async pickup => {
+        fetchSpy.mockResolvedValue({ ok: true, status: 201 });
+        const res = mockRes();
+        await handler(mockReq('POST', { ...VALID_BODY, pickup }), res);
+        const [, opts] = fetchSpy.mock.calls[0];
+        const sent = JSON.parse(opts.body);
+        expect(sent.pickup).toBe(pickup);
+      },
+    );
   });
 });
