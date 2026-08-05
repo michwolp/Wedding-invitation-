@@ -50,6 +50,7 @@ const TEST_GROUP = [
 // ---------------------------------------------------------------------------
 const MESSAGE_TYPES = {
   invite: {
+    label: 'invitation 1', // shown in the SEND-LOG tick, so message 2+ are distinguishable
     log: 'SEND-LOG.md',
     // Which approved template + its language code, per guest.
     // NOTE: the `lang` here must match the LANGUAGE set on the template in Meta.
@@ -124,13 +125,14 @@ function sentCodesFromLog(logPath) {
 }
 
 // Tick a guest's checkbox in SEND-LOG.md, preserving the existing line text.
-function tickLog(logPath, code, dateStr) {
+// Stamps which message went out (e.g. "invitation 1") so future sends are distinct.
+function tickLog(logPath, code, dateStr, label) {
   if (!existsSync(logPath)) return;
   const lines = readFileSync(logPath, 'utf8').split('\n');
   let changed = false;
   const out = lines.map((line) => {
     const m = line.match(/^- \[ \]\s+(\w+)\s+—\s+(.*)$/);
-    if (m && m[1] === code) { changed = true; return `- [x] ${code} — ${m[2]} — sent ${dateStr}`; }
+    if (m && m[1] === code) { changed = true; return `- [x] ${code} — ${m[2]} — ${label} sent ${dateStr}`; }
     return line;
   });
   if (changed) writeFileSync(logPath, out.join('\n'));
@@ -158,6 +160,26 @@ async function sendTemplate(to, tmpl, components) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------------------------------------------------------------------------
+// --status : print what has been sent so far for this message type, from the ledger.
+function printStatus(logPath) {
+  const ledger = loadLedger();
+  const prefix = `${TYPE}:`;
+  const rows = Object.entries(ledger.sent).filter(([k]) => k.startsWith(prefix));
+  const ledgerCodes = new Set(rows.map(([k]) => k.slice(prefix.length)));
+  console.log(`\nSent ledger for "${TYPE}" — ${rows.length} message(s) with tracked IDs:\n`);
+  for (const [k, v] of rows.sort((a, b) => (a[1].at || '').localeCompare(b[1].at || ''))) {
+    const code = k.slice(prefix.length);
+    console.log(`  ✓ ${code.padEnd(18)} +${v.phone}  ${v.template.padEnd(22)} ${v.at}  ${v.wamid || ''}`);
+  }
+  // Reconcile with manually-ticked SEND-LOG entries (e.g. sends before this script existed).
+  const logCodes = sentCodesFromLog(logPath);
+  const logOnly = [...logCodes].filter((c) => !ledgerCodes.has(c));
+  if (logOnly.length) console.log(`\n  Also marked sent in SEND-LOG (no tracked ID): ${logOnly.join(', ')}`);
+  const allSent = new Set([...ledgerCodes, ...logCodes]);
+  const total = Object.keys(GUESTS).filter((c) => c !== 'testMichal').length;
+  console.log(`\n${allSent.size} sent · ${total - allSent.size} remaining (of ${total} sendable guests)\n`);
+}
+
 async function main() {
   const type = MESSAGE_TYPES[TYPE];
   if (!type) {
@@ -165,6 +187,7 @@ async function main() {
     process.exit(1);
   }
   const logPath = join(ROOT, type.log);
+  if (flags.status) { printStatus(logPath); return; }
 
   // Resolve targets.
   let codes;
@@ -225,7 +248,7 @@ async function main() {
       const wamid = await sendTemplate(p.to, p.tmpl, p.components);
       ledger.sent[`${TYPE}:${p.code}`] = { phone: p.to, template: p.tmpl.name, wamid, at: new Date().toISOString() };
       saveLedger(ledger);
-      tickLog(logPath, p.code, todayStr());
+      tickLog(logPath, p.code, todayStr(), type.label);
       ok++;
       console.log(`  ✓ ${p.code}  (${wamid || 'no id'})`);
     } catch (err) {
@@ -237,7 +260,11 @@ async function main() {
     }
     if (i < toSend.length - 1) await sleep(THROTTLE_MS);
   }
-  console.log(`\nDone. Sent ${ok} message(s).`);
+  console.log(`\n✅ Done. Sent ${ok}/${toSend.length} message(s) — all accepted by WhatsApp.`);
+  console.log(`Next-step visibility:`);
+  console.log(`  • Delivered / read rates → WhatsApp Manager → Message templates (per template)`);
+  console.log(`  • Actual RSVPs → GET https://dvichal-wedding.com/api/rsvp-summary?key=<SUMMARY_KEY>`);
+  console.log(`  • This run's message IDs → node scripts/send.js --type=${TYPE} --status`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

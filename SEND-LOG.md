@@ -1,6 +1,6 @@
 # WhatsApp Invite Send Log
 
-Track who's been sent the invite. Check the box + add the date when sent.
+Track who's been sent each message. `scripts/send.js` ticks the box automatically and stamps which message went out (e.g. "invitation 1"), so later broadcasts (invitation 2, directions, etc.) stay distinguishable on the same line.
 Grouped by the template each guest should receive. Phones shown in **E.164** (what the WhatsApp API needs).
 
 **Templates:** Hebrew needs m / f / plural (gendered grammar). Russian & English are gender-neutral, so one template each.
@@ -127,7 +127,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] SigalSasson — סיגל ואייל (+972547949355)
 - [ ] ItaySasson — איתי ועמיר (+972535301805)
 - [ ] OmriAmit — עומרי ומיה (+972545655099)
-- [x] MorFilo — מור ותומר (+972506863116) — sent 2026-08-01
+- [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
 - [ ] OrrBinyamini — אור ורוני (+972509349101)
 - [ ] AlexRejabek — סשה ושחר (+972509250099)
 - [ ] MichaelRejabek — מיכאל וריקי (+972525582965)
