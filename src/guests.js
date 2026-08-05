@@ -134,7 +134,7 @@ const GUESTS = {
   TamirTzarfati: { name: 'צרפתי וכינר', fullName: 'Tamir Tzarfati', phone: '0527799833', lang: 'he', form: 'plural' },
   RoiDuani: { name: 'דואני', fullName: 'Roi Duani', phone: '0542205228', lang: 'he', form: 'm' },
   AmirTuboul: { name: 'אמיר ובראל', fullName: 'Amir Tuboul', phone: '0524799997', lang: 'he', form: 'plural' },
-  ItamarShahar: { name: 'איתמר', fullName: 'Itamar Shahar', phone: '0542557288', lang: 'he', form: 'm' },
+  ItamarShahar: { name: 'איתמר והדס', fullName: 'Itamar Shahar', phone: '0542557288', lang: 'he', form: 'plural' },
   ItamarRosenshine: { name: 'איתמר', fullName: 'Itamar Rosenshine', phone: '0507722032', lang: 'he', form: 'm' },
   StavBenShahar: { name: 'סטיב', fullName: 'Stav Ben Shahar', phone: '0528023652', lang: 'he', form: 'm' },
   IdanTopper: { name: 'טופר', fullName: 'Idan Topper', phone: '0523733779', lang: 'he', form: 'm' },

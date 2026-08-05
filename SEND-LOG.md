@@ -10,7 +10,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] NikolAndJulian — Nikol & Julian (+19296225141)
 - [ ] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752)
 
-### wedding_invite_m (68)
+### wedding_invite_m (67)
 - [ ] DvirSasson — דביר (+972502566643)
 - [ ] DanKedmi — דן (+972509878804)
 - [ ] RonWolpert — רון המתוק (+972526998033)
@@ -48,7 +48,6 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] GalBergman — ברגי (+972544227569)
 - [ ] OrBezalel — אור (+972525393002)
 - [ ] RoiDuani — דואני (+972542205228)
-- [ ] ItamarShahar — איתמר (+972542557288)
 - [ ] ItamarRosenshine — איתמר (+972507722032)
 - [ ] StavBenShahar — סטיב (+972528023652)
 - [ ] IdanTopper — טופר (+972523733779)
@@ -118,7 +117,8 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] MayAmazon — מאי (+972545422005)
 - [ ] MayaKedmi — מאיה (+972509888803)
 
-### wedding_invite_plural (42)
+### wedding_invite_plural (43)
+- [ ] ItamarShahar — איתמר והדס (+972542557288)
 - [ ] LiorMandelboim — ליאורי ויונתן (+972546213030)
 - [ ] RotemAgmon — רתמי וגיא (+972544317502)
 - [ ] RonDeitch — רון והדרצוק (+972547911403)
