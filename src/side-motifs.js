@@ -8,13 +8,32 @@ export function initSideMotifs(document, assetsConfig) {
   let spec = null;
 
   function buildSpec() {
-    const seq = CFG.images.slice();
-    for (let i = seq.length - 1; i > 0; i--) {
+    const pool = CFG.images.slice();
+    for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(rand(0, i + 1));
-      [seq[i], seq[j]] = [seq[j], seq[i]];
+      [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    return Array.from({ length: 120 }, (_, k) => ({
-      file: seq[k % seq.length],
+
+    // Lay out 120 slots without repeating an image near itself. A slot's
+    // visual neighbours are its row partner (prev slot) and the two slots
+    // directly above (same + opposite column, i.e. 2 back), so we forbid
+    // reusing any file placed in the last WINDOW slots. Falls back to the
+    // least-recently-used file if the pool is small.
+    const WINDOW = 3;
+    const files = [];
+    let cursor = 0;
+    for (let k = 0; k < 120; k++) {
+      const recent = files.slice(Math.max(0, k - WINDOW));
+      let chosen = null;
+      for (let step = 0; step < pool.length; step++) {
+        const cand = pool[(cursor + step) % pool.length];
+        if (!recent.includes(cand)) { chosen = cand; cursor = (cursor + step + 1) % pool.length; break; }
+      }
+      files.push(chosen ?? pool[cursor++ % pool.length]);
+    }
+
+    return files.map((file, k) => ({
+      file,
       side: k % 2 ? 'right' : 'left',
       gap: rand(0.8, 1.2),
       jitter: rand(-40, 40),
