@@ -104,6 +104,15 @@ describe('buildPayload', () => {
     expect(payload.guest_id).toBe('RonnyAndGuy');
   });
 
+  it('forces adults>=1 when attending yes but count is 0 (stale "no" record)', () => {
+    const payload = buildPayload(
+      { name: 'X', phone: '0501234567', attending: 'yes', pickup: '', notes: '' },
+      guest,
+      { adults: 0, children: 0 },
+    );
+    expect(payload.adults).toBe(1);
+  });
+
   it('sends adults=1 for singular guest using default counts', () => {
     const singularGuest = { code: 'DanKedmi', name: 'דן', fullName: 'דן קדמי', form: 'm' };
     const singularCounts = { adults: 1, children: 0 };
@@ -221,6 +230,35 @@ describe('initRsvpForm — edit flow', () => {
   afterEach(() => {
     vi.restoreAllMocks();
     delete global.fetch;
+  });
+
+  it('shows adults=1 when editing a stale "yes" record that stored 0 adults', async () => {
+    const guest = { code: 'DanKedmi', name: 'דן', fullName: 'דן קדמי', form: 'm' };
+    // status fetch returns an existing yes record with the bad 0 count
+    global.fetch = vi.fn(() =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve({ exists: true, attending: 'yes', adults: 0, children: 0, pickup: '', notes: '' }) }));
+
+    initRsvpForm(document, { guest, getLang: () => 'he', onCollapse: () => {} });
+    await Promise.resolve(); await Promise.resolve(); await Promise.resolve();
+
+    // reopen via Edit — the prefill must clamp the display up to 1
+    document.querySelector('.rsvp-edit').click();
+    expect(document.getElementById('adults').textContent).toBe('1');
+  });
+
+  it('restores adults to default when switching a fresh "no" back to "yes"', () => {
+    const guest = { code: 'DanKedmi', name: 'דן', fullName: 'דן קדמי', form: 'm' };
+    const api = initRsvpForm(document, { guest, getLang: () => 'he', onCollapse: () => {} });
+
+    // force the in-memory count to 0 the way a prefilled "no" record would
+    api.counts.adults = 0;
+    document.getElementById('adults').textContent = '0';
+
+    const yesRadio = document.querySelector('input[name=attending][value="yes"]');
+    yesRadio.checked = true;
+    yesRadio.dispatchEvent(new Event('change'));
+
+    expect(document.getElementById('adults').textContent).toBe('1');
   });
 
   it('clears the "sending…" status when reopening via Edit after a submit', async () => {

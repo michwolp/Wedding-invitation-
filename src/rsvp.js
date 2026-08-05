@@ -65,7 +65,8 @@ export function buildPayload(formData, guest, counts) {
     display_name: displayName,
     phone,
     attending,
-    adults: attending === 'yes' ? counts.adults : 0,
+    // a "yes" always means at least one person — never save 0 adults for an attendee
+    adults: attending === 'yes' ? Math.max(1, counts.adults) : 0,
     children: attending === 'yes' ? counts.children : 0,
     pickup: attending === 'yes' ? pickup : '',
     notes,
@@ -100,6 +101,12 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
   document.querySelectorAll('input[name=attending]').forEach(r => {
     r.addEventListener('change', () => {
       document.getElementById('whenComing').classList.toggle('hidden', r.value === 'no' && r.checked);
+      // switching to "yes" must mean at least one adult — a prior "no" leaves the
+      // count at 0, so restore the default when they change their mind
+      if (r.value === 'yes' && r.checked && counts.adults < 1) {
+        counts.adults = defaultAdults;
+        document.getElementById('adults').textContent = defaultAdults;
+      }
     });
   });
 
@@ -133,7 +140,11 @@ export function initRsvpForm(document, { guest, getLang, onCollapse }) {
     if (!data) return;
     const radio = document.querySelector(`input[name=attending][value="${data.attending}"]`);
     if (radio) radio.checked = true;
-    if (data.adults != null) { counts.adults = data.adults; document.getElementById('adults').textContent = data.adults; }
+    // a "yes" record must show at least one adult, even if a stale row stored 0
+    if (data.adults != null) {
+      counts.adults = data.attending === 'yes' ? Math.max(1, data.adults) : data.adults;
+      document.getElementById('adults').textContent = counts.adults;
+    }
     if (data.children != null) { counts.children = data.children; document.getElementById('children').textContent = data.children; }
     if (data.pickup != null) writePickup(document, data.pickup);
     const notes = document.getElementById('notes');
