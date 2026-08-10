@@ -83,7 +83,7 @@ main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 40
   border:1.5px solid var(--cream);border-radius:99px;
 }
 .lang-seg button{
-  font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:600;font-size:.85rem;cursor:none;
+  font-family:var(--body);font-weight:400;font-size:.85rem;cursor:none; /* match the page body; Hillel (he) ships only 400 */
   padding:7px 14px;border:none;background:transparent;color:var(--cream);
 }
 @media(pointer:coarse){.lang-seg button{cursor:auto}}
@@ -257,11 +257,13 @@ section{
 /* buttons */
 .btnrow{display:flex;justify-content:center;gap:14px;margin-top:18px;flex-wrap:wrap}
 .btn{
-  font-family:'Frank Ruhl Libre','Cormorant Garamond',serif;font-weight:500;font-size:.85rem;
+  font-family:var(--body);font-weight:400;font-size:.85rem; /* match the page body; Hillel (he) ships only 400 → no faux-bold */
   padding:10px 20px;background:transparent;color:var(--cream);text-decoration:none;
   border:1.5px solid var(--cream);border-radius:99px;
   transition:background .22s,color .22s,transform .22s;display:inline-block;
 }
+html[lang="en"] .btn,html[lang="ru"] .btn,
+html[lang="en"] .lang-seg button,html[lang="ru"] .lang-seg button{font-weight:600}
 .btn::after{content:" ✦"}
 .rsvp-edit::after{content:none}
 .btn:hover{background:var(--cream);color:var(--forest);transform:translateY(-3px)}
