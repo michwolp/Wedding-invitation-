@@ -5,11 +5,11 @@ describe('resolveGuest', () => {
   it('resolves a known guest code', () => {
     const result = resolveGuest('?g=OfirLevin');
     expect(result.code).toBe('OfirLevin');
-    expect(result.name).toBe('אופיר');
+    expect(result.name).toBe('אופיר ויונתן');
     expect(result.fullName).toBe('אופיר לוין');
     expect(result.phone).toBe('0546644905');
     expect(result.lang).toBe('he');
-    expect(result.form).toBe('f');
+    expect(result.form).toBe('plural');
   });
 
   it('uses fullName from guest when present', () => {
@@ -22,7 +22,7 @@ describe('resolveGuest', () => {
     const originalGuest = { ...GUESTS.OfirLevin };
     delete GUESTS.OfirLevin.fullName;
     const result = resolveGuest('?g=OfirLevin');
-    expect(result.fullName).toBe('אופיר');
+    expect(result.fullName).toBe('אופיר ויונתן');
     GUESTS.OfirLevin.fullName = originalGuest.fullName;
   });
 
