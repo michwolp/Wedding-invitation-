@@ -217,7 +217,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] ShellyReizis — שלי ונויה (+972527027829)
 
 ### wedding_invite_ru (25)
-- [ ] ViktoriaSharay — Мамик (+972504247004)
+- [ ] ViktoriaSharay — Мамик и Папик (+972504247004)
 - [ ] LarisaSharay — Лялик (+972544575308)
 - [ ] OlegSharay — Олешака (+972503421703)
 - [ ] StasaGetelman — Стыся и Сеня (+972505683789)
