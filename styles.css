@@ -267,10 +267,12 @@ section{
 .btn:hover{background:var(--cream);color:var(--forest);transform:translateY(-3px)}
 .btn:focus-visible{outline:3px solid var(--marigold);outline-offset:3px}
 /* submit button: DARK by default; BRIGHTER while pressed / sending; dark again after */
-.btn.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:800;
-  font-family:var(--body); /* match the rest of the form, not the decorative .btn font */
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff;
+  font-family:var(--body);font-weight:400; /* match the form; Hillel (he) ships only 400, so no faux-bold */
   font-size:1rem;padding:13px 30px;
   transition:background .18s,border-color .18s,transform .12s}
+/* en/ru body fonts have a real bold — safe to emphasise the CTA there */
+html[lang="en"] .btn.primary,html[lang="ru"] .btn.primary{font-weight:700}
 .btn.primary::after{content:""}
 .btn.primary:hover{background:#96455a;border-color:#96455a}       /* slightly deeper on hover */
 .btn.primary:active,
@@ -319,7 +321,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
 .rsvp-done{text-align:center;padding:20px 0}
 .rsvp-done.hidden{display:none}
 .rsvp-thanks{font-family:var(--body);font-size:1.2rem;color:var(--red);margin-bottom:12px}
-.rsvp-edit{font-family:var(--body);font-size:.95rem;font-weight:500;letter-spacing:.04em;padding:8px 22px}
+.rsvp-edit{font-family:var(--body);font-size:.95rem;font-weight:400;letter-spacing:.04em;padding:8px 22px}
+html[lang="en"] .rsvp-edit,html[lang="ru"] .rsvp-edit{font-weight:500}
 .formmsg{margin-top:14px;font-weight:600;min-height:1.4em}
 .formmsg.ok{color:var(--lime)}
 .formmsg.err{color:var(--red)}
