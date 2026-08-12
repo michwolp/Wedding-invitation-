@@ -12,7 +12,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 ### wedding_invite_m (85)
 - [ ] DvirSasson — דביר (+972502566643)
-- [ ] DanKedmi — אלי (+972509878804)
+- [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
 - [ ] RonWolpert — רון המתוק (+972526998033)
 - [ ] MichaelYafe — מיכאל (+972526462911)
 - [ ] OrrBinyamini — אור (+972509349101)
@@ -140,7 +140,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] OfirLevin — אופיר ויונתן (+972546644905)
 - [ ] LiorMandelboim — ליאור ויונתן (+972546213030)
 - [ ] RotemAgmon — רתמי וגיא (+972544317502)
-- [ ] RonDeitch — רון והדר (+972547911403)
+- [x] RonDeitch — רון והדר (+972547911403) — invitation 1 sent 2026-08-12
 - [ ] YotamSuliman — יות וגיל (+972504600888)
 - [ ] RonnyAndGuy — רוני וגיא (+972546826789)
 - [ ] SigalSasson — סיגל ואייל (+972547949355)
