@@ -58,10 +58,14 @@ const MESSAGE_TYPES = {
     template(g) {
       if (g.lang === 'en') return { name: 'wedding_invite_en', lang: 'en' };
       if (g.lang === 'ru') return { name: 'wedding_invite_ru', lang: 'ru' };
-      // Hebrew — gendered. plural_f has no approved template, send with plural.
-      const form = g.form === 'plural_f' ? 'plural' : g.form;
-      const map = { m: 'wedding_invite_m', f: 'wedding_invite_f', plural: 'wedding_invite_plural' };
-      return { name: map[form] || 'wedding_invite_plural', lang: 'he' };
+      // Hebrew — gendered.
+      const map = {
+        m: 'wedding_invite_m',
+        f: 'wedding_invite_f',
+        plural: 'wedding_invite_plural',
+        plural_f: 'wedding_invite_plural_f',
+      };
+      return { name: map[g.form] || 'wedding_invite_plural', lang: 'he' };
     },
     // Template variables: body {{1}} = display name, URL button {{1}} = guest code.
     components(g, code) {

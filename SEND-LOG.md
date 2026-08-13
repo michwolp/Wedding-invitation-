@@ -13,7 +13,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 ### wedding_invite_m (86)
 - [ ] DvirSasson — דביר (+972502566643)
 - [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
-- [ ] RonWolpert — רון המתוק (+972526998033)
+- [x] RonWolpert — רון המתוק (+972526998033) — invitation 1 sent 2026-08-13
 - [x] MaorPeretz — מאורי (+972542899187) — invitation 1 sent 2026-08-13
 - [ ] MichaelYafe — מיכאל (+972526462911)
 - [ ] OrrBinyamini — אור (+972509349101)
@@ -99,12 +99,12 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] MarkItay — מארק (+972524633349)
 
 ### wedding_invite_f (38)
-- [ ] AlinaDronov — אלינקי (+972545488475)
-- [ ] YuvalGoldstein — יוב (+972547090583)
+- [x] AlinaDronov — אלינקי (+972545488475) — invitation 1 sent 2026-08-13
+- [x] YuvalGoldstein — יוב (+972547090583) — invitation 1 sent 2026-08-13
 - [x] RomiHeller — רומאמי (+972547981025) — invitation 1 sent 2026-08-13
 - [x] ShellyReizis — שלי (+972527027829) — invitation 1 sent 2026-08-13
 - [ ] MorBenAmi — מור (+972549439445)
-- [ ] ThaiHayut — תאי (+972542604840)
+- [x] ThaiHayut — תאי (+972542604840) — invitation 1 sent 2026-08-13
 - [ ] ValeriaRejabek — לרה (+972524548984)
 - [ ] AnnaVolpert — אניה (+972547957960)
 - [ ] DinaVolpert — דינה (+972546446177)
@@ -140,13 +140,13 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 ### wedding_invite_plural (75)
 - [ ] OfirLevin — אופיר ויונתן (+972546644905)
-- [ ] LiorMandelboim — ליאור ויונתן (+972546213030)
-- [ ] RotemAgmon — רתמי וגיא (+972544317502)
+- [x] LiorMandelboim — ליאור ויונתן (+972546213030) — invitation 1 sent 2026-08-13
+- [x] RotemAgmon — רתמי וגיא (+972544317502) — invitation 1 sent 2026-08-13
 - [x] RonDeitch — רון והדר (+972547911403) — invitation 1 sent 2026-08-12
-- [ ] YotamSuliman — יות וגיל (+972504600888)
+- [x] YotamSuliman — יות וגיל (+972504600888) — invitation 1 sent 2026-08-13
 - [ ] RonnyAndGuy — רוני וגיא (+972546826789)
-- [ ] SigalSasson — סיגל ואייל (+972547949355)
-- [ ] ItaySasson — איתי ועמיר (+972535301805)
+- [x] SigalSasson — סיגל ואייל (+972547949355) — invitation 1 sent 2026-08-13
+- [x] ItaySasson — איתי ועמיר (+972535301805) — invitation 1 sent 2026-08-13
 - [ ] OmriAmit — עומרי (+972545655099)
 - [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
 - [ ] AlexRejabek — סשה ושחר (+972509250099)
@@ -179,7 +179,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] YuvalSossover — סוסו ועמוס (+972545613304)
 - [ ] DrorPeretz — דרוריטוס והודיה (+972544670655)
 - [ ] TamirTzarfati — צרפתי וכינר (+972527799833)
-- [ ] AmirTuboul — אמיר ובראל (+972524799997)
+- [x] AmirTuboul — אמיר ובראל (+972524799997) — invitation 1 sent 2026-08-13
 - [ ] ItamarShahar — איתמר והדס (+972542557288)
 - [ ] ItamarRosenshine — איתמר ושיר (+972507722032)
 - [ ] ItamarLevyRinski — איתמר הסטרייט ודנה (+972502466646)
@@ -218,8 +218,8 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 ### wedding_invite_plural_f → send with regular plural (0)
 
 ### wedding_invite_ru (25)
-- [x] ViktoriaSharay — Мамик и Папик (+972504247004) — invitation 1 sent 2026-08-13
-- [ ] LarisaSharay — Лялик (+972544575308)
+- [x] ViktoriaSharay — Мамик и Папик (+972504247003) — invitation 1 — invitation 1 sent 2026-08-13
+- [x] LarisaSharay — Лялик (+972544575308) — invitation 1 sent 2026-08-13
 - [ ] OlegSharay — Олешака (+972503421703)
 - [ ] StasaGetelman — Стыся и Сеня (+972505683789)
 - [ ] OlgaAltshul — Оля и Боря (+972544951380)
@@ -237,7 +237,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] SoniaLevin — Соня и Боб (+972525322523)
 - [ ] AnnaNahmanson — Аня (+79213149495)
 - [ ] IlyaNahmanson — Илья (+79119763699)
-- [ ] AnnaRudoy — Аня и Саша (+972545749947)
+- [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 — invitation 1 sent 2026-08-13
 - [ ] SashaZalzman — Саша (+972547326031)
 - [ ] SimonIkirson — Сема и Лена (+972535272556)
 - [ ] JuliaSharay — Юля и Сева (+79162212070)

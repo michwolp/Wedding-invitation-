@@ -1,7 +1,7 @@
 const GUESTS = {
   // --- Michal's family ---
   NikolAndJulian: { name: 'Nikol & Julian', fullName: 'Nikol Wolpert', phone: '+19296225141', lang: 'en', form: 'plural' },
-  ViktoriaSharay: { name: 'Мамик и Папик', fullName: 'Viktoria Sharay', phone: '0504247004', lang: 'ru', form: 'plural' },
+  ViktoriaSharay: { name: 'Мамик и Папик', fullName: 'Viktoria Sharay', phone: '0504247003', lang: 'ru', form: 'plural' },
   LarisaSharay: { name: 'Лялик', fullName: 'Larisa Sharay', phone: '0544575308', lang: 'ru', form: 'f' },
   OlegSharay: { name: 'Олешака', fullName: 'Oleg Sharay', phone: '0503421703', lang: 'ru', form: 'm' },
   Olga: { name: 'Olga, Deerk, Lara, Yana and Masha', fullName: 'Olga Beloborodova', phone: '+32474520752', lang: 'en', form: 'plural' },
@@ -10,10 +10,10 @@ const GUESTS = {
   OfirLevin: { name: 'אופיר ויונתן', fullName: 'אופיר לוין', phone: '0546644905', lang: 'he', form: 'plural' },
   DvirSasson: { name: 'דביר', fullName: 'דביר ששון', phone: '0502566643', lang: 'he', form: 'm' },
   DanKedmi: { name: 'אלי', fullName: 'דן קדמי', phone: '0509878804', lang: 'he', form: 'm' },
-  LiorMandelboim: { name: 'ליאור ויונתן', fullName: 'ליאור מנדלבוים', phone: '0546213030', lang: 'he', form: 'plural' },
+  LiorMandelboim: { name: 'ליאורי ויונתן', fullName: 'ליאור מנדלבוים', phone: '0546213030', lang: 'he', form: 'plural' },
   RotemAgmon: { name: 'רתמי וגיא', fullName: 'רתם אגמון', phone: '0544317502', lang: 'he', form: 'plural' },
   RonDeitch: { name: 'רון והדר', fullName: 'רון דיטש', phone: '0547911403', lang: 'he', form: 'plural' },
-  RonWolpert: { name: 'רון המתוק', fullName: 'רון וולפרט', phone: '0526998033', lang: 'he', form: 'm' },
+  RonWolpert: { name: 'רונוש', fullName: 'רון וולפרט', phone: '0526998033', lang: 'he', form: 'm' },
   AlinaDronov: { name: 'אלינקי', fullName: 'אלינה דרונוב', phone: '0545488475', lang: 'he', form: 'f' },
   YuvalGoldstein: { name: 'יוב', fullName: 'יובל גולדשטיין', phone: '0547090583', lang: 'he', form: 'f' },
   RomiHeller: { name: 'רומאמי', fullName: 'רומי הלר', phone: '0547981025', lang: 'he', form: 'f' },
@@ -33,7 +33,7 @@ const GUESTS = {
   MorFilo: { name: 'מור ותומר', fullName: 'מור פילו', phone: '0506863116', lang: 'he', form: 'plural' },
   OrrBinyamini: { name: 'אור', fullName: 'אור בנימיני', phone: '0509349101', lang: 'he', form: 'm' },
   MorBenAmi: { name: 'מור', fullName: 'מור בן עמי', phone: '0549439445', lang: 'he', form: 'f' },
-  ThaiHayut: { name: 'תאי', fullName: 'תאי חיות', phone: '0542604840', lang: 'he', form: 'f' },
+  ThaiHayut: { name: 'תאיוש', fullName: 'תאי חיות', phone: '0542604840', lang: 'he', form: 'f' },
 
   // --- Michal's family (Russian-speaking) ---
   StasaGetelman: { name: 'Стыся и Сеня', fullName: 'Stasa Getelman', phone: '0505683789', lang: 'ru', form: 'plural' },
@@ -126,7 +126,7 @@ const GUESTS = {
   DanaAnavi: { name: 'דנבי', fullName: 'Dana Anavi', phone: '0528287241', lang: 'he', form: 'f' },
   HalelGabber: { name: 'הלל', fullName: 'Halel Gabber', phone: '+61474802025', lang: 'he', form: 'f' },
   KerenRozen: { name: 'קרן', fullName: 'Keren Rozen', phone: '0547731003', lang: 'he', form: 'f' },
-  NoamHayu: { name: 'נעם ודור', fullName: 'Noam Hayu', phone: '0524227909', lang: 'he', form: 'plural' },
+  NoamHayu: { name: 'נעם ודור', fullName: 'Noam Hayu', phone: '0524227909', lang: 'he', form: 'plural_f' },
   AdiPeres: { name: 'עדי', fullName: 'Adi Peres', phone: '0507108101', lang: 'he', form: 'f' },
   YuvalSossover: { name: 'סוסו ועמוס', fullName: 'Yuval Sossover', phone: '0545613304', lang: 'he', form: 'plural' },
   DrorPeretz: { name: 'דרוריטוס והודיה', fullName: 'Dror Peretz', phone: '0544670655', lang: 'he', form: 'plural' },
