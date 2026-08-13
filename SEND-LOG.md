@@ -137,7 +137,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] MeitalAmraz — מיטל (+972526222812)
 - [ ] EtiAmraz — אתי (+972526031408)
 
-### wedding_invite_plural (75)
+### wedding_invite_plural (76)
 - [ ] OfirLevin — אופיר ויונתן (+972546644905)
 - [ ] LiorMandelboim — ליאור ויונתן (+972546213030)
 - [ ] RotemAgmon — רתמי וגיא (+972544317502)
@@ -146,6 +146,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] RonnyAndGuy — רוני וגיא (+972546826789)
 - [ ] SigalSasson — סיגל ואייל (+972547949355)
 - [ ] ItaySasson — איתי ועמיר (+972535301805)
+- [ ] ShellyReizis — שלי ונויה (+972527027829)
 - [ ] OmriAmit — עומרי (+972545655099)
 - [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
 - [ ] AlexRejabek — סשה ושחר (+972509250099)
@@ -214,8 +215,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] AlmogYuniov — אלמוג וסטפני (+972547758846)
 - [ ] MichalKreshberg — מיכל ומיקו (+32485616831)
 
-### wedding_invite_plural_f → send with regular plural (1)
-- [ ] ShellyReizis — שלי ונויה (+972527027829)
+### wedding_invite_plural_f → send with regular plural (0)
 
 ### wedding_invite_ru (25)
 - [ ] ViktoriaSharay — Мамик и Папик (+972504247004)
