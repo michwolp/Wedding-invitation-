@@ -28,6 +28,7 @@ const GUESTS = {
 
   // --- test entry ---
   testMichal: { name: 'מיכלי', fullName: 'Michal (test)', phone: '0507155207', lang: 'he', form: 'f' },
+  testDvir: { name: 'דבירי', fullName: 'Dvir (test)', phone: '0502566643', lang: 'he', form: 'm' },
 
   // --- Michal's work friends ---
   MorFilo: { name: 'מור ותומר', fullName: 'מור פילו', phone: '0506863116', lang: 'he', form: 'plural' },

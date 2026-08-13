@@ -14,9 +14,25 @@
 // NOTE: the Meta app must be PUBLISHED (Live) for real guest messages to
 // arrive — an unpublished app only receives test webhooks from the dashboard.
 
+import { GUESTS } from '../src/guests.js';
+
 // The token you paste into Meta's "Verify token" box. Override in Vercel with
 // WHATSAPP_VERIFY_TOKEN if you want; otherwise this default is used.
 const DEFAULT_VERIFY_TOKEN = 'dvichal-wedding-webhook-2026';
+
+// phone (E.164 digits, no +) → guest name, so stored rows carry a readable name.
+const NAME_BY_PHONE = {};
+for (const g of Object.values(GUESTS)) NAME_BY_PHONE[toE164(g.phone)] = g.name;
+
+// Convert a stored guest phone to E.164 digits (no +), matching what WhatsApp
+// puts in `from` / `recipient_id`. Mirrors scripts/send.js toE164().
+function toE164(phone) {
+  const p = String(phone).trim();
+  if (p.startsWith('+')) return p.slice(1).replace(/\D/g, '');
+  const digits = p.replace(/\D/g, '');
+  if (digits.startsWith('0')) return '972' + digits.slice(1);
+  return digits;
+}
 
 export default async function handler(req, res) {
   const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN || DEFAULT_VERIFY_TOKEN;
@@ -119,6 +135,7 @@ export function extractStatuses(body) {
         out.push({
           wa_message_id: s.id,
           recipient_phone: s.recipient_id,
+          recipient_name: NAME_BY_PHONE[s.recipient_id] || null,
           status: s.status,
           error_code: err ? (err.code ?? null) : null,
           error_title: err ? (err.title || err.message || null) : null,
