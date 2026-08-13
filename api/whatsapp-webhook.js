@@ -41,17 +41,6 @@ export default async function handler(req, res) {
   // 2) Event. Extract incoming replies + delivery statuses, store them, and ack
   //    fast (return 200 even on error so Meta doesn't spam retries).
   try {
-    // TEMP DEBUG: capture the raw payload of every POST so we can see exactly
-    // what Meta sends (or confirm it's calling us at all). Remove after debugging.
-    await storeRows('whatsapp_messages', [{
-      wa_message_id: 'debug-' + Date.now(),
-      from_phone: 'debug',
-      from_name: 'RAW',
-      type: 'debug',
-      text: JSON.stringify(req.body).slice(0, 6000),
-      sent_at: new Date().toISOString(),
-    }], 'return=minimal');
-
     const messages = extractMessages(req.body);
     const statuses = extractStatuses(req.body);
     for (const r of messages) {
