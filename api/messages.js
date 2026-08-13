@@ -1,8 +1,11 @@
 // /api/messages — read-only view of the WhatsApp replies guests sent to the
 // business number (captured by /api/whatsapp-webhook into `whatsapp_messages`).
 //
-// GET /api/messages?key=<SUMMARY_KEY>  → newest-first list of replies.
+// GET /api/messages?key=<SUMMARY_KEY>  → newest-first list of replies, each
+// tagged with the guest's name from our own list (not WhatsApp's profile name).
 // Gated by the same SUMMARY_KEY as /api/rsvp-summary so it isn't world-readable.
+
+import { GUESTS } from '../src/guests.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -28,8 +31,33 @@ export default async function handler(req, res) {
     });
     if (!resp.ok) return res.status(502).json({ error: 'db error' });
     const rows = await resp.json();
-    return res.status(200).json({ count: rows.length, messages: rows });
+    const messages = withNames(rows);
+    return res.status(200).json({ count: messages.length, messages });
   } catch (err) {
     return res.status(502).json({ error: 'db unreachable' });
   }
+}
+
+// Convert a stored guest phone to E.164 digits (no +), matching what WhatsApp
+// puts in a message's `from`. Mirrors scripts/send.js toE164().
+function toE164(phone) {
+  const p = String(phone).trim();
+  if (p.startsWith('+')) return p.slice(1).replace(/\D/g, '');
+  const digits = p.replace(/\D/g, '');
+  if (digits.startsWith('0')) return '972' + digits.slice(1);
+  return digits;
+}
+
+// Attach the guest name from our own list (falling back to WhatsApp's profile
+// name), and drop internal debug/RAW rows. Exported for testing without a DB.
+export function withNames(rows) {
+  const nameByPhone = {};
+  for (const g of Object.values(GUESTS)) nameByPhone[toE164(g.phone)] = g.name;
+
+  return rows
+    .filter((r) => r.type !== 'debug')
+    .map((r) => ({
+      name: nameByPhone[r.from_phone] || r.from_name || '(unknown)',
+      ...r,
+    }));
 }

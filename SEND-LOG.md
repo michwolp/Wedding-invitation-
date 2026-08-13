@@ -139,7 +139,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] EtiAmraz — אתי (+972526031408)
 
 ### wedding_invite_plural (75)
-- [ ] OfirLevin — אופיר ויונתן (+972546644905)
+- [x] OfirLevin — אופיר ויונתן (+972546644905) — invitation 1 sent 2026-08-13
 - [x] LiorMandelboim — ליאור ויונתן (+972546213030) — invitation 1 sent 2026-08-13
 - [x] RotemAgmon — רתמי וגיא (+972544317502) — invitation 1 sent 2026-08-13
 - [x] RonDeitch — רון והדר (+972547911403) — invitation 1 sent 2026-08-12
@@ -237,7 +237,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] SoniaLevin — Соня и Боб (+972525322523)
 - [ ] AnnaNahmanson — Аня (+79213149495)
 - [ ] IlyaNahmanson — Илья (+79119763699)
-- [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 — invitation 1 sent 2026-08-13
+- [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 sent 2026-08-13
 - [ ] SashaZalzman — Саша (+972547326031)
 - [ ] SimonIkirson — Сема и Лена (+972535272556)
 - [ ] JuliaSharay — Юля и Сева (+79162212070)
