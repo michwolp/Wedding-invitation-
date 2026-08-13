@@ -10,10 +10,11 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] NikolAndJulian — Nikol & Julian (+19296225141)
 - [ ] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752)
 
-### wedding_invite_m (85)
+### wedding_invite_m (86)
 - [ ] DvirSasson — דביר (+972502566643)
 - [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
 - [ ] RonWolpert — רון המתוק (+972526998033)
+- [ ] MaorPeretz — מאורי (+972542899187)
 - [ ] MichaelYafe — מיכאל (+972526462911)
 - [ ] OrrBinyamini — אור (+972509349101)
 - [ ] Max — מקסים (+972545500494)
@@ -100,7 +101,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 ### wedding_invite_f (37)
 - [ ] AlinaDronov — אלינקי (+972545488475)
 - [ ] YuvalGoldstein — יוב (+972547090583)
-- [ ] RomiHeller — מאורומי (+972547981025)
+- [ ] RomiHeller — רומאמי (+972547981025)
 - [ ] MorBenAmi — מור (+972549439445)
 - [ ] ThaiHayut — תאי (+972542604840)
 - [ ] ValeriaRejabek — לרה (+972524548984)
@@ -245,6 +246,6 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 ---
 
-**Total sendable: 225**
+**Total sendable: 226**
 
 **testMichal** — test entry, do NOT send.
