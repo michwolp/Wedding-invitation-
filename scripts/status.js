@@ -88,7 +88,7 @@ async function main() {
     if (ov) { status = ov.status; note = ov.note; at = web?.at || null; }
     else if (web) { status = web.status; error = web.error; at = web.at; }
     else { status = 'not-sent'; }
-    list.push({ code, name: g.name, phone: '+' + phone, status, error, note, at });
+    list.push({ code, name: g.name, fullName: g.fullName, phone: '+' + phone, status, error, note, at });
   }
 
   // 4. Group + write.
@@ -113,7 +113,8 @@ async function main() {
     lines.push(`## ${s} (${g.length})`);
     for (const x of g) {
       const extra = x.note ? ` — _${x.note}_` : (x.error ? ` — ${x.error}` : '');
-      lines.push(`- ${x.name} (${x.phone})${extra}`);
+      const full = x.fullName && x.fullName !== x.name ? ` — ${x.fullName}` : '';
+      lines.push(`- ${x.name}${full} (${x.phone})${extra}`);
     }
     lines.push('');
   }

@@ -76,7 +76,11 @@ function toE164(phone) {
 //      shows "delivered" — the stale failure no longer masks the success.
 export function summarizeDelivery(rows) {
   const nameByPhone = {};
-  for (const g of Object.values(GUESTS)) nameByPhone[toE164(g.phone)] = g.name;
+  const fullNameByPhone = {};
+  for (const g of Object.values(GUESTS)) {
+    nameByPhone[toE164(g.phone)] = g.name;
+    fullNameByPhone[toE164(g.phone)] = g.fullName;
+  }
 
   // phone → (wa_message_id → collapsed message {status,error,bestRank,lastAt})
   const perPhone = {};
@@ -100,6 +104,7 @@ export function summarizeDelivery(rows) {
     return {
       phone,
       name: nameByPhone[phone] || '(unknown)',
+      fullName: fullNameByPhone[phone] || null,
       status: chosen.status,
       error: chosen.error_title ? `${chosen.error_code} ${chosen.error_title}` : null,
       at: chosen.lastAt,
