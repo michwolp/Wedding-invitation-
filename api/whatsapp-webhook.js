@@ -22,7 +22,11 @@ const DEFAULT_VERIFY_TOKEN = 'dvichal-wedding-webhook-2026';
 
 // phone (E.164 digits, no +) → guest name, so stored rows carry a readable name.
 const NAME_BY_PHONE = {};
-for (const g of Object.values(GUESTS)) NAME_BY_PHONE[toE164(g.phone)] = g.name;
+const FULLNAME_BY_PHONE = {};
+for (const g of Object.values(GUESTS)) {
+  NAME_BY_PHONE[toE164(g.phone)] = g.name;
+  FULLNAME_BY_PHONE[toE164(g.phone)] = g.fullName || null;
+}
 
 // Convert a stored guest phone to E.164 digits (no +), matching what WhatsApp
 // puts in `from` / `recipient_id`. Mirrors scripts/send.js toE164().
@@ -136,6 +140,7 @@ export function extractStatuses(body) {
           wa_message_id: s.id,
           recipient_phone: s.recipient_id,
           recipient_name: NAME_BY_PHONE[s.recipient_id] || null,
+          recipient_full_name: FULLNAME_BY_PHONE[s.recipient_id] || null,
           status: s.status,
           error_code: err ? (err.code ?? null) : null,
           error_title: err ? (err.title || err.message || null) : null,
