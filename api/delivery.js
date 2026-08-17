@@ -101,6 +101,10 @@ export function summarizeDelivery(rows) {
   const guests = Object.entries(perPhone).map(([phone, msgs]) => {
     // The phone's latest message wins (newest activity), so a later resend overrides an older one.
     const chosen = Object.values(msgs).sort((a, b) => (b.lastAt || '').localeCompare(a.lastAt || ''))[0];
+    // A phone not in the current guest list is stale: an OLD number that was
+    // replaced with a corrected one (the guest was reached on the new number),
+    // or a test send. We keep the row but don't count it as a real failure.
+    const known = Object.prototype.hasOwnProperty.call(nameByPhone, phone);
     return {
       phone,
       name: nameByPhone[phone] || '(unknown)',
@@ -108,11 +112,19 @@ export function summarizeDelivery(rows) {
       status: chosen.status,
       error: chosen.error_title ? `${chosen.error_code} ${chosen.error_title}` : null,
       at: chosen.lastAt,
+      known,
     };
   }).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
 
+  // Only current guests count toward the totals; stale numbers are reported
+  // separately so the failure count reflects real, still-relevant guests.
   const counts = { sent: 0, delivered: 0, read: 0, failed: 0 };
-  for (const g of guests) if (g.status in counts) counts[g.status]++;
+  let stale = 0;
+  for (const g of guests) {
+    if (!g.known) { stale++; continue; }
+    if (g.status in counts) counts[g.status]++;
+  }
 
-  return { total: guests.length, counts, guests };
+  const known = guests.filter((g) => g.known);
+  return { total: known.length, counts, stale, guests: known, staleGuests: guests.filter((g) => !g.known) };
 }
