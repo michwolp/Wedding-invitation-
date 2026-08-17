@@ -302,8 +302,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);bo
   font-weight:600;font-size:.82rem;border-radius:99px;transition:all .2s;
 }
 @media(pointer:coarse){.choice span{cursor:auto}}
-.choice span .ret-time{display:block;font-size:.7em;font-weight:400;opacity:.7;margin-top:1px}
 .choice input:checked + span{background:var(--lime);border-color:var(--lime);color:var(--forest)}
+.ret-note{font-size:.72rem;opacity:.72;margin:6px 0 0;text-align:center;color:rgba(79,74,56,.85)}
 .choice input:focus-visible + span{outline:3px solid var(--marigold);outline-offset:2px}
 .pickup-q{display:block;font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;color:var(--aqua)}
 .pickup-details{margin-top:10px}
