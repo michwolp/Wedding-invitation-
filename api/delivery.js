@@ -23,8 +23,13 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'not found' });
   }
 
+  // Debug: raw per-message event timeline for specific phones, so a later
+  // delivered/read isn't masked by an earlier failed on the same number.
+  // GET /api/delivery?key=...&raw=1&phones=<comma-separated E.164 digits>
+  const rawPhones = req.query.raw ? String(req.query.phones || '').split(',').map((s) => s.trim()).filter(Boolean) : null;
+
   const url = `${process.env.SUPABASE_URL}/rest/v1/whatsapp_status`
-    + `?select=recipient_phone,status,error_code,error_title,at`
+    + `?select=wa_message_id,recipient_phone,status,error_code,error_title,at`
     + `&order=at.desc&limit=2000`;
   let rows;
   try {
@@ -38,6 +43,14 @@ export default async function handler(req, res) {
     rows = await resp.json();
   } catch (err) {
     return res.status(502).json({ error: 'db unreachable' });
+  }
+
+  if (rawPhones) {
+    const want = new Set(rawPhones);
+    const events = rows
+      .filter((r) => want.has(r.recipient_phone))
+      .map((r) => ({ phone: r.recipient_phone, wamid: r.wa_message_id, status: r.status, error: r.error_title ? `${r.error_code} ${r.error_title}` : null, at: r.at }));
+    return res.status(200).json({ events });
   }
 
   return res.status(200).json(summarizeDelivery(rows));

@@ -75,6 +75,22 @@ const MESSAGE_TYPES = {
       ];
     },
   },
+  // Russian UTILITY re-send: exempt from the MARKETING ecosystem throttle (130472/131049).
+  // Used to retry Russian guests whose MARKETING invite failed. Own ledger prefix +
+  // separate (non-existent) log so it isn't blocked by the `invite:` sent marks.
+  invite_ru_util: {
+    label: 'invitation 1 (ru utility)',
+    log: 'SEND-LOG-ru-util.md',
+    template() {
+      return { name: 'wedding_invite_ru_utility', lang: 'ru' };
+    },
+    components(g, code) {
+      return [
+        { type: 'body', parameters: [{ type: 'text', text: g.name }] },
+        { type: 'button', sub_type: 'url', index: '0', parameters: [{ type: 'text', text: code }] },
+      ];
+    },
+  },
 };
 
 // --- CLI flags ---
