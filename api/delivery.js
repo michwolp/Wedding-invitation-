@@ -66,27 +66,45 @@ function toE164(phone) {
   return digits;
 }
 
-// Pure aggregation — exported for unit testing without a DB. Collapses each
-// recipient to their best-reached status and attaches the guest's name.
+// Pure aggregation — exported for unit testing without a DB.
+//
+// Two-level collapse so a later successful resend overrides an earlier failure:
+//   1. Group events by message (wa_message_id) and reduce each message to its
+//      furthest-along status (failed is terminal for THAT message).
+//   2. For each phone, report its MOST RECENT message. So if a MARKETING invite
+//      failed and a later UTILITY resend to the same number delivered, the phone
+//      shows "delivered" — the stale failure no longer masks the success.
 export function summarizeDelivery(rows) {
   const nameByPhone = {};
   for (const g of Object.values(GUESTS)) nameByPhone[toE164(g.phone)] = g.name;
 
-  const best = {}; // phone → chosen status row
+  // phone → (wa_message_id → collapsed message {status,error,bestRank,lastAt})
+  const perPhone = {};
   for (const r of rows) {
-    const cur = best[r.recipient_phone];
-    if (!cur || (RANK[r.status] || 0) > (RANK[cur.status] || 0)) {
-      best[r.recipient_phone] = r;
+    const phone = r.recipient_phone;
+    const mid = r.wa_message_id || '_'; // legacy rows without an id collapse to one
+    const rank = RANK[r.status] || 0;
+    const msgs = (perPhone[phone] ||= {});
+    const msg = msgs[mid];
+    if (!msg) {
+      msgs[mid] = { status: r.status, error_code: r.error_code, error_title: r.error_title, bestRank: rank, lastAt: r.at };
+    } else {
+      if (rank > msg.bestRank) { msg.status = r.status; msg.error_code = r.error_code; msg.error_title = r.error_title; msg.bestRank = rank; }
+      if ((r.at || '') > (msg.lastAt || '')) msg.lastAt = r.at;
     }
   }
 
-  const guests = Object.entries(best).map(([phone, r]) => ({
-    phone,
-    name: nameByPhone[phone] || '(unknown)',
-    status: r.status,
-    error: r.error_title ? `${r.error_code} ${r.error_title}` : null,
-    at: r.at,
-  })).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
+  const guests = Object.entries(perPhone).map(([phone, msgs]) => {
+    // The phone's latest message wins (newest activity), so a later resend overrides an older one.
+    const chosen = Object.values(msgs).sort((a, b) => (b.lastAt || '').localeCompare(a.lastAt || ''))[0];
+    return {
+      phone,
+      name: nameByPhone[phone] || '(unknown)',
+      status: chosen.status,
+      error: chosen.error_title ? `${chosen.error_code} ${chosen.error_title}` : null,
+      at: chosen.lastAt,
+    };
+  }).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
 
   const counts = { sent: 0, delivered: 0, read: 0, failed: 0 };
   for (const g of guests) if (g.status in counts) counts[g.status]++;
