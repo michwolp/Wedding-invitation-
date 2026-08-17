@@ -152,7 +152,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MichaelRejabek — מיכאל וריקי (+972525582965) — invitation 1 sent 2026-08-17
 - [x] DanialRejabek — דניאל ורוני (+972524548987) — invitation 1 sent 2026-08-17
 - [x] NinaTravizki — נינה וארסניי (+972544782618) — invitation 1 sent 2026-08-17
-- [x] DavidVolpert — דויד ויוליה (+972546201209) — invitation 1 sent 2026-08-17
+- [x] DavidVolpert — דוד ויוליה (+4915153463763) — invitation 1 sent 2026-08-17
 - [x] RitaReizis — ריטה וולרה (+972545305278) — invitation 1 sent 2026-08-17
 - [x] NataliVidro — נטשה ואליה (+972544917892) — invitation 1 sent 2026-08-17
 - [x] LenaZilberg — לנה ופבל (+972544933625) — invitation 1 sent 2026-08-17
@@ -230,7 +230,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17
 - [x] MarinaMihnevich — Марина и Паша (+972539858980) — invitation 1 sent 2026-08-17
 - [x] GlebMihnevich — Таня и Глеб (+972533801970) — invitation 1 sent 2026-08-17
-- [x] NataliaPozdnuhova — Наташа (+972532583539) — invitation 1 sent 2026-08-17
+- [ ] NataliaPozdnuhova — Наташа (+79104454909)
 - [x] AlexAshvind — Алеша (+972533802004) — invitation 1 sent 2026-08-17
 - [x] LeonidPozdnuhov — Леня и Наташа (+972533784580) — invitation 1 sent 2026-08-17
 - [x] SoniaLevin — Соня и Боб (+972525322523) — invitation 1 sent 2026-08-17
@@ -238,7 +238,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] IlyaNahmanson — Илья (+79119763699) — invitation 1 sent 2026-08-17
 - [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 sent 2026-08-13
 - [x] SashaZalzman — Саша (+972547326031) — invitation 1 sent 2026-08-17
-- [x] SimonIkirson — Сема и Лена (+972535272556) — invitation 1 sent 2026-08-17
+- [x] SimonIkirson — Сема и Лена (+79219082489) — invitation 1 sent 2026-08-17
 - [x] JuliaSharay — Юля и Сева (+79162212070) — invitation 1 sent 2026-08-17
 - [x] BochkoLena — Алена и Боря (+19087397619) — invitation 1 sent 2026-08-17
 - [x] AlexanderUnger — Шулим (+4917684384736) — invitation 1 sent 2026-08-17
