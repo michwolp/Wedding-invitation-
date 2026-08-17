@@ -108,6 +108,7 @@ const GUESTS = {
   GalVaisvaser: { name: 'וייס', fullName: 'Gal Vaisvaser', phone: '0506386081', lang: 'he', form: 'm' },
   YuvalZabatani: { name: 'זבי', fullName: 'Yuval Zabatani', phone: '0507627594', lang: 'he', form: 'm' },
   RoiLevartovski: { name: 'לברה', fullName: 'Roi Levartovski', phone: '0522421480', lang: 'he', form: 'm' },
+  RoiPadan: { name: 'רועי', fullName: 'רועי פדן', phone: '0525981983', lang: 'he', form: 'm' },
   MatanPorat: { name: 'מתן', fullName: 'Matan Porat', phone: '0524686836', lang: 'he', form: 'm' },
   NitaiWeil: { name: 'נתאי', fullName: 'Nitai Weil', phone: '0548363235', lang: 'he', form: 'm' },
   IvriKarni: { name: 'עבריקו', fullName: 'Ivri Karni', phone: '0526499698', lang: 'he', form: 'm' },
