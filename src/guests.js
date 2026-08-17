@@ -8,7 +8,6 @@ const GUESTS = {
 
   // --- Friends ---
   OfirLevin: { name: 'אופיר ויונתן', fullName: 'אופיר לוין', phone: '0546644905', lang: 'he', form: 'plural' },
-  DvirSasson: { name: 'דביר', fullName: 'דביר ששון', phone: '0502566643', lang: 'he', form: 'm' },
   DanKedmi: { name: 'אלי', fullName: 'דן קדמי', phone: '0509878804', lang: 'he', form: 'm' },
   LiorMandelboim: { name: 'ליאורי ויונתן', fullName: 'ליאור מנדלבוים', phone: '0546213030', lang: 'he', form: 'plural' },
   RotemAgmon: { name: 'רתמי וגיא', fullName: 'רתם אגמון', phone: '0544317502', lang: 'he', form: 'plural' },

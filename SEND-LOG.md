@@ -11,7 +11,6 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [ ] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752)
 
 ### wedding_invite_m (86)
-- [ ] DvirSasson — דביר (+972502566643)
 - [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
 - [x] RonWolpert — רון המתוק (+972526998033) — invitation 1 sent 2026-08-13
 - [x] MaorPeretz — מאורי (+972542899187) — invitation 1 sent 2026-08-13
