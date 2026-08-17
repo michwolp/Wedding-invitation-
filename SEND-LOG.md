@@ -145,7 +145,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] RonDeitch — רון והדר (+972547911403) — invitation 1 sent 2026-08-12
 - [x] YotamSuliman — יות וגיל (+972504600888) — invitation 1 sent 2026-08-13
 - [ ] RonnyAndGuy — רוני וגיא (+972546826789)
-- [x] SigalSasson — סיגל ואייל (+972547949355) — invitation 1 sent 2026-08-13
+- [ ] SigalSasson — סיגל ואייל (+972547949355)
 - [x] ItaySasson — איתי ועמיר (+972535301805) — invitation 1 sent 2026-08-13
 - [ ] OmriAmit — עומרי (+972545655099)
 - [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
