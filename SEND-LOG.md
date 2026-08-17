@@ -7,8 +7,8 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 
 ### wedding_invite_en (2)
-- [ ] NikolAndJulian — Nikol & Julian (+19296225141)
-- [ ] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752)
+- [x] NikolAndJulian — Nikol & Julian (+19296225141) — invitation 1 sent 2026-08-17
+- [x] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752) — invitation 1 sent 2026-08-17
 
 ### wedding_invite_m (86)
 - [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
@@ -16,19 +16,19 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MaorPeretz — מאורי (+972542899187) — invitation 1 sent 2026-08-13
 - [ ] MichaelYafe — מיכאל (+972526462911)
 - [ ] OrrBinyamini — אור (+972509349101)
-- [ ] Max — מקסים (+972545500494)
-- [ ] IdanTravizki — עידן (+972587046540)
-- [ ] BorisFlasburg — בוריס (+972546308417)
-- [ ] VladimirBrodski — ולדימיר (+972507521570)
-- [ ] LiorMitna — ליאור (+972506861846)
-- [ ] AlonWegman — אלון (+972542558880)
-- [ ] NadavSolomon — נדב (+972547878838)
-- [ ] RonMorgulis — רון (+972545593238)
-- [ ] AdamKira — אדם (+972503566515)
-- [ ] IdoEizer — עידו (+972587966566)
-- [ ] EranGroovman — ערן (+972537214567)
-- [ ] YovalCipele — יובל (+972533345430)
-- [ ] IlayShtern — עילי (+13074137595)
+- [x] Max — מקסים (+972545500494) — invitation 1 sent 2026-08-17
+- [x] IdanTravizki — עידן (+972587046540) — invitation 1 sent 2026-08-17
+- [x] BorisFlasburg — בוריס (+972546308417) — invitation 1 sent 2026-08-17
+- [x] VladimirBrodski — ולדימיר (+972507521570) — invitation 1 sent 2026-08-17
+- [x] LiorMitna — ליאור (+972506861846) — invitation 1 sent 2026-08-17
+- [x] AlonWegman — אלון (+972542558880) — invitation 1 sent 2026-08-17
+- [x] NadavSolomon — נדב (+972547878838) — invitation 1 sent 2026-08-17
+- [x] RonMorgulis — רון (+972545593238) — invitation 1 sent 2026-08-17
+- [x] AdamKira — אדם (+972503566515) — invitation 1 sent 2026-08-17
+- [x] IdoEizer — עידו (+972587966566) — invitation 1 sent 2026-08-17
+- [x] EranGroovman — ערן (+972537214567) — invitation 1 sent 2026-08-17
+- [x] YovalCipele — יובל (+972533345430) — invitation 1 sent 2026-08-17
+- [x] IlayShtern — עילי (+13074137595) — invitation 1 sent 2026-08-17
 - [ ] NirElishoov — אלישוב (+972502057263)
 - [ ] OfekAharoni — אופק (+972507738440)
 - [ ] IdoEhrlich — ארליך (+972543153883)
@@ -104,12 +104,12 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] ShellyReizis — שלי (+972527027829) — invitation 1 sent 2026-08-13
 - [ ] MorBenAmi — מור (+972549439445)
 - [x] ThaiHayut — תאי (+972542604840) — invitation 1 sent 2026-08-13
-- [ ] ValeriaRejabek — לרה (+972524548984)
-- [ ] AnnaVolpert — אניה (+972547957960)
-- [ ] DinaVolpert — דינה (+972546446177)
-- [ ] HadasaVolpert — הדסה (+972526232211)
-- [ ] MarinaAristova — מרינה (+972543053965)
-- [ ] SofiaNeznatni — סופה (+972507755737)
+- [x] ValeriaRejabek — לרה (+972524548984) — invitation 1 sent 2026-08-17
+- [x] AnnaVolpert — אניה (+972547957960) — invitation 1 sent 2026-08-17
+- [x] DinaVolpert — דינה (+972546446177) — invitation 1 sent 2026-08-17
+- [x] HadasaVolpert — הדסה (+972526232211) — invitation 1 sent 2026-08-17
+- [x] MarinaAristova — מרינה (+972543053965) — invitation 1 sent 2026-08-17
+- [x] SofiaNeznatni — סופה (+972507755737) — invitation 1 sent 2026-08-17
 - [ ] DanaAnavi — דנבי (+972528287241)
 - [ ] HalelGabber — הלל (+61474802025)
 - [ ] KerenRozen — קרן (+972547731003)
@@ -148,23 +148,23 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] ItaySasson — איתי ועמיר (+972535301805) — invitation 1 sent 2026-08-13
 - [ ] OmriAmit — עומרי (+972545655099)
 - [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
-- [ ] AlexRejabek — סשה ושחר (+972509250099)
-- [ ] MichaelRejabek — מיכאל וריקי (+972525582965)
-- [ ] DanialRejabek — דניאל ורוני (+972524548987)
-- [ ] NinaTravizki — נינה וארסניי (+972544782618)
-- [ ] DavidVolpert — דויד ויוליה (+972546201209)
-- [ ] RitaReizis — ריטה וולרה (+972545305278)
-- [ ] NataliVidro — נטשה ואליה (+972544917892)
-- [ ] LenaZilberg — לנה ופבל (+972544933625)
-- [ ] OlgaUchitel — אוליה וזוריק (+972546090427)
-- [ ] MarinaMarkovich — מרינה ואדיק (+972525111211)
-- [ ] FelixLebed — ג׳ניה ופליקס (+972545402019)
-- [ ] YuvalBinder — מוניקה ויובל (+972508805192)
-- [ ] AnnaDainov — אניה ומישה (+972528915534)
-- [ ] KaterinaEpshtein — קטיה וולרה (+972522406687)
-- [ ] LenaFatale — לנה וג׳ניה (+972544605466)
-- [ ] AlexSinelnikov — סשה וסטלה (+972525440371)
-- [ ] LeonidPraisman — ליאוניד ואלה (+972547544457)
+- [x] AlexRejabek — סשה ושחר (+972509250099) — invitation 1 sent 2026-08-17
+- [x] MichaelRejabek — מיכאל וריקי (+972525582965) — invitation 1 sent 2026-08-17
+- [x] DanialRejabek — דניאל ורוני (+972524548987) — invitation 1 sent 2026-08-17
+- [x] NinaTravizki — נינה וארסניי (+972544782618) — invitation 1 sent 2026-08-17
+- [x] DavidVolpert — דויד ויוליה (+972546201209) — invitation 1 sent 2026-08-17
+- [x] RitaReizis — ריטה וולרה (+972545305278) — invitation 1 sent 2026-08-17
+- [x] NataliVidro — נטשה ואליה (+972544917892) — invitation 1 sent 2026-08-17
+- [x] LenaZilberg — לנה ופבל (+972544933625) — invitation 1 sent 2026-08-17
+- [x] OlgaUchitel — אוליה וזוריק (+972546090427) — invitation 1 sent 2026-08-17
+- [x] MarinaMarkovich — מרינה ואדיק (+972525111211) — invitation 1 sent 2026-08-17
+- [x] FelixLebed — ג׳ניה ופליקס (+972545402019) — invitation 1 sent 2026-08-17
+- [x] YuvalBinder — מוניקה ויובל (+972508805192) — invitation 1 sent 2026-08-17
+- [x] AnnaDainov — אניה ומישה (+972528915534) — invitation 1 sent 2026-08-17
+- [x] KaterinaEpshtein — קטיה וולרה (+972522406687) — invitation 1 sent 2026-08-17
+- [x] LenaFatale — לנה וג׳ניה (+972544605466) — invitation 1 sent 2026-08-17
+- [x] AlexSinelnikov — סשה וסטלה (+972525440371) — invitation 1 sent 2026-08-17
+- [x] LeonidPraisman — ליאוניד ואלה (+972547544457) — invitation 1 sent 2026-08-17
 - [ ] LiorMizrahi — ליאור ושירה (+972546880090)
 - [ ] OrFranco — פרנקו ומיכל (+972503013354)
 - [ ] DanaNir — דנה ועומר (+972503310197)
@@ -219,29 +219,29 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 ### wedding_invite_ru (25)
 - [x] ViktoriaSharay — Мамик и Папик (+972504247003) — invitation 1 — invitation 1 sent 2026-08-13
 - [x] LarisaSharay — Лялик (+972544575308) — invitation 1 sent 2026-08-13
-- [ ] OlegSharay — Олешака (+972503421703)
-- [ ] StasaGetelman — Стыся и Сеня (+972505683789)
-- [ ] OlgaAltshul — Оля и Боря (+972544951380)
-- [ ] MarinaAgizin — Марина (+972528895280)
-- [ ] Asia — Ася (+491766387721)
-- [ ] LaraShapiro — Лара и Боря (+15854730464)
-- [ ] LarisaKanevski — Лариса (+14165006516)
-- [ ] RayaTrahtenberg — Рая и Леня (+79859502386)
-- [ ] MichaelMatushevski — Миша и Лариса (+972507228134)
-- [ ] MarinaMihnevich — Марина и Паша (+972539858980)
-- [ ] GlebMihnevich — Таня и Глеб (+972533801970)
-- [ ] NataliaPozdnuhova — Наташа (+972532583539)
-- [ ] AlexAshvind — Алеша (+972533802004)
-- [ ] LeonidPozdnuhov — Леня и Наташа (+972533784580)
-- [ ] SoniaLevin — Соня и Боб (+972525322523)
-- [ ] AnnaNahmanson — Аня (+79213149495)
-- [ ] IlyaNahmanson — Илья (+79119763699)
+- [x] OlegSharay — Олешака (+972503421703) — invitation 1 sent 2026-08-17
+- [x] StasaGetelman — Стыся и Сеня (+972505683789) — invitation 1 sent 2026-08-17
+- [x] OlgaAltshul — Оля и Боря (+972544951380) — invitation 1 sent 2026-08-17
+- [x] MarinaAgizin — Марина (+972528895280) — invitation 1 sent 2026-08-17
+- [x] Asia — Ася (+491766387721) — invitation 1 sent 2026-08-17
+- [x] LaraShapiro — Лара и Боря (+15854730464) — invitation 1 sent 2026-08-17
+- [x] LarisaKanevski — Лариса (+14165006516) — invitation 1 sent 2026-08-17
+- [x] RayaTrahtenberg — Рая и Леня (+79859502386) — invitation 1 sent 2026-08-17
+- [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17
+- [x] MarinaMihnevich — Марина и Паша (+972539858980) — invitation 1 sent 2026-08-17
+- [x] GlebMihnevich — Таня и Глеб (+972533801970) — invitation 1 sent 2026-08-17
+- [x] NataliaPozdnuhova — Наташа (+972532583539) — invitation 1 sent 2026-08-17
+- [x] AlexAshvind — Алеша (+972533802004) — invitation 1 sent 2026-08-17
+- [x] LeonidPozdnuhov — Леня и Наташа (+972533784580) — invitation 1 sent 2026-08-17
+- [x] SoniaLevin — Соня и Боб (+972525322523) — invitation 1 sent 2026-08-17
+- [x] AnnaNahmanson — Аня (+79213149495) — invitation 1 sent 2026-08-17
+- [x] IlyaNahmanson — Илья (+79119763699) — invitation 1 sent 2026-08-17
 - [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 sent 2026-08-13
-- [ ] SashaZalzman — Саша (+972547326031)
-- [ ] SimonIkirson — Сема и Лена (+972535272556)
-- [ ] JuliaSharay — Юля и Сева (+79162212070)
-- [ ] BochkoLena — Алена и Боря (+19087397619)
-- [ ] AlexanderUnger — Шулим (+4917684384736)
+- [x] SashaZalzman — Саша (+972547326031) — invitation 1 sent 2026-08-17
+- [x] SimonIkirson — Сема и Лена (+972535272556) — invitation 1 sent 2026-08-17
+- [x] JuliaSharay — Юля и Сева (+79162212070) — invitation 1 sent 2026-08-17
+- [x] BochkoLena — Алена и Боря (+19087397619) — invitation 1 sent 2026-08-17
+- [x] AlexanderUnger — Шулим (+4917684384736) — invitation 1 sent 2026-08-17
 
 ---
 

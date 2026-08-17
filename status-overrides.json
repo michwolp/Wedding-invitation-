@@ -1,0 +1,5 @@
+{
+  "_comment": "Manual delivery confirmations for guests sent OUTSIDE our sender (e.g. Michal texted them directly), so the webhook never saw a delivered event. Keyed by guest code. status wins over the webhook status in STATUS.md.",
+  "AnnaRudoy": { "status": "sent", "note": "sent manually by Michal 2026-08-17" },
+  "LarisaSharay": { "status": "sent", "note": "sent manually by Michal 2026-08-17" }
+}
