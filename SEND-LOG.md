@@ -9,7 +9,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 
 ### wedding_invite_en (2)
-- [x] NikolAndJulian — Nikol & Julian (+19296225141) — invitation 1 sent 2026-08-17
+- [ ] NikolAndJulian — Nikol & Julian (+19296225141) — marketing failed 131049 (throttled)
 - [x] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752) — invitation 1 sent 2026-08-17
 
 ### wedding_invite_m (86)
@@ -30,7 +30,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] IdoEizer — עידו (+972587966566) — invitation 1 sent 2026-08-17
 - [x] EranGroovman — ערן (+972537214567) — invitation 1 sent 2026-08-17
 - [x] YovalCipele — יובל (+972533345430) — invitation 1 sent 2026-08-17
-- [x] IlayShtern — עילי (+13074137595) — invitation 1 sent 2026-08-17
+- [ ] IlayShtern — עילי (+13074137595) — marketing failed 131049 (throttled)
 - [ ] NirElishoov — אלישוב (+972502057263)
 - [ ] OfekAharoni — אופק (+972507738440)
 - [ ] IdoEhrlich — ארליך (+972543153883)
@@ -153,7 +153,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] AlexRejabek — סשה ושחר (+972509250099) — invitation 1 sent 2026-08-17
 - [x] MichaelRejabek — מיכאל וריקי (+972525582965) — invitation 1 sent 2026-08-17
 - [x] DanialRejabek — דניאל ורוני (+972524548987) — invitation 1 sent 2026-08-17
-- [x] NinaTravizki — נינה וארסניי (+972544782618) — invitation 1 sent 2026-08-17
+- [ ] NinaTravizki — נינה וארסניי (+972544782618) — marketing failed 131049 (throttled)
 - [x] DavidVolpert — דוד ויוליה (+4915153463763) — invitation 1 sent 2026-08-17
 - [x] RitaReizis — ריטה וולרה (+972545305278) — invitation 1 sent 2026-08-17
 - [x] NataliVidro — נטשה ואליה (+972544917892) — invitation 1 sent 2026-08-17
@@ -162,11 +162,11 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MarinaMarkovich — מרינה ואדיק (+972525111211) — invitation 1 sent 2026-08-17
 - [x] FelixLebed — ג׳ניה ופליקס (+972545402019) — invitation 1 sent 2026-08-17
 - [x] YuvalBinder — מוניקה ויובל (+972508805192) — invitation 1 sent 2026-08-17
-- [x] AnnaDainov — אניה ומישה (+972528915534) — invitation 1 sent 2026-08-17
-- [x] KaterinaEpshtein — קטיה וולרה (+972522406687) — invitation 1 sent 2026-08-17
+- [ ] AnnaDainov — אניה ומישה (+972528915534) — marketing failed 131049 (throttled)
+- [ ] KaterinaEpshtein — קטיה וולרה (+972522406687) — marketing failed 131049 (throttled)
 - [x] LenaFatale — לנה וג׳ניה (+972544605466) — invitation 1 sent 2026-08-17
 - [x] AlexSinelnikov — סשה וסטלה (+972525440371) — invitation 1 sent 2026-08-17
-- [x] LeonidPraisman — ליאוניד ואלה (+972547544457) — invitation 1 sent 2026-08-17
+- [ ] LeonidPraisman — ליאוניד ואלה (+972547544457) — marketing failed 131049 (throttled)
 - [ ] LiorMizrahi — ליאור ושירה (+972546880090)
 - [ ] OrFranco — פרנקו ומיכל (+972503013354)
 - [ ] DanaNir — דנה ועומר (+972503310197)
