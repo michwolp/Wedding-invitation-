@@ -9,14 +9,14 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 
 ### wedding_invite_en (2)
-- [ ] NikolAndJulian — Nikol & Julian (+19296225141) — marketing failed 131049 (throttled)
+- [x] NikolAndJulian — Nikol & Julian (+19296225141) — invitation 1 sent 2026-08-18 [utility]
 - [x] Olga — Olga, Deerk, Lara, Yana and Masha (+32474520752) — invitation 1 sent 2026-08-17
 
 ### wedding_invite_m (86)
 - [x] DanKedmi — אלי (+972509878804) — invitation 1 sent 2026-08-12
 - [x] RonWolpert — רון המתוק (+972526998033) — invitation 1 sent 2026-08-13
 - [x] MaorPeretz — מאורי (+972542899187) — invitation 1 sent 2026-08-13
-- [ ] MichaelYafe — מיכאל (+972526462911)
+- [x] MichaelYafe — מיכאל (+972526462911) — invitation 1 sent 2026-08-18
 - [ ] OrrBinyamini — אור (+972509349101)
 - [x] Max — מקסים (+972545500494) — invitation 1 sent 2026-08-17
 - [x] IdanTravizki — עידן (+972587046540) — invitation 1 sent 2026-08-17
@@ -146,14 +146,14 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] RonDeitch — רון והדר (+972547911403) — invitation 1 sent 2026-08-12
 - [x] YotamSuliman — יות וגיל (+972504600888) — invitation 1 sent 2026-08-13
 - [ ] RonnyAndGuy — רוני וגיא (+972546826789)
-- [ ] SigalSasson — סיגל ואייל (+972547949355)
+- [x] SigalSasson — סיגל ואייל (+972547949355) — invitation 1 sent 2026-08-18 [utility]
 - [x] ItaySasson — איתי ועמיר (+972535301805) — invitation 1 sent 2026-08-13
 - [ ] OmriAmit — עומרי (+972545655099)
 - [x] MorFilo — מור ותומר (+972506863116) — invitation 1 sent 2026-08-01
 - [x] AlexRejabek — סשה ושחר (+972509250099) — invitation 1 sent 2026-08-17
 - [x] MichaelRejabek — מיכאל וריקי (+972525582965) — invitation 1 sent 2026-08-17
 - [x] DanialRejabek — דניאל ורוני (+972524548987) — invitation 1 sent 2026-08-17
-- [ ] NinaTravizki — נינה וארסניי (+972544782618) — marketing failed 131049 (throttled)
+- [x] NinaTravizki — נינה וארסניי (+972544782618) — invitation 1 sent 2026-08-18 [utility]
 - [x] DavidVolpert — דוד ויוליה (+4915153463763) — invitation 1 sent 2026-08-17
 - [x] RitaReizis — ריטה וולרה (+972545305278) — invitation 1 sent 2026-08-17
 - [x] NataliVidro — נטשה ואליה (+972544917892) — invitation 1 sent 2026-08-17
@@ -162,11 +162,11 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MarinaMarkovich — מרינה ואדיק (+972525111211) — invitation 1 sent 2026-08-17
 - [x] FelixLebed — ג׳ניה ופליקס (+972545402019) — invitation 1 sent 2026-08-17
 - [x] YuvalBinder — מוניקה ויובל (+972508805192) — invitation 1 sent 2026-08-17
-- [ ] AnnaDainov — אניה ומישה (+972528915534) — marketing failed 131049 (throttled)
-- [ ] KaterinaEpshtein — קטיה וולרה (+972522406687) — marketing failed 131049 (throttled)
+- [x] AnnaDainov — אניה ומישה (+972528915534) — invitation 1 sent 2026-08-18 [utility]
+- [x] KaterinaEpshtein — קטיה וולרה (+972522406687) — invitation 1 sent 2026-08-18 [utility]
 - [x] LenaFatale — לנה וג׳ניה (+972544605466) — invitation 1 sent 2026-08-17
 - [x] AlexSinelnikov — סשה וסטלה (+972525440371) — invitation 1 sent 2026-08-17
-- [ ] LeonidPraisman — ליאוניד ואלה (+972547544457) — marketing failed 131049 (throttled)
+- [x] LeonidPraisman — ליאוניד ואלה (+972547544457) — invitation 1 sent 2026-08-18 [utility]
 - [ ] LiorMizrahi — ליאור ושירה (+972546880090)
 - [ ] OrFranco — פרנקו ומיכל (+972503013354)
 - [ ] DanaNir — דנה ועומר (+972503310197)
@@ -226,7 +226,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] OlgaAltshul — Оля и Боря (+972544951380) — invitation 1 sent 2026-08-17 [utility]
 - [x] MarinaAgizin — Марина (+972528895280) — invitation 1 sent 2026-08-17
 - [x] Asia — Ася (+491792668846) — invitation 1 sent 2026-08-18
-- [ ] LaraShapiro — Лара и Боря (+15853707345)
+- [x] LaraShapiro — Лара и Боря (+15853707345) — invitation 1 sent 2026-08-18 [utility]
 - [x] LarisaKanevski — Лариса (+14165006516) — invitation 1 sent 2026-08-17 [utility]
 - [x] RayaTrahtenberg — Рая и Леня (+79859502386) — invitation 1 sent 2026-08-17 [utility]
 - [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17 [utility]

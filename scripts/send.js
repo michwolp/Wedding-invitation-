@@ -91,6 +91,28 @@ const MESSAGE_TYPES = {
       ];
     },
   },
+  // Unified UTILITY re-send across ALL languages: exempt from the MARKETING
+  // ecosystem throttle (130472/131049). Picks the right approved utility
+  // template by language/form. Hebrew utility is split singular vs plural
+  // (no gender split, unlike the marketing m/f). Own ledger prefix + separate
+  // log so it isn't blocked by the `invite:` marketing sent marks.
+  invite_util: {
+    label: 'invitation 1 (utility)',
+    log: 'SEND-LOG-util.md',
+    template(g) {
+      if (g.lang === 'en') return { name: 'wedding_invite_en_utility', lang: 'en' };
+      if (g.lang === 'ru') return { name: 'wedding_invite_ru_utility', lang: 'ru' };
+      // Hebrew — singular (m/f) vs plural (couples/groups).
+      const plural = g.form === 'plural' || g.form === 'plural_f';
+      return { name: plural ? 'wedding_invite_he_plural_utility' : 'wedding_invite_he_singular_utility', lang: 'he' };
+    },
+    components(g, code) {
+      return [
+        { type: 'body', parameters: [{ type: 'text', text: g.name }] },
+        { type: 'button', sub_type: 'url', index: '0', parameters: [{ type: 'text', text: code }] },
+      ];
+    },
+  },
 };
 
 // --- CLI flags ---
