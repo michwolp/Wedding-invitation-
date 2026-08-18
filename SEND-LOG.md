@@ -5,6 +5,8 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 **Templates:** Hebrew needs m / f / plural (gendered grammar). Russian & English are gender-neutral, so one template each.
 
+**Send method:** default is the MARKETING invite template. Exceptions are tagged: `[utility]` = sent via the throttle-exempt UTILITY template (`wedding_invite_ru_utility`), `[manual]` = Michal sent it herself outside the sender.
+
 
 ### wedding_invite_en (2)
 - [x] NikolAndJulian — Nikol & Julian (+19296225141) — invitation 1 sent 2026-08-17
@@ -218,29 +220,29 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 
 ### wedding_invite_ru (25)
 - [x] ViktoriaSharay — Мамик и Папик (+972504247003) — invitation 1 — invitation 1 sent 2026-08-13
-- [x] LarisaSharay — Лялик (+972544575308) — invitation 1 sent 2026-08-13
-- [x] OlegSharay — Олешака (+972503421703) — invitation 1 sent 2026-08-17
-- [x] StasaGetelman — Стыся и Сеня (+972505683789) — invitation 1 sent 2026-08-17
-- [x] OlgaAltshul — Оля и Боря (+972544951380) — invitation 1 sent 2026-08-17
+- [x] LarisaSharay — Лялик (+972544575308) — invitation 1 sent 2026-08-13 [manual]
+- [x] OlegSharay — Олешака (+972503421703) — invitation 1 sent 2026-08-17 [utility]
+- [x] StasaGetelman — Стыся и Сеня (+972505683789) — invitation 1 sent 2026-08-17 [utility]
+- [x] OlgaAltshul — Оля и Боря (+972544951380) — invitation 1 sent 2026-08-17 [utility]
 - [x] MarinaAgizin — Марина (+972528895280) — invitation 1 sent 2026-08-17
 - [x] Asia — Ася (+491792668846) — invitation 1 sent 2026-08-18
 - [ ] LaraShapiro — Лара и Боря (+15853707345)
-- [x] LarisaKanevski — Лариса (+14165006516) — invitation 1 sent 2026-08-17
-- [x] RayaTrahtenberg — Рая и Леня (+79859502386) — invitation 1 sent 2026-08-17
-- [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17
+- [x] LarisaKanevski — Лариса (+14165006516) — invitation 1 sent 2026-08-17 [utility]
+- [x] RayaTrahtenberg — Рая и Леня (+79859502386) — invitation 1 sent 2026-08-17 [utility]
+- [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17 [utility]
 - [x] MarinaMihnevich — Марина и Паша (+972539858980) — invitation 1 sent 2026-08-17
-- [x] GlebMihnevich — Таня и Глеб (+972533801970) — invitation 1 sent 2026-08-17
+- [x] GlebMihnevich — Таня и Глеб (+972533801970) — invitation 1 sent 2026-08-17 [utility]
 - [ ] NataliaPozdnuhova — Наташа (+79104454909)
-- [x] AlexAshvind — Алеша (+972533802004) — invitation 1 sent 2026-08-17
+- [x] AlexAshvind — Алеша (+972533802004) — invitation 1 sent 2026-08-17 [utility]
 - [x] LeonidPozdnuhov — Леня и Наташа (+972533784580) — invitation 1 sent 2026-08-17
 - [x] SoniaLevin — Соня и Боб (+972525322523) — invitation 1 sent 2026-08-17
 - [x] AnnaNahmanson — Аня (+79213149495) — invitation 1 sent 2026-08-17
 - [x] IlyaNahmanson — Илья (+79119763699) — invitation 1 sent 2026-08-17
-- [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 sent 2026-08-13
+- [x] AnnaRudoy — Аня и Саша (+972545749947) — invitation 1 sent 2026-08-13 [manual]
 - [x] SashaZalzman — Саша (+972547326031) — invitation 1 sent 2026-08-17
 - [x] SimonIkirson — Сема и Лена (+79219082489) — invitation 1 sent 2026-08-17
 - [x] JuliaSharay — Юля и Сева (+79162212070) — invitation 1 sent 2026-08-17
-- [x] BochkoLena — Алена и Боря (+19087397619) — invitation 1 sent 2026-08-17
+- [x] BochkoLena — Алена и Боря (+19087397619) — invitation 1 sent 2026-08-17 [utility]
 - [x] AlexanderUnger — Шулим (+4917684384736) — invitation 1 sent 2026-08-17
 
 ---
