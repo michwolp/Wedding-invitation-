@@ -237,6 +237,13 @@ async function main() {
   else if (flags.all) codes = Object.keys(GUESTS).filter((c) => c !== 'testMichal');
   else codes = [...TEST_GROUP];
 
+  // --skip=Code1,Code2 removes specific guests from the batch (e.g. a bad
+  // number we'll handle manually, or someone with another send already in flight).
+  if (flags.skip) {
+    const drop = new Set(String(flags.skip).split(',').map((s) => s.trim()).filter(Boolean));
+    codes = codes.filter((c) => !drop.has(c));
+  }
+
   const ledger = loadLedger();
   const loggedSent = sentCodesFromLog(logPath);
   const isSent = (code) => !!ledger.sent[`${TYPE}:${code}`] || loggedSent.has(code);
