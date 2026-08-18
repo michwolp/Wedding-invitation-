@@ -254,7 +254,7 @@ async function main() {
   for (const code of codes) {
     const g = GUESTS[code];
     if (!g) { problems.push(`${code}: not in guest list`); continue; }
-    if (isSent(code)) { plan.push({ code, g, skip: 'already sent' }); continue; }
+    if (isSent(code) && !flags.force) { plan.push({ code, g, skip: 'already sent' }); continue; }
     const tmpl = type.template(g);
     const to = toE164(g.phone);
     if (to.length < 9) { problems.push(`${code}: phone too short after E.164 (${g.phone} → ${to})`); continue; }

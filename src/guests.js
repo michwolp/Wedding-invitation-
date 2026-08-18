@@ -229,6 +229,7 @@ const GUESTS = {
   BoazAmraz: { name: 'בועז', fullName: 'Boaz Amraz', phone: '0526031416', lang: 'he', form: 'm' },
   RonenAmraz: { name: 'רונן', fullName: 'Ronen Amraz', phone: '0526031389', lang: 'he', form: 'm' },
   IrenaAmraz: { name: 'אירנה', fullName: 'Irena Amraz', phone: '0526031482', lang: 'he', form: 'f' },
+  MalvinaAmraz: { name: 'מלבינה', fullName: 'Malvina Amraz', phone: '0526031410', lang: 'he', form: 'f' },
   RoniAmraz: { name: 'רוני', fullName: 'Roni Amraz', phone: '0528838658', lang: 'he', form: 'm' },
   LeonidAmraz: { name: 'לאוניד', fullName: 'Leonid Amraz', phone: '0526031432', lang: 'he', form: 'm' },
   AlfredAmraz: { name: 'אלפרד', fullName: 'Alfred Amraz', phone: '0526031441', lang: 'he', form: 'm' },
