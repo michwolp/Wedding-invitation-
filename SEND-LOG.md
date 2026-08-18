@@ -223,8 +223,8 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] StasaGetelman — Стыся и Сеня (+972505683789) — invitation 1 sent 2026-08-17
 - [x] OlgaAltshul — Оля и Боря (+972544951380) — invitation 1 sent 2026-08-17
 - [x] MarinaAgizin — Марина (+972528895280) — invitation 1 sent 2026-08-17
-- [x] Asia — Ася (+491766387721) — invitation 1 sent 2026-08-17
-- [x] LaraShapiro — Лара и Боря (+15854730464) — invitation 1 sent 2026-08-17
+- [x] Asia — Ася (+491792668846) — invitation 1 sent 2026-08-18
+- [ ] LaraShapiro — Лара и Боря (+15853707345)
 - [x] LarisaKanevski — Лариса (+14165006516) — invitation 1 sent 2026-08-17
 - [x] RayaTrahtenberg — Рая и Леня (+79859502386) — invitation 1 sent 2026-08-17
 - [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17
