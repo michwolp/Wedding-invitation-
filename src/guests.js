@@ -36,6 +36,8 @@ const GUESTS = {
   OrrBinyamini: { name: 'אור', fullName: 'אור בנימיני', phone: '0509349101', lang: 'he', form: 'm' },
   MorBenAmi: { name: 'מור', fullName: 'מור בן עמי', phone: '0549439445', lang: 'he', form: 'f' },
   ThaiHayut: { name: 'תאיוש', fullName: 'תאי חיות', phone: '0542604840', lang: 'he', form: 'f' },
+  Yara: { name: 'יארה', fullName: 'Yara Amazon', phone: '0547171874',
+  lang: 'he', form: 'f' },
 
   // --- Michal's family (Russian-speaking) ---
   StasaGetelman: { name: 'Стыся и Сеня', fullName: 'Stasa Getelman', phone: '0505683789', lang: 'ru', form: 'plural' },
