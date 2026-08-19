@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
   const url = `${process.env.SUPABASE_URL}/rest/v1/whatsapp_status`
     + `?select=wa_message_id,recipient_phone,status,error_code,error_title,at`
-    + `&order=at.desc&limit=2000`;
+    + `&order=at.desc&limit=5000`;
   let rows;
   try {
     const resp = await fetch(url, {
