@@ -22,6 +22,30 @@ function toE164(phone) {
 // Parse the "// --- Category ---" section headers out of the guests source so
 // each guest can be grouped. Best-effort: if the source can't be read at
 // runtime, everyone falls back to 'Other' and the dashboard still works.
+// Manual per-guest overrides (keyed by guest code) for people whose section
+// in guests.js doesn't reflect their real group/category. Each sets the
+// top-level group and the category label shown under it.
+const OVERRIDES = {
+  // → Work (עבודה)
+  VladimirKofman: { group: 'עבודה', category: "Michal's work friends" },
+  MayAmazon:      { group: 'עבודה', category: "Michal's work friends" },
+  NadavShoham:    { group: 'עבודה', category: "Michal's work friends" },
+  MayaSharon:     { group: 'עבודה', category: "Michal's work friends" },
+  OmriAmit:       { group: 'עבודה', category: "Michal's work friends" },
+  Anton:          { group: 'עבודה', category: "Michal's work friends" },
+  AmirZevin:      { group: 'עבודה', category: "Dvir's work" },
+  TzviStrauss:    { group: 'עבודה', category: "Dvir's work" },
+  RomMaltser:     { group: 'עבודה', category: "Dvir's work" },
+  // → Friends (חברים)
+  DanielObo:      { group: 'חברים', category: 'Friends' },
+  // → Family (משפחה)
+  GalinaKasharovski: { group: 'משפחה', category: "Michal's family" },
+  RonWolpert:        { group: 'משפחה', category: "Michal's family" },
+  SigalSasson:       { group: 'משפחה', category: "Dvir's family" },
+  SigalSassonAlt:    { group: 'משפחה', category: "Dvir's family" },
+  ItaySasson:        { group: 'משפחה', category: "Dvir's family" },
+};
+
 // Roll a fine-grained category header up into a top-level group so the
 // dashboard can show משפחה / חברים / עבודה / אחר. Keyword-based; unknown
 // headers fall into 'אחר' (Other).
@@ -130,11 +154,16 @@ export function buildRoster(rows, messages = []) {
     for (const k of candidates) { if (byKey.has(k)) { row = byKey.get(k); break; } }
 
     const reply = replyByPhone.get(e164) || replyByPhone.get(g.phone.replace(/\D/g, '')) || null;
-    const category = cat[code] || 'Other';
+    const ov = OVERRIDES[code];
+    let category = ov ? ov.category : (cat[code] || 'Other');
+    const group = ov ? ov.group : groupOf(category); // top-level bucket: משפחה / חברים / עבודה / אחר
+    // Inside the family group, label each guest by side: Michal / Dvir.
+    if (group === 'משפחה') category = /dvir/i.test(category) ? 'Dvir' : 'Michal';
+    // Friends is one bucket — merge "Michal's wider circle" into "Friends".
+    else if (group === 'חברים') category = 'Friends';
     const base = {
       code, name: g.name, fullName: g.fullName || g.name, phone: g.phone,
-      category,
-      group: groupOf(category), // top-level bucket: משפחה / חברים / עבודה / אחר
+      category, group,
       reply, // WhatsApp reply text (or null) — "who replied and what"
     };
 

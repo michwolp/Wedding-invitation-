@@ -46,11 +46,17 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
   padding:14px 18px;margin:0 0 22px}
 .panel h2{font-family:var(--display);font-weight:600;font-size:1.5rem;color:var(--red);margin:0 0 10px}
 .shuttle-row{display:flex;flex-wrap:wrap;gap:10px 22px}
-.shuttle-row div{font-size:.95rem}
-.shuttle-row b{font-family:var(--display);font-size:1.2rem;color:var(--blue)}
+.shuttle-row{flex-direction:column;gap:8px}
+.shuttle-row div{font-size:.98rem}
+.shuttle-row b{font-family:var(--display);font-size:1.15rem;color:var(--blue)}
+.shuttle-row .mut{color:#a99;font-size:.85rem}
 
 #search{font-family:var(--body);font-size:1rem;padding:10px 14px;width:100%;
-  border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);margin:0 0 20px}
+  border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);margin:0 0 12px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.filters button{font-family:var(--body);font-size:.92rem;padding:7px 16px;cursor:pointer;
+  border:1.5px solid var(--line);border-radius:99px;background:var(--card);color:var(--ink)}
+.filters button.active{background:var(--red);color:#fff;border-color:var(--red)}
 
 /* collapsible groups + categories (native <details>) */
 summary{cursor:pointer;list-style:none;user-select:none}
@@ -73,9 +79,10 @@ html[dir="rtl"] details[open] > summary::before{transform:rotate(-90deg)}
 .cat > summary .cat-name{font-family:var(--display);font-weight:600;font-size:1.4rem;color:var(--ink)}
 .cat > summary .mini{font-size:.85rem;color:var(--blue)}
 .cat-body{padding:4px 0 12px 8px}
-.grp{margin:10px 0}
-.grp h3{font-size:.9rem;letter-spacing:.08em;margin:0 0 6px;text-transform:uppercase}
-.grp.g-yes h3{color:var(--green)} .grp.g-no h3{color:var(--red)} .grp.g-wait h3{color:var(--gold)}
+.grp{margin:8px 0}
+.grp > summary{font-size:.92rem;letter-spacing:.06em;font-weight:700;padding:4px 2px}
+.grp.g-yes > summary{color:var(--green)} .grp.g-no > summary{color:var(--red)} .grp.g-wait > summary{color:var(--gold)}
+.grp > .g{margin-inline-start:6px}
 .g{border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin:0 0 7px;background:#fff}
 .g .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
 .g .nm{font-weight:700;font-size:1.05rem}
@@ -110,6 +117,13 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
 
   <input id="search" type="search" placeholder="חיפוש לפי שם או טלפון…" autocomplete="off" />
 
+  <div class="filters" id="filters">
+    <button data-f="all" class="active">הכל</button>
+    <button data-f="yes">✓ מגיעים</button>
+    <button data-f="no">✗ לא מגיעים</button>
+    <button data-f="wait">⏳ טרם השיבו</button>
+  </div>
+
   <div id="roster"></div>
 
   <footer>מתעדכן בזמן אמת · קריאה בלבד</footer>
@@ -120,7 +134,7 @@ const $ = (s, r=document) => r.querySelector(s);
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-const CITY = { tlv: 'תל אביב', rhv: 'ראשל״צ' };
+const CITY = { tlv: 'תל אביב', rhv: 'רחובות' };
 const RET  = { after: 'חזרה אחרי האפטר', noafter: 'חזרה לפני האפטר' };
 
 function shuttleText(sh){
@@ -169,14 +183,18 @@ function render(data){
 
   // shuttle
   const s = c.shuttle || {};
-  const byCity = Object.entries(s.byCity || {}).map(([city, v]) =>
-    `<div>${CITY[city] || city}: <b>${v.heads}</b> נפשות</div>`).join('');
+  // per-city breakdown for a given leg (to / retAfter / retNoAfter)
+  const legByCity = (leg) => {
+    const parts = Object.entries(s.byCity || {})
+      .filter(([, v]) => (v[leg] || 0) > 0)
+      .map(([city, v]) => `${CITY[city] || city}: <b>${v[leg]}</b>`);
+    return parts.length ? parts.join(' · ') : '—';
+  };
   $('#shuttle').innerHTML = `
     <div>סה״כ בהסעות: <b>${s.totalHeads || 0}</b> נפשות</div>
-    <div>הסעה להגעה: <b>${s.to || 0}</b></div>
-    <div>${RET.after}: <b>${s.retAfter || 0}</b></div>
-    <div>${RET.noafter}: <b>${s.retNoAfter || 0}</b></div>
-    ${byCity}`;
+    <div>הסעה להגעה &nbsp;·&nbsp; איסוף מ־ ${legByCity('to')} &nbsp;<span class="mut">(סה״כ ${s.to || 0})</span></div>
+    <div>${RET.after} &nbsp;·&nbsp; יעד: ${legByCity('retAfter')} &nbsp;<span class="mut">(סה״כ ${s.retAfter || 0})</span></div>
+    <div>${RET.noafter} &nbsp;·&nbsp; יעד: ${legByCity('retNoAfter')} &nbsp;<span class="mut">(סה״כ ${s.retNoAfter || 0})</span></div>`;
   if (!(s.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
 
   // group everyone: top-level group → fine category → yes/no/wait buckets
@@ -204,7 +222,7 @@ function render(data){
 
   const catBlock = (cat, b) => {
     const grp = (kind, title, cls) => b[kind].length
-      ? `<div class="grp ${cls}"><h3>${title} (${b[kind].length})</h3>${b[kind].map(g => guestCard(g, kind)).join('')}</div>`
+      ? `<details class="grp ${cls}" open><summary>${title} (${b[kind].length})</summary>${b[kind].map(g => guestCard(g, kind)).join('')}</details>`
       : '';
     const total = b.yes.length + b.no.length + b.wait.length;
     return `<details class="cat">
@@ -239,24 +257,37 @@ function render(data){
   $('#roster').innerHTML = groupHtml + orphanHtml;
 }
 
-function filter(q){
-  q = q.trim().toLowerCase();
+let statusFilter = 'all';   // all | yes | no | wait
+let searchText = '';
+
+function applyFilters(){
+  const q = searchText.trim().toLowerCase();
   const searching = !!q;
-  document.querySelectorAll('#roster .g').forEach(el => {
-    el.classList.toggle('hidden', searching && !(el.dataset.s || '').includes(q));
-  });
+  const active = searching || statusFilter !== 'all';
   const hasVisible = (el) => [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
-  document.querySelectorAll('#roster .grp').forEach(el => el.classList.toggle('hidden', !hasVisible(el)));
-  // categories: default collapsed; while searching, hide empties and open matches
+
+  // 1) cards: hidden if their status bucket is filtered out, or search misses
+  document.querySelectorAll('#roster .g').forEach(el => {
+    const grp = el.closest('.grp');
+    const statusOk = statusFilter === 'all' || !grp || grp.classList.contains('g-' + statusFilter);
+    const searchOk = !q || (el.dataset.s || '').includes(q);
+    el.classList.toggle('hidden', !(statusOk && searchOk));
+  });
+  // 2) status buckets: hide if empty; open when actively filtering/searching
+  document.querySelectorAll('#roster details.grp').forEach(el => {
+    const any = hasVisible(el);
+    el.classList.toggle('hidden', !any);
+    if (active && any) el.open = true;
+  });
+  // 3) categories: default collapsed; while active, hide empties and open matches
   document.querySelectorAll('#roster details.cat').forEach(el => {
     const any = hasVisible(el);
-    el.classList.toggle('hidden', searching && !any);
-    el.open = searching ? any : false;
+    el.classList.toggle('hidden', active && !any);
+    el.open = active ? any : false;
   });
-  // groups stay open by default; while searching, hide empties
+  // 4) groups: stay open; while active, hide empties
   document.querySelectorAll('#roster details.group').forEach(el => {
-    const any = hasVisible(el);
-    el.classList.toggle('hidden', searching && !any);
+    el.classList.toggle('hidden', active && !hasVisible(el));
     el.open = true;
   });
 }
@@ -275,7 +306,14 @@ async function load(key){
   return res.json();
 }
 
-$('#search').addEventListener('input', e => filter(e.target.value));
+$('#search').addEventListener('input', e => { searchText = e.target.value; applyFilters(); });
+$('#filters').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-f]');
+  if (!btn) return;
+  statusFilter = btn.dataset.f;
+  document.querySelectorAll('#filters button').forEach(b => b.classList.toggle('active', b === btn));
+  applyFilters();
+});
 
 // The access key travels in the URL (hash or ?k=) so no password is typed.
 // Remember it for this browser session so a later visit without the hash works.
