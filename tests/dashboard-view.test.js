@@ -52,13 +52,18 @@ describe('recentHtml', () => {
 });
 
 describe('shuttleRowsHtml', () => {
-  it('shows the total and per-city legs', () => {
+  it('renders a per-city table with a totals footer', () => {
     const html = shuttleRowsHtml({
-      totalHeads: 3, byCity: { tlv: { to: 2, retAfter: 2 }, rhv: { retNoAfter: 1 } },
+      totalHeads: 3, byCity: { tlv: { to: 2, retAfter: 2, heads: 2 }, rhv: { retNoAfter: 1, heads: 1 } },
     });
-    expect(html).toContain('סה״כ בהסעות: <b>3</b>');
-    expect(html).toContain('תל אביב: <b>2</b>');
-    expect(html).toContain('רחובות: <b>1</b>');
+    expect(html).toContain('<table class="shuttle-table"');
+    expect(html).toContain('תל אביב');
+    expect(html).toContain('רחובות');
+    expect(html).toContain('סה״כ');
+    expect(html).toContain('<b>3</b>'); // total heads in the footer
+  });
+  it('shows an empty-state when nobody signed up for a ride', () => {
+    expect(shuttleRowsHtml({ totalHeads: 0, byCity: {} })).toContain('אין');
   });
 });
 

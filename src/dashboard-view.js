@@ -66,20 +66,43 @@ export function recentHtml(recent) {
   }).join('');
 }
 
-// The shuttle panel rows (overall total + per-city breakdown for each leg).
+// The shuttle panel as a per-city table: one row per pickup city with the head
+// count on each leg, plus a totals footer. `heads` is distinct people in that
+// city; the footer's נפשות column is the overall total (not the leg sum).
 export function shuttleRowsHtml(shuttle) {
   const s = shuttle || {};
-  const legByCity = (leg) => {
-    const parts = Object.entries(s.byCity || {})
-      .filter(([, v]) => (v[leg] || 0) > 0)
-      .map(([city, v]) => `${CITY[city] || city}: <b>${v[leg]}</b>`);
-    return parts.length ? parts.join(' · ') : '—';
-  };
-  return `
-    <div>סה״כ בהסעות: <b>${s.totalHeads || 0}</b> נפשות</div>
-    <div>הסעה להגעה &nbsp;·&nbsp; איסוף מ־ ${legByCity('to')}</div>
-    <div>${RET.after} &nbsp;·&nbsp; יעד: ${legByCity('retAfter')}</div>
-    <div>${RET.noafter} &nbsp;·&nbsp; יעד: ${legByCity('retNoAfter')}</div>`;
+  const cities = Object.keys(s.byCity || {});
+  if (!cities.length) return '<div class="mut">אין נרשמים להסעות עדיין</div>';
+
+  const cell = (v) => (v ? `<b>${v}</b>` : '—');
+  const totals = { to: 0, retAfter: 0, retNoAfter: 0 };
+  const body = cities.map((c) => {
+    const v = s.byCity[c];
+    totals.to += v.to || 0;
+    totals.retAfter += v.retAfter || 0;
+    totals.retNoAfter += v.retNoAfter || 0;
+    return `<tr>
+      <td class="city">${esc(CITY[c] || c)}</td>
+      <td>${cell(v.to)}</td>
+      <td>${cell(v.retAfter)}</td>
+      <td>${cell(v.retNoAfter)}</td>
+      <td>${cell(v.heads)}</td>
+    </tr>`;
+  }).join('');
+
+  return `<table class="shuttle-table">
+    <thead><tr>
+      <th>עיר</th><th>להגעה</th><th>חזרה אחרי</th><th>חזרה לפני</th><th>נפשות</th>
+    </tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr>
+      <td class="city">סה״כ</td>
+      <td>${cell(totals.to)}</td>
+      <td>${cell(totals.retAfter)}</td>
+      <td>${cell(totals.retNoAfter)}</td>
+      <td>${cell(s.totalHeads || 0)}</td>
+    </tr></tfoot>
+  </table>`;
 }
 
 // One guest card. `kind` is 'yes' | 'no' | 'wait'. data-ride / data-note drive

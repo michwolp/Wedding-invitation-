@@ -62,8 +62,13 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .shuttle-row{display:flex;flex-wrap:wrap;gap:10px 22px}
 .shuttle-row{flex-direction:column;gap:8px}
 .shuttle-row div{font-size:.98rem;overflow-wrap:anywhere;word-break:break-word}
-.shuttle-row b{font-family:var(--display);font-size:1.15rem;color:var(--blue)}
 .shuttle-row .mut{color:#a99;font-size:.85rem}
+.shuttle-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.shuttle-table th,.shuttle-table td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.shuttle-table th{color:var(--blue);font-weight:700;font-size:.8rem;position:sticky;top:0;background:var(--card)}
+.shuttle-table td.city{text-align:start;font-weight:700}
+.shuttle-table b{font-family:var(--display);color:var(--blue);font-size:1.1rem}
+.shuttle-table tfoot td{border-top:2px solid var(--line);border-bottom:none;font-weight:700;color:var(--red)}
 
 /* last-5 RSVPs list */
 .recent-item{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
