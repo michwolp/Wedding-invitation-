@@ -116,6 +116,12 @@ describe('rosterHtml', () => {
     expect(html).not.toMatch(/<details[^>]*\sopen/);
   });
 
+  it('summarizes each group as ✓ yes (heads) · ✗ no · ⏳ wait · סה״כ invited', () => {
+    // עבודה: 1 yes invitation, 2 heads, 0 no, 0 wait → total invited 1
+    const html = rosterHtml(data);
+    expect(html).toContain('✓ 1 (2) · ✗ 0 · ⏳ 0 &nbsp;·&nbsp; סה״כ 1');
+  });
+
   it('collapses the category layer for single-category groups (e.g. חברים)', () => {
     const html = rosterHtml(data);
     // חברים has one category → no nested details.cat, just the buckets

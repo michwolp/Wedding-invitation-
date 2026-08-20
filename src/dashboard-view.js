@@ -140,11 +140,14 @@ function bucketsHtml(b) {
 }
 
 // One category block (a collapsible section holding the status buckets).
+// Summary reads: ✓ <yes> (<heads>) · ✗ <no> · ⏳ <wait> · סה״כ <invited>.
+// ✓/✗/⏳ count invitations; the (…) after ✓ is the head count of the confirmed.
 function catBlock(cat, b) {
   const total = b.yes.length + b.no.length + b.wait.length;
+  const heads = b.yes.reduce((n, g) => n + (g.heads || 0), 0);
   return `<details class="cat">
     <summary><span class="cat-name">${esc(cat)}</span>
-      <span class="mini">${b.yes.length} ✓ · ${b.no.length} ✗ · ${b.wait.length} ⏳ · מתוך ${total}</span></summary>
+      <span class="mini">✓ ${b.yes.length} (${heads}) · ✗ ${b.no.length} · ⏳ ${b.wait.length} · סה״כ ${total}</span></summary>
     <div class="cat-body">${bucketsHtml(b)}</div>
   </details>`;
 }
@@ -186,7 +189,7 @@ export function rosterHtml(data) {
     }).join('');
     return `<details class="group">
       <summary class="group-head"><span class="grp-name">${esc(gr)}</span>
-        <span class="group-sum">${gy} ✓ · ${gn} ✗ · ${gw} ⏳ &nbsp;·&nbsp; ${gh} נפשות</span></summary>
+        <span class="group-sum">✓ ${gy} (${gh}) · ✗ ${gn} · ⏳ ${gw} &nbsp;·&nbsp; סה״כ ${gy + gn + gw}</span></summary>
       <div class="group-body">${inner}</div>
     </details>`;
   }).join('');
