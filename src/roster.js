@@ -135,7 +135,7 @@ function computeShuttle(accepted) {
 
 // The most-recent RSVP submissions across accepted, declined, and orphan rows,
 // newest first, capped at `limit`.
-function pickRecent(accepted, declined, orphans, limit = 5) {
+function pickRecent(accepted, declined, orphans, limit = 10) {
   return [...accepted, ...declined, ...orphans]
     .filter((e) => e.updatedAt)
     .sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))

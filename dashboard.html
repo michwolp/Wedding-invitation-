@@ -44,11 +44,12 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
   padding:14px 18px;margin:0 0 22px}
 .panel h2{font-family:var(--display);font-weight:600;font-size:1.5rem;color:var(--red);margin:0 0 10px}
 
-/* four info panels as a 2-per-row grid of squares */
+/* four equal-size panels as a 2-per-row grid of squares, each scrolls inside */
 .grids{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
-.grids .panel{margin:0;display:flex;flex-direction:column}
-.grids .scroll{overflow:auto;max-height:300px}
-@media(max-width:640px){.grids{grid-template-columns:1fr}}
+.grids .panel{margin:0;display:flex;flex-direction:column;height:340px}
+.grids .panel h2{flex:none}
+.grids .scroll{flex:1;min-height:0;overflow:auto}
+@media(max-width:640px){.grids{grid-template-columns:1fr}.grids .panel{height:300px}}
 
 /* notes + WhatsApp message lists (inside the grid panels) */
 .note-item,.msg-item{padding:8px 2px;border-bottom:1px solid var(--line)}
@@ -60,7 +61,7 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .msg-txt{color:var(--pink);font-style:italic;font-size:.9rem;margin-top:2px}
 .shuttle-row{display:flex;flex-wrap:wrap;gap:10px 22px}
 .shuttle-row{flex-direction:column;gap:8px}
-.shuttle-row div{font-size:.98rem}
+.shuttle-row div{font-size:.98rem;overflow-wrap:anywhere;word-break:break-word}
 .shuttle-row b{font-family:var(--display);font-size:1.15rem;color:var(--blue)}
 .shuttle-row .mut{color:#a99;font-size:.85rem}
 
@@ -139,12 +140,12 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
   <div class="grids">
     <div class="panel" id="shuttlePanel">
       <h2>הסעות 🚌</h2>
-      <div class="shuttle-row" id="shuttle"></div>
+      <div class="shuttle-row scroll" id="shuttle"></div>
     </div>
 
     <div class="panel" id="recentPanel">
-      <h2>5 האישורים האחרונים 🆕</h2>
-      <div id="recent"></div>
+      <h2>10 האישורים האחרונים 🆕</h2>
+      <div class="scroll" id="recent"></div>
     </div>
 
     <div class="panel" id="notesPanel">

@@ -126,7 +126,7 @@ describe('buildRoster shuttle', () => {
 });
 
 describe('buildRoster recent', () => {
-  it('returns the 5 newest submissions, newest first', () => {
+  it('returns submissions newest first', () => {
     const mk = (code, ts) => row(code, { attending: 'yes', updated_at: ts });
     const data = buildRoster([
       mk('LironGrinstein', '2026-08-01T00:00:00Z'),
@@ -136,10 +136,22 @@ describe('buildRoster recent', () => {
       mk('DanielObo', '2026-08-02T00:00:00Z'),
       mk('ItayAmazon', '2026-08-09T00:00:00Z'),
     ]);
-    expect(data.recent).toHaveLength(5);
     expect(data.recent[0].updatedAt).toBe('2026-08-10T00:00:00Z');
     const ts = data.recent.map((r) => r.updatedAt);
     expect(ts).toEqual([...ts].sort().reverse());
+  });
+
+  it('caps the list at 10 newest', () => {
+    // buildRoster only surfaces known guest codes; unknowns become orphans, which
+    // still feed `recent`. Use orphan rows (unique phones) so all 12 count.
+    const orphanRows = Array.from({ length: 12 }, (_, i) => ({
+      guest_id: 'phone:97250000000' + i, display_name: 'G' + i, phone: '05000000' + i,
+      attending: 'yes', adults: 1, children: 0, notes: '',
+      updated_at: `2026-08-${String(i + 1).padStart(2, '0')}T00:00:00Z`,
+    }));
+    const data = buildRoster(orphanRows);
+    expect(data.recent).toHaveLength(10);
+    expect(data.recent[0].updatedAt).toBe('2026-08-12T00:00:00Z');
   });
 });
 
