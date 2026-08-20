@@ -41,6 +41,7 @@ const OVERRIDES = {
   // → Family (משפחה)
   GalinaKasharovski: { group: 'משפחה', category: "Michal's family" },
   RonWolpert:        { group: 'משפחה', category: "Michal's family" },
+  MayaZborovsky:     { group: 'משפחה', category: "Michal's family" },
   SigalSasson:       { group: 'משפחה', category: "Dvir's family" },
   SigalSassonAlt:    { group: 'משפחה', category: "Dvir's family" },
   ItaySasson:        { group: 'משפחה', category: "Dvir's family" },
