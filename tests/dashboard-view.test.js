@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
-  esc, shuttleText, summaryCardsHtml, donutHtml, recentHtml, shuttleRowsHtml,
-  guestCard, groupRoster, rosterHtml, notesHtml, messagesHtml, passesCard,
+  esc, shuttleText, summaryCardsHtml, donutHtml, groupBarsHtml, recentHtml, shuttleRowsHtml,
+  guestCard, groupRoster, rosterHtml, notesHtml, messagesHtml, passesCard, filterData,
 } from '../src/dashboard-view.js';
 
 describe('esc', () => {
@@ -55,6 +55,82 @@ describe('donutHtml', () => {
     const html = donutHtml({ totalGuests: 5, yes: 5, no: 0, noResponse: 0 });
     expect(html).toContain('class="seg yes"');
     expect(html).not.toContain('class="seg no"');
+  });
+});
+
+describe('groupBarsHtml', () => {
+  const data = {
+    accepted: [
+      { name: 'A', phone: '1', group: 'עבודה', category: 'מיכל', heads: 2 },
+      { name: 'B', phone: '2', group: 'חברים', category: 'Friends', heads: 1 },
+    ],
+    declined: [{ name: 'C', phone: '3', group: 'עבודה', category: 'מיכל' }],
+    noResponse: [{ name: 'D', phone: '4', group: 'חברים', category: 'Friends' }],
+  };
+
+  it('renders one stacked bar row per group with per-status counts', () => {
+    const html = groupBarsHtml(data);
+    expect((html.match(/class="bar-row"/g) || []).length).toBe(2);
+    expect(html).toContain('עבודה');
+    expect(html).toContain('חברים');
+    expect(html).toContain('class="bseg yes"');
+    expect(html).toContain('✓ 1');
+    expect(html).toContain('✗ 1');
+  });
+
+  it('shows an empty-state when there is no data', () => {
+    expect(groupBarsHtml({ accepted: [], declined: [], noResponse: [] })).toContain('אין נתונים');
+  });
+});
+
+describe('filterData', () => {
+  const data = {
+    accepted: [
+      { name: 'דנה', fullName: '', phone: '0501111111', group: 'עבודה', category: 'מיכל', heads: 2, adults: 2, children: 0, shuttle: { city: 'tlv', to: true, ret: 'after' }, notes: 'צמחונית' },
+      { name: 'רון', fullName: '', phone: '0502222222', group: 'חברים', category: 'Friends', heads: 1, adults: 1, children: 0, shuttle: null, notes: '' },
+    ],
+    declined: [{ name: 'גיל', fullName: '', phone: '0503333333', group: 'עבודה', category: 'מיכל', heads: 0, adults: 0, children: 0, shuttle: null, notes: '' }],
+    noResponse: [{ name: 'טל', fullName: '', phone: '0504444444', group: 'חברים', category: 'Friends' }],
+    counts: {}, recent: [], notes: [], inbox: [],
+  };
+
+  it('keeps everything and recomputes the same counts with no active filter', () => {
+    const v = filterData(data, { status: 'all', ride: false, note: false, q: '' });
+    expect(v.counts.yes).toBe(2);
+    expect(v.counts.no).toBe(1);
+    expect(v.counts.noResponse).toBe(1);
+    expect(v.counts.totalGuests).toBe(4);
+    expect(v.counts.heads).toBe(3);
+  });
+
+  it('narrows to a single status and recomputes counts over the subset', () => {
+    const v = filterData(data, { status: 'yes' });
+    expect(v.accepted).toHaveLength(2);
+    expect(v.declined).toHaveLength(0);
+    expect(v.noResponse).toHaveLength(0);
+    expect(v.counts.totalGuests).toBe(2);
+    expect(v.counts.yes).toBe(2);
+    expect(v.counts.pct.yes).toBe(100);
+  });
+
+  it('filters by ride and rebuilds the shuttle totals', () => {
+    const v = filterData(data, { ride: true });
+    expect(v.accepted).toHaveLength(1);
+    expect(v.counts.shuttle.totalHeads).toBe(2);
+    expect(v.counts.shuttle.to).toBe(2);
+  });
+
+  it('filters by note flag', () => {
+    const v = filterData(data, { note: true });
+    expect(v.accepted).toHaveLength(1);
+    expect(v.accepted[0].name).toBe('דנה');
+    expect(v.declined).toHaveLength(0);
+  });
+
+  it('filters by search text over name and phone', () => {
+    expect(filterData(data, { q: 'רון' }).accepted).toHaveLength(1);
+    expect(filterData(data, { q: '0503333333' }).declined).toHaveLength(1);
+    expect(filterData(data, { q: 'zzz' }).counts.totalGuests).toBe(0);
   });
 });
 

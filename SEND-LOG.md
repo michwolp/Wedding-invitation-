@@ -232,7 +232,7 @@ Grouped by the template each guest should receive. Phones shown in **E.164** (wh
 - [x] MichaelMatushevski — Миша и Лариса (+972507228134) — invitation 1 sent 2026-08-17 [utility]
 - [x] MarinaMihnevich — Марина и Паша (+972539858980) — invitation 1 sent 2026-08-17
 - [x] GlebMihnevich — Таня и Глеб (+972533801970) — invitation 1 sent 2026-08-17 [utility]
-- [ ] NataliaPozdnuhova — Наташа (+79104454909)
+- [x] NataliaPozdnuhova — Наташа (+79104454909) — invitation 1 sent 2026-08-19
 - [x] AlexAshvind — Алеша (+972533802004) — invitation 1 sent 2026-08-17 [utility]
 - [x] LeonidPozdnuhov — Леня и Наташа (+972533784580) — invitation 1 sent 2026-08-17
 - [x] SoniaLevin — Соня и Боб (+972525322523) — invitation 1 sent 2026-08-17

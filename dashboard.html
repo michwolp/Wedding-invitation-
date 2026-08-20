@@ -70,6 +70,23 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .lg-item b{font-family:var(--display);font-size:1.15rem;margin-inline-start:auto;color:var(--ink)}
 .lg-item .lg-pct{color:#8b8397;font-size:.82rem;min-width:38px;text-align:end}
 
+/* two analytics widgets side by side (donut + group bars) */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
+.charts .panel{margin:0}
+@media(max-width:720px){.charts{grid-template-columns:1fr}}
+.mut{color:#a99;font-size:.85rem}
+
+/* group stacked bars */
+.bar-row{padding:9px 0;border-bottom:1px solid var(--line)}
+.bar-row:last-child{border-bottom:none}
+.bar-name{display:flex;justify-content:space-between;font-weight:700;font-size:.95rem;margin-bottom:5px}
+.bar-name .bar-tot{color:#8b8397;font-weight:400;font-size:.82rem}
+.bar-track{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--line)}
+.bseg{display:block;height:100%}
+.bseg.yes{background:var(--green)}.bseg.no{background:var(--red)}.bseg.wait{background:var(--gold)}
+.bar-nums{font-size:.82rem;color:#8b8397;margin-top:4px}
+.bar-nums .c-yes{color:var(--green)}.bar-nums .c-no{color:var(--red)}.bar-nums .c-wait{color:var(--gold)}
+
 /* four equal-size panels as a 2-per-row grid of squares, each scrolls inside */
 .grids{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
 .grids .panel{margin:0;display:flex;flex-direction:column;height:340px}
@@ -168,9 +185,15 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
 
   <div class="cards" id="cards"></div>
 
-  <div class="panel" id="breakdownPanel">
-    <h2>התפלגות אישורים 📊</h2>
-    <div id="breakdown"></div>
+  <div class="charts">
+    <div class="panel" id="breakdownPanel">
+      <h2>התפלגות אישורים 📊</h2>
+      <div id="breakdown"></div>
+    </div>
+    <div class="panel" id="groupBarsPanel">
+      <h2>אישורים לפי קבוצה 📶</h2>
+      <div id="groupBars"></div>
+    </div>
   </div>
 
   <div class="grids">
@@ -214,17 +237,22 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
 
 <script type="module">
 import {
-  summaryCardsHtml, donutHtml, recentHtml, shuttleRowsHtml, rosterHtml,
-  notesHtml, messagesHtml, passesCard,
+  summaryCardsHtml, donutHtml, groupBarsHtml, recentHtml, shuttleRowsHtml, rosterHtml,
+  notesHtml, messagesHtml, filterData,
 } from '/dashboard-view.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 
-// Paint the whole dashboard from the roster payload. Panels with no data hide.
+// The full payload, kept so every filter change can recompute from scratch.
+let fullData = null;
+
+// Paint the whole dashboard from the roster payload. The reference lists
+// (shuttle / recent / notes / messages) reflect the full data and never filter;
+// the KPI cards, both charts, and the roster are (re)painted by applyFilters so
+// their numbers always match the active filter.
 function render(data){
+  fullData = data;
   const c = data.counts || {};
-  $('#cards').innerHTML = summaryCardsHtml(c);
-  $('#breakdown').innerHTML = donutHtml(c);
 
   const rec = recentHtml(data.recent);
   if (rec) $('#recent').innerHTML = rec; else $('#recentPanel').classList.add('hidden');
@@ -238,7 +266,7 @@ function render(data){
   const inbox = messagesHtml(data.inbox);
   if (inbox) $('#messages').innerHTML = inbox; else $('#messagesPanel').classList.add('hidden');
 
-  $('#roster').innerHTML = rosterHtml(data);
+  applyFilters();
 }
 
 // --- filtering ---------------------------------------------------------------
@@ -247,39 +275,19 @@ let rideFilter = false;     // only guests with a shuttle
 let noteFilter = false;     // only guests with a note
 let searchText = '';
 
-// Which status bucket a card sits in, read from its parent <details class="grp g-*">.
-function cardStatus(el){
-  const grp = el.closest('.grp');
-  if (!grp) return '';
-  if (grp.classList.contains('g-yes')) return 'yes';
-  if (grp.classList.contains('g-no')) return 'no';
-  if (grp.classList.contains('g-wait')) return 'wait';
-  return '';
-}
-
+// Recompute the whole view for the active filter and repaint the summary
+// numbers (cards, donut, group bars) and the roster from that subset. Groups /
+// categories with nothing left simply drop out, so the numbers "update or
+// disappear" as the filter narrows.
 function applyFilters(){
+  if (!fullData) return;
   const q = searchText.trim().toLowerCase();
-  const filters = { status: statusFilter, ride: rideFilter, note: noteFilter, q };
-  const active = !!q || statusFilter !== 'all' || rideFilter || noteFilter;
-  const hasVisible = (el) => [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
+  const view = filterData(fullData, { status: statusFilter, ride: rideFilter, note: noteFilter, q });
 
-  // show/hide each guest card via the pure predicate
-  document.querySelectorAll('#roster .g').forEach(el => {
-    const card = {
-      status: cardStatus(el),
-      ride: el.dataset.ride === '1',
-      note: el.dataset.note === '1',
-      s: el.dataset.s || '',
-    };
-    el.classList.toggle('hidden', !passesCard(card, filters));
-  });
-  // hide containers that ended up empty — dropdowns stay closed by default either way
-  document.querySelectorAll('#roster details.grp').forEach(el =>
-    el.classList.toggle('hidden', !hasVisible(el)));
-  document.querySelectorAll('#roster details.cat').forEach(el =>
-    el.classList.toggle('hidden', active && !hasVisible(el)));
-  document.querySelectorAll('#roster details.group').forEach(el =>
-    el.classList.toggle('hidden', active && !hasVisible(el)));
+  $('#cards').innerHTML = summaryCardsHtml(view.counts);
+  $('#breakdown').innerHTML = donutHtml(view.counts);
+  $('#groupBars').innerHTML = groupBarsHtml(view);
+  $('#roster').innerHTML = rosterHtml(view);
 }
 
 // --- data load ---------------------------------------------------------------

@@ -90,6 +90,25 @@ export function donutHtml(counts) {
     </div>`;
 }
 
+// A horizontal stacked bar per top-level group (yes / no / waiting), sized by
+// share of that group's invitations. Dependency-free flex segments.
+export function groupBarsHtml(data) {
+  const { groups, ordered } = groupRoster(data);
+  if (!ordered.length) return '<div class="mut">אין נתונים עדיין</div>';
+  return ordered.map((gr) => {
+    const cats = groups[gr];
+    let y = 0, n = 0, w = 0;
+    Object.values(cats).forEach((b) => { y += b.yes.length; n += b.no.length; w += b.wait.length; });
+    const total = y + n + w || 1;
+    const seg = (v, cls) => (v ? `<span class="bseg ${cls}" style="width:${(v / total) * 100}%"></span>` : '');
+    return `<div class="bar-row">
+      <div class="bar-name">${esc(gr)}<span class="bar-tot">${y + n + w}</span></div>
+      <div class="bar-track">${seg(y, 'yes')}${seg(n, 'no')}${seg(w, 'wait')}</div>
+      <div class="bar-nums"><b class="c-yes">✓ ${y}</b> · <b class="c-no">✗ ${n}</b> · <b class="c-wait">⏳ ${w}</b></div>
+    </div>`;
+  }).join('');
+}
+
 // The "last 5 RSVPs" list. Returns '' when there is nothing to show.
 export function recentHtml(recent) {
   const rec = recent || [];
@@ -258,6 +277,64 @@ export function messagesHtml(inbox) {
       <div class="msg-who">${esc(m.name || m.phone)} <span class="when">${fmtWhen(m.at)}</span></div>
       <div class="msg-txt">💬 «${esc(m.text)}»</div>
     </div>`).join('');
+}
+
+// Recompute counts from filtered entry arrays. Self-contained (this module is
+// import-free so it can be served as a static asset), mirroring roster.js.
+function countsFrom(accepted, declined, noResponse) {
+  const sum = (a, f) => a.reduce((n, e) => n + (f(e) || 0), 0);
+  const heads = sum(accepted, (e) => e.heads);
+  const adults = sum(accepted, (e) => e.adults);
+  const children = sum(accepted, (e) => e.children);
+  const total = accepted.length + declined.length + noResponse.length;
+  const pct = (n) => (total ? Math.round((n / total) * 1000) / 10 : 0);
+  const shuttle = { to: 0, retAfter: 0, retNoAfter: 0, byCity: {}, totalHeads: 0 };
+  for (const e of accepted) {
+    if (!e.shuttle) continue;
+    const { city, to, ret } = e.shuttle;
+    const h = e.heads;
+    shuttle.totalHeads += h;
+    if (to) shuttle.to += h;
+    if (ret === 'after') shuttle.retAfter += h;
+    else if (ret === 'noafter') shuttle.retNoAfter += h;
+    if (city) {
+      const cc = shuttle.byCity[city] || (shuttle.byCity[city] = { to: 0, retAfter: 0, retNoAfter: 0, heads: 0 });
+      cc.heads += h;
+      if (to) cc.to += h;
+      if (ret === 'after') cc.retAfter += h;
+      else if (ret === 'noafter') cc.retNoAfter += h;
+    }
+  }
+  return {
+    totalGuests: total,
+    responded: accepted.length + declined.length,
+    yes: accepted.length, no: declined.length, noResponse: noResponse.length,
+    heads, adults, children,
+    pct: {
+      yes: pct(accepted.length), no: pct(declined.length),
+      noResponse: pct(noResponse.length), responded: pct(accepted.length + declined.length),
+    },
+    shuttle,
+  };
+}
+
+// Return a new roster view keeping only entries that match the active filters,
+// with counts recomputed over the subset. status: 'all'|'yes'|'no'|'wait';
+// ride/note: booleans; q: lowercased search string.
+export function filterData(data, filters) {
+  const f = filters || {};
+  const pass = (e, kind) => {
+    const statusOk = !f.status || f.status === 'all' || f.status === kind;
+    const rideOk = !f.ride || !!e.shuttle;
+    const noteOk = !f.note || !!((e.notes || '').trim());
+    const s = `${e.name || ''} ${e.fullName || ''} ${e.phone || ''}`.toLowerCase();
+    const searchOk = !f.q || s.includes(f.q);
+    return statusOk && rideOk && noteOk && searchOk;
+  };
+  const accepted = (data.accepted || []).filter((e) => pass(e, 'yes'));
+  const declined = (data.declined || []).filter((e) => pass(e, 'no'));
+  const noResponse = (data.noResponse || []).filter((e) => pass(e, 'wait'));
+  return { ...data, accepted, declined, noResponse, counts: countsFrom(accepted, declined, noResponse) };
 }
 
 // Pure filter predicate for a single guest card.
