@@ -123,10 +123,10 @@ describe('rosterHtml', () => {
     expect(friendsBlock).not.toContain('details class="cat"');
   });
 
-  it('surfaces orphan rows', () => {
+  it('does not render the orphan section', () => {
     const html = rosterHtml({ accepted: [], declined: [], noResponse: [], orphans: [{ display_name: 'Ghost', phone: '9', attending: 'yes' }] });
-    expect(html).toContain('אישורים ללא התאמה לרשימה');
-    expect(html).toContain('Ghost');
+    expect(html).not.toContain('אישורים ללא התאמה לרשימה');
+    expect(html).not.toContain('Ghost');
   });
 });
 

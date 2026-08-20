@@ -169,21 +169,7 @@ export function groupRoster(data) {
   return { groups, ordered };
 }
 
-// Orphan rows (RSVPs that matched no guest in the list).
-function orphansHtml(orphans) {
-  if (!orphans || !orphans.length) return '';
-  const cards = orphans.map((o) => `<div class="g"
-      data-s="${esc((o.display_name + ' ' + o.phone).toLowerCase())}"
-      data-ride="0" data-note="${o.notes ? '1' : '0'}">
-      <div class="top"><span class="nm">${esc(o.display_name || '—')}</span>
-        <span><span class="tag ${o.attending === 'yes' ? 'h' : ''}">${o.attending === 'yes' ? 'אישר' : 'לא מגיע'}</span></span></div>
-      <div class="top"><span class="ph">${esc(o.phone)}</span></div>
-      ${o.notes ? `<div class="meta notes">📝 ${esc(o.notes)}</div>` : ''}
-    </div>`).join('');
-  return `<div class="cat"><h2>אישורים ללא התאמה לרשימה <span class="mini">${orphans.length}</span></h2>${cards}</div>`;
-}
-
-// The full roster HTML: every group (with its categories and buckets) + orphans.
+// The full roster HTML: every group with its categories and buckets.
 // A group with a single category skips the redundant category layer (e.g. חברים).
 export function rosterHtml(data) {
   const { groups, ordered } = groupRoster(data);
@@ -204,7 +190,7 @@ export function rosterHtml(data) {
       <div class="group-body">${inner}</div>
     </details>`;
   }).join('');
-  return groupHtml + orphansHtml(data.orphans);
+  return groupHtml;
 }
 
 // All RSVP notes. Returns '' when there are none.
