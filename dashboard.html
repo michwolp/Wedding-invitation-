@@ -261,19 +261,20 @@ function render(data){
       </div>`).join('') + `</div>`
     : '';
 
-  const catBlock = (cat, b) => {
+  // status buckets (coming / not coming / no answer) for one category
+  const bucketsHtml = (b) => {
     const grp = (kind, title, cls) => b[kind].length
       ? `<details class="grp ${cls}" open><summary>${title} (${b[kind].length})</summary>${b[kind].map(g => guestCard(g, kind)).join('')}</details>`
       : '';
+    return `${grp('yes','אישרו הגעה','g-yes')}${grp('no','לא מגיעים','g-no')}${grp('wait','טרם השיבו','g-wait')}`;
+  };
+
+  const catBlock = (cat, b) => {
     const total = b.yes.length + b.no.length + b.wait.length;
     return `<details class="cat">
       <summary><span class="cat-name">${esc(cat)}</span>
         <span class="mini">${b.yes.length} ✓ · ${b.no.length} ✗ · ${b.wait.length} ⏳ · מתוך ${total}</span></summary>
-      <div class="cat-body">
-        ${grp('yes','אישרו הגעה','g-yes')}
-        ${grp('no','לא מגיעים','g-no')}
-        ${grp('wait','טרם השיבו','g-wait')}
-      </div>
+      <div class="cat-body">${bucketsHtml(b)}</div>
     </details>`;
   };
 
@@ -281,12 +282,14 @@ function render(data){
                    ...Object.keys(groups).filter(g => !GROUP_ORDER.includes(g)).sort()];
   const groupHtml = ordered.map(gr => {
     const cats = groups[gr];
+    const catKeys = Object.keys(cats).sort();
+    const single = catKeys.length === 1;   // e.g. חברים — skip the redundant category layer
     let gy = 0, gn = 0, gw = 0, gh = 0;
-    const inner = Object.keys(cats).sort().map(cat => {
+    const inner = catKeys.map(cat => {
       const b = cats[cat];
       gy += b.yes.length; gn += b.no.length; gw += b.wait.length;
       gh += b.yes.reduce((n, g) => n + (g.heads || 0), 0);
-      return catBlock(cat, b);
+      return single ? `<div class="cat-body">${bucketsHtml(b)}</div>` : catBlock(cat, b);
     }).join('');
     return `<details class="group" open>
       <summary class="group-head"><span class="grp-name">${esc(gr)}</span>

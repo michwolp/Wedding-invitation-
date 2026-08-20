@@ -169,8 +169,8 @@ export function buildRoster(rows, messages = []) {
     const ov = OVERRIDES[code];
     let category = ov ? ov.category : (cat[code] || 'Other');
     const group = ov ? ov.group : groupOf(category); // top-level bucket: משפחה / חברים / עבודה / אחר
-    // Inside the family group, label each guest by side: Michal / Dvir.
-    if (group === 'משפחה') category = /dvir/i.test(category) ? 'Dvir' : 'Michal';
+    // In the family and work groups, label each guest by side: מיכל / דביר.
+    if (group === 'משפחה' || group === 'עבודה') category = /dvir/i.test(category) ? 'דביר' : 'מיכל';
     // Friends is one bucket — merge "Michal's wider circle" into "Friends".
     else if (group === 'חברים') category = 'Friends';
     const base = {
