@@ -43,6 +43,21 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .panel{background:var(--card);border:1.5px solid var(--line);border-radius:16px;
   padding:14px 18px;margin:0 0 22px}
 .panel h2{font-family:var(--display);font-weight:600;font-size:1.5rem;color:var(--red);margin:0 0 10px}
+
+/* four info panels as a 2-per-row grid of squares */
+.grids{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
+.grids .panel{margin:0;display:flex;flex-direction:column}
+.grids .scroll{overflow:auto;max-height:300px}
+@media(max-width:640px){.grids{grid-template-columns:1fr}}
+
+/* notes + WhatsApp message lists (inside the grid panels) */
+.note-item,.msg-item{padding:8px 2px;border-bottom:1px solid var(--line)}
+.note-item:last-child,.msg-item:last-child{border-bottom:none}
+.note-who,.msg-who{font-weight:700;font-size:.95rem}
+.note-who .ph,.msg-who .when{color:#a99;font-weight:400;font-size:.8rem;margin-inline-start:6px}
+.note-who .ph{direction:ltr;unicode-bidi:embed;display:inline-block}
+.note-txt{color:#6b6456;font-size:.9rem;margin-top:2px}
+.msg-txt{color:var(--pink);font-style:italic;font-size:.9rem;margin-top:2px}
 .shuttle-row{display:flex;flex-wrap:wrap;gap:10px 22px}
 .shuttle-row{flex-direction:column;gap:8px}
 .shuttle-row div{font-size:.98rem}
@@ -66,6 +81,8 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .filters button{font-family:var(--body);font-size:.92rem;padding:7px 16px;cursor:pointer;
   border:1.5px solid var(--line);border-radius:99px;background:var(--card);color:var(--ink)}
 .filters button.active{background:var(--red);color:#fff;border-color:var(--red)}
+.filters .sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
+.filters button.toggle.active{background:var(--blue);border-color:var(--blue)}
 
 /* collapsible groups + categories (native <details>) */
 summary{cursor:pointer;list-style:none;user-select:none}
@@ -119,14 +136,26 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
 
   <div class="cards" id="cards"></div>
 
-  <div class="panel" id="recentPanel">
-    <h2>5 האישורים האחרונים 🆕</h2>
-    <div id="recent"></div>
-  </div>
+  <div class="grids">
+    <div class="panel" id="shuttlePanel">
+      <h2>הסעות 🚌</h2>
+      <div class="shuttle-row" id="shuttle"></div>
+    </div>
 
-  <div class="panel" id="shuttlePanel">
-    <h2>הסעות 🚌</h2>
-    <div class="shuttle-row" id="shuttle"></div>
+    <div class="panel" id="recentPanel">
+      <h2>5 האישורים האחרונים 🆕</h2>
+      <div id="recent"></div>
+    </div>
+
+    <div class="panel" id="notesPanel">
+      <h2>הערות מהאישורים 📝</h2>
+      <div class="scroll" id="notes"></div>
+    </div>
+
+    <div class="panel" id="messagesPanel">
+      <h2>הודעות וואטסאפ 💬</h2>
+      <div class="scroll" id="messages"></div>
+    </div>
   </div>
 
   <input id="search" type="search" placeholder="חיפוש לפי שם או טלפון…" autocomplete="off" />
@@ -136,6 +165,9 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
     <button data-f="yes">✓ מגיעים</button>
     <button data-f="no">✗ לא מגיעים</button>
     <button data-f="wait">⏳ טרם השיבו</button>
+    <span class="sep"></span>
+    <button data-t="ride" class="toggle">🚌 עם הסעה</button>
+    <button data-t="note" class="toggle">📝 עם הערה</button>
   </div>
 
   <div id="roster"></div>
@@ -143,204 +175,82 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
   <footer>מתעדכן בזמן אמת · קריאה בלבד</footer>
 </div>
 
-<script>
-const $ = (s, r=document) => r.querySelector(s);
-const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
-  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+<script type="module">
+import {
+  summaryCardsHtml, recentHtml, shuttleRowsHtml, rosterHtml,
+  notesHtml, messagesHtml, passesCard,
+} from '/dashboard-view.js';
 
-// Format an ISO timestamp as a short Hebrew date + time (local browser tz).
-function fmtWhen(iso){
-  if (!iso) return '';
-  const d = new Date(iso);
-  if (isNaN(d)) return '';
-  try {
-    return d.toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
-  } catch { return d.toISOString().slice(0, 16).replace('T', ' '); }
-}
+const $ = (s, r = document) => r.querySelector(s);
 
-const CITY = { tlv: 'תל אביב', rhv: 'רחובות' };
-const RET  = { after: 'חזרה אחרי האפטר', noafter: 'חזרה לפני האפטר' };
-
-function shuttleText(sh){
-  if (!sh) return '';
-  const parts = [];
-  if (sh.city) parts.push(CITY[sh.city] || sh.city);
-  if (sh.to) parts.push('הסעה להגעה');
-  if (sh.ret) parts.push(RET[sh.ret] || sh.ret);
-  return parts.join(' · ');
-}
-
-function guestCard(g, kind){
-  const tags = [];
-  if (kind === 'yes'){
-    tags.push(`<span class="tag h">${g.heads} ${g.heads === 1 ? 'אורח' : 'אורחים'}</span>`);
-    if (g.shuttle) tags.push(`<span class="tag sh">🚌 ${esc(shuttleText(g.shuttle))}</span>`);
-  }
-  if (g.reply) tags.push(`<span class="tag wa">💬 הגיב/ה</span>`);
-  const meta = [];
-  if (kind === 'yes' && (g.adults || g.children)){
-    meta.push(`<span>מבוגרים: ${g.adults||0}${g.children ? ` · ילדים: ${g.children}` : ''}</span>`);
-  }
-  if (g.notes) meta.push(`<span class="notes">📝 ${esc(g.notes)}</span>`);
-  if (g.reply && g.reply.text) meta.push(`<span class="wa-txt">💬 «${esc(g.reply.text)}»</span>`);
-  const full = (g.fullName && g.fullName !== g.name) ? ` <span class="full">${esc(g.fullName)}</span>` : '';
-  return `<div class="g" data-s="${esc((g.name+' '+(g.fullName||'')+' '+g.phone).toLowerCase())}">
-    <div class="top"><span><span class="nm">${esc(g.name)}</span>${full}</span>
-      <span>${tags.join('')}</span></div>
-    <div class="top"><span class="ph">${esc(g.phone)}</span></div>
-    ${meta.length ? `<div class="meta">${meta.join(' &nbsp;·&nbsp; ')}</div>` : ''}
-  </div>`;
-}
-
+// Paint the whole dashboard from the roster payload. Panels with no data hide.
 function render(data){
-  // summary cards
-  const c = data.counts, p = c.pct || {};
-  $('#cards').innerHTML = [
-    ['heads', c.heads, `${c.adults} מבוגרים · ${c.children} ילדים`, 'סה״כ נפשות מגיעות', ''],
-    ['yes', c.yes, `${p.yes}% מכלל האורחים`, 'אישרו הגעה', ''],
-    ['no', c.no, `${p.no}% מכלל האורחים`, 'לא מגיעים', ''],
-    ['wait', c.noResponse, `${p.noResponse}% מכלל האורחים`, 'טרם השיבו', ''],
-    ['', c.totalGuests, `${c.responded} השיבו (${p.responded}%)`, 'סה״כ אורחים ברשימה', ''],
-  ].map(([cls,n,pct,lbl]) =>
-    `<div class="card ${cls}"><div class="n">${n}</div><div class="lbl">${lbl}</div><div class="pct">${pct}</div></div>`
-  ).join('');
+  const c = data.counts || {};
+  $('#cards').innerHTML = summaryCardsHtml(c);
 
-  // last 5 RSVPs
-  const rec = data.recent || [];
-  if (rec.length){
-    $('#recent').innerHTML = rec.map(g => {
-      const full = (g.fullName && g.fullName !== g.name) ? `<span class="full">${esc(g.fullName)}</span>` : '';
-      const st = g.attending === 'yes'
-        ? `<span class="st yes">✓ ${g.heads} ${g.heads === 1 ? 'אורח' : 'אורחים'}</span>`
-        : `<span class="st no">✗ לא מגיע/ה</span>`;
-      return `<div class="recent-item">
-        <span class="who">${esc(g.name)} ${full}</span>
-        <span>${st} <span class="when">${fmtWhen(g.updatedAt)}</span></span>
-      </div>`;
-    }).join('');
-  } else {
-    $('#recentPanel').classList.add('hidden');
-  }
+  const rec = recentHtml(data.recent);
+  if (rec) $('#recent').innerHTML = rec; else $('#recentPanel').classList.add('hidden');
 
-  // shuttle
-  const s = c.shuttle || {};
-  // per-city breakdown for a given leg (to / retAfter / retNoAfter)
-  const legByCity = (leg) => {
-    const parts = Object.entries(s.byCity || {})
-      .filter(([, v]) => (v[leg] || 0) > 0)
-      .map(([city, v]) => `${CITY[city] || city}: <b>${v[leg]}</b>`);
-    return parts.length ? parts.join(' · ') : '—';
-  };
-  $('#shuttle').innerHTML = `
-    <div>סה״כ בהסעות: <b>${s.totalHeads || 0}</b> נפשות</div>
-    <div>הסעה להגעה &nbsp;·&nbsp; איסוף מ־ ${legByCity('to')}</div>
-    <div>${RET.after} &nbsp;·&nbsp; יעד: ${legByCity('retAfter')}</div>
-    <div>${RET.noafter} &nbsp;·&nbsp; יעד: ${legByCity('retNoAfter')}</div>`;
-  if (!(s.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
+  $('#shuttle').innerHTML = shuttleRowsHtml(c.shuttle);
+  if (!(c.shuttle && c.shuttle.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
 
-  // group everyone: top-level group → fine category → yes/no/wait buckets
-  const GROUP_ORDER = ['משפחה', 'חברים', 'עבודה', 'אחר'];
-  const groups = {};
-  const bucket = (arr, kind) => arr.forEach(g => {
-    const gr = g.group || 'אחר';
-    const cat = g.category || 'אחר';
-    const G = groups[gr] = groups[gr] || {};
-    (G[cat] = G[cat] || { yes: [], no: [], wait: [] })[kind].push(g);
-  });
-  bucket(data.accepted, 'yes');
-  bucket(data.declined, 'no');
-  bucket(data.noResponse, 'wait');
+  const notes = notesHtml(data.notes);
+  if (notes) $('#notes').innerHTML = notes; else $('#notesPanel').classList.add('hidden');
 
-  const orphanHtml = (data.orphans && data.orphans.length)
-    ? `<div class="cat"><h2>אישורים ללא התאמה לרשימה <span class="mini">${data.orphans.length}</span></h2>` +
-      data.orphans.map(o => `<div class="g" data-s="${esc((o.display_name+' '+o.phone).toLowerCase())}">
-        <div class="top"><span class="nm">${esc(o.display_name || '—')}</span>
-          <span><span class="tag ${o.attending==='yes'?'h':''}">${o.attending==='yes'?'אישר':'לא מגיע'}</span></span></div>
-        <div class="top"><span class="ph">${esc(o.phone)}</span></div>
-        ${o.notes ? `<div class="meta notes">📝 ${esc(o.notes)}</div>` : ''}
-      </div>`).join('') + `</div>`
-    : '';
+  const inbox = messagesHtml(data.inbox);
+  if (inbox) $('#messages').innerHTML = inbox; else $('#messagesPanel').classList.add('hidden');
 
-  // status buckets (coming / not coming / no answer) for one category
-  const bucketsHtml = (b) => {
-    const grp = (kind, title, cls) => b[kind].length
-      ? `<details class="grp ${cls}" open><summary>${title} (${b[kind].length})</summary>${b[kind].map(g => guestCard(g, kind)).join('')}</details>`
-      : '';
-    return `${grp('yes','אישרו הגעה','g-yes')}${grp('no','לא מגיעים','g-no')}${grp('wait','טרם השיבו','g-wait')}`;
-  };
-
-  const catBlock = (cat, b) => {
-    const total = b.yes.length + b.no.length + b.wait.length;
-    return `<details class="cat">
-      <summary><span class="cat-name">${esc(cat)}</span>
-        <span class="mini">${b.yes.length} ✓ · ${b.no.length} ✗ · ${b.wait.length} ⏳ · מתוך ${total}</span></summary>
-      <div class="cat-body">${bucketsHtml(b)}</div>
-    </details>`;
-  };
-
-  const ordered = [...GROUP_ORDER.filter(g => groups[g]),
-                   ...Object.keys(groups).filter(g => !GROUP_ORDER.includes(g)).sort()];
-  const groupHtml = ordered.map(gr => {
-    const cats = groups[gr];
-    const catKeys = Object.keys(cats).sort();
-    const single = catKeys.length === 1;   // e.g. חברים — skip the redundant category layer
-    let gy = 0, gn = 0, gw = 0, gh = 0;
-    const inner = catKeys.map(cat => {
-      const b = cats[cat];
-      gy += b.yes.length; gn += b.no.length; gw += b.wait.length;
-      gh += b.yes.reduce((n, g) => n + (g.heads || 0), 0);
-      return single ? `<div class="cat-body">${bucketsHtml(b)}</div>` : catBlock(cat, b);
-    }).join('');
-    return `<details class="group" open>
-      <summary class="group-head"><span class="grp-name">${esc(gr)}</span>
-        <span class="group-sum">${gy} ✓ · ${gn} ✗ · ${gw} ⏳ &nbsp;·&nbsp; ${gh} נפשות</span></summary>
-      <div class="group-body">${inner}</div>
-    </details>`;
-  }).join('');
-
-  $('#roster').innerHTML = groupHtml + orphanHtml;
+  $('#roster').innerHTML = rosterHtml(data);
 }
 
+// --- filtering ---------------------------------------------------------------
 let statusFilter = 'all';   // all | yes | no | wait
+let rideFilter = false;     // only guests with a shuttle
+let noteFilter = false;     // only guests with a note
 let searchText = '';
+
+// Which status bucket a card sits in, read from its parent <details class="grp g-*">.
+function cardStatus(el){
+  const grp = el.closest('.grp');
+  if (!grp) return '';
+  if (grp.classList.contains('g-yes')) return 'yes';
+  if (grp.classList.contains('g-no')) return 'no';
+  if (grp.classList.contains('g-wait')) return 'wait';
+  return '';
+}
 
 function applyFilters(){
   const q = searchText.trim().toLowerCase();
-  const searching = !!q;
-  const active = searching || statusFilter !== 'all';
+  const filters = { status: statusFilter, ride: rideFilter, note: noteFilter, q };
+  const active = !!q || statusFilter !== 'all' || rideFilter || noteFilter;
   const hasVisible = (el) => [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
 
-  // 1) cards: hidden if their status bucket is filtered out, or search misses
+  // show/hide each guest card via the pure predicate
   document.querySelectorAll('#roster .g').forEach(el => {
-    const grp = el.closest('.grp');
-    const statusOk = statusFilter === 'all' || !grp || grp.classList.contains('g-' + statusFilter);
-    const searchOk = !q || (el.dataset.s || '').includes(q);
-    el.classList.toggle('hidden', !(statusOk && searchOk));
+    const card = {
+      status: cardStatus(el),
+      ride: el.dataset.ride === '1',
+      note: el.dataset.note === '1',
+      s: el.dataset.s || '',
+    };
+    el.classList.toggle('hidden', !passesCard(card, filters));
   });
-  // 2) status buckets: hide if empty; open when actively filtering/searching
-  document.querySelectorAll('#roster details.grp').forEach(el => {
-    const any = hasVisible(el);
-    el.classList.toggle('hidden', !any);
-    if (active && any) el.open = true;
-  });
-  // 3) categories: default collapsed; while active, hide empties and open matches
-  document.querySelectorAll('#roster details.cat').forEach(el => {
-    const any = hasVisible(el);
-    el.classList.toggle('hidden', active && !any);
-    el.open = active ? any : false;
-  });
-  // 4) groups: stay open; while active, hide empties
-  document.querySelectorAll('#roster details.group').forEach(el => {
-    el.classList.toggle('hidden', active && !hasVisible(el));
-    el.open = true;
-  });
+  // hide containers that ended up empty — dropdowns stay closed by default either way
+  document.querySelectorAll('#roster details.grp').forEach(el =>
+    el.classList.toggle('hidden', !hasVisible(el)));
+  document.querySelectorAll('#roster details.cat').forEach(el =>
+    el.classList.toggle('hidden', active && !hasVisible(el)));
+  document.querySelectorAll('#roster details.group').forEach(el =>
+    el.classList.toggle('hidden', active && !hasVisible(el)));
 }
 
+// --- data load ---------------------------------------------------------------
 function showMsg(text){
   const m = $('#msg');
   m.textContent = text;
   m.classList.remove('hidden');
-  ['#cards','#shuttlePanel','#search','#roster'].forEach(s => $(s).classList.add('hidden'));
+  ['#cards','#recentPanel','#shuttlePanel','#notesPanel','#messagesPanel','#search','#filters','#roster']
+    .forEach(s => $(s).classList.add('hidden'));
 }
 
 async function load(key){
@@ -352,10 +262,17 @@ async function load(key){
 
 $('#search').addEventListener('input', e => { searchText = e.target.value; applyFilters(); });
 $('#filters').addEventListener('click', e => {
-  const btn = e.target.closest('button[data-f]');
-  if (!btn) return;
-  statusFilter = btn.dataset.f;
-  document.querySelectorAll('#filters button').forEach(b => b.classList.toggle('active', b === btn));
+  const f = e.target.closest('button[data-f]');
+  const t = e.target.closest('button[data-t]');
+  if (f){
+    statusFilter = f.dataset.f;
+    document.querySelectorAll('#filters button[data-f]').forEach(b => b.classList.toggle('active', b === f));
+  } else if (t){
+    t.classList.toggle('active');
+    const on = t.classList.contains('active');
+    if (t.dataset.t === 'ride') rideFilter = on;
+    else if (t.dataset.t === 'note') noteFilter = on;
+  } else return;
   applyFilters();
 });
 
