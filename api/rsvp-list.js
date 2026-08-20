@@ -40,7 +40,12 @@ function categoryMap() {
     let cur = 'Other';
     for (const line of src.split('\n')) {
       const h = line.match(/^\s*\/\/\s*---\s*(.+?)\s*---/);
-      if (h) { cur = h[1]; continue; }
+      if (h) {
+        // Drop a trailing "(…)" qualifier so language / date variants merge
+        // e.g. "Michal's family (Hebrew-speaking)" → "Michal's family".
+        cur = h[1].replace(/\s*\([^)]*\)\s*$/, '').trim();
+        continue;
+      }
       const g = line.match(/^\s*([A-Za-z0-9]+):\s*\{/);
       if (g && GUESTS[g[1]]) map[g[1]] = cur;
     }

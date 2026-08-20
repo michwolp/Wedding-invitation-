@@ -11,11 +11,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* same Hebrew fonts as the invitation site */
+@font-face{font-family:'Trashim';src:url('/assets/fonts/trashim.woff') format('woff'),url('/assets/fonts/trashim.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F}
+@font-face{font-family:'Hillel';src:url('/assets/fonts/hillel.woff') format('woff'),url('/assets/fonts/hillel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F}
 :root{
   --paper:#F3EEE4; --ink:#3A3550; --red:#A83A46; --red-deep:#8A2F3A;
   --blue:#3F5A7A; --blue-soft:#7E93B8; --pink:#B06A86; --gold:#CDB56A;
   --green:#4E7A54; --card:#FBF8F0; --line:#E3DCC9;
-  --display:'Cormorant Garamond', serif; --body:'PT Serif', serif;
+  --display:'Trashim', 'Cormorant Garamond', serif; --body:'Hillel', 'PT Serif', serif;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
@@ -49,11 +52,27 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 #search{font-family:var(--body);font-size:1rem;padding:10px 14px;width:100%;
   border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);margin:0 0 20px}
 
-.cat{margin:0 0 28px}
-.cat > h2{font-family:var(--display);font-weight:600;font-size:1.7rem;color:var(--ink);
-  border-bottom:2px solid var(--line);padding-bottom:4px;margin:0 0 6px;
-  display:flex;justify-content:space-between;align-items:baseline}
-.cat > h2 .mini{font-size:.85rem;color:var(--blue);font-family:var(--body)}
+/* collapsible groups + categories (native <details>) */
+summary{cursor:pointer;list-style:none;user-select:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'▸';display:inline-block;color:var(--blue);
+  margin-inline-end:8px;transition:transform .15s;font-size:.85em}
+details[open] > summary::before{transform:rotate(90deg)}
+html[dir="rtl"] summary::before{content:'◂'}
+html[dir="rtl"] details[open] > summary::before{transform:rotate(-90deg)}
+
+.group{margin:0 0 22px}
+.group-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:6px 4px;border-bottom:3px solid var(--line)}
+.group-head .grp-name{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--red)}
+.group-head .group-sum{font-size:.9rem;color:var(--blue)}
+.group-body{padding:8px 0 0 12px}
+
+.cat{margin:0 0 6px;border-bottom:1px solid var(--line)}
+.cat > summary{padding:8px 4px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.cat > summary .cat-name{font-family:var(--display);font-weight:600;font-size:1.4rem;color:var(--ink)}
+.cat > summary .mini{font-size:.85rem;color:var(--blue)}
+.cat-body{padding:4px 0 12px 8px}
 .grp{margin:10px 0}
 .grp h3{font-size:.9rem;letter-spacing:.08em;margin:0 0 6px;text-transform:uppercase}
 .grp.g-yes h3{color:var(--green)} .grp.g-no h3{color:var(--red)} .grp.g-wait h3{color:var(--gold)}
@@ -188,12 +207,15 @@ function render(data){
       ? `<div class="grp ${cls}"><h3>${title} (${b[kind].length})</h3>${b[kind].map(g => guestCard(g, kind)).join('')}</div>`
       : '';
     const total = b.yes.length + b.no.length + b.wait.length;
-    return `<div class="cat">
-      <h2>${esc(cat)} <span class="mini">${b.yes.length} ✓ · ${b.no.length} ✗ · ${b.wait.length} ⏳ · מתוך ${total}</span></h2>
-      ${grp('yes','אישרו הגעה','g-yes')}
-      ${grp('no','לא מגיעים','g-no')}
-      ${grp('wait','טרם השיבו','g-wait')}
-    </div>`;
+    return `<details class="cat">
+      <summary><span class="cat-name">${esc(cat)}</span>
+        <span class="mini">${b.yes.length} ✓ · ${b.no.length} ✗ · ${b.wait.length} ⏳ · מתוך ${total}</span></summary>
+      <div class="cat-body">
+        ${grp('yes','אישרו הגעה','g-yes')}
+        ${grp('no','לא מגיעים','g-no')}
+        ${grp('wait','טרם השיבו','g-wait')}
+      </div>
+    </details>`;
   };
 
   const ordered = [...GROUP_ORDER.filter(g => groups[g]),
@@ -207,11 +229,11 @@ function render(data){
       gh += b.yes.reduce((n, g) => n + (g.heads || 0), 0);
       return catBlock(cat, b);
     }).join('');
-    return `<section class="group">
-      <div class="group-head"><h1>${esc(gr)}</h1>
-        <span class="group-sum">${gy} ✓ · ${gn} ✗ · ${gw} ⏳ &nbsp;·&nbsp; ${gh} נפשות</span></div>
-      ${inner}
-    </section>`;
+    return `<details class="group" open>
+      <summary class="group-head"><span class="grp-name">${esc(gr)}</span>
+        <span class="group-sum">${gy} ✓ · ${gn} ✗ · ${gw} ⏳ &nbsp;·&nbsp; ${gh} נפשות</span></summary>
+      <div class="group-body">${inner}</div>
+    </details>`;
   }).join('');
 
   $('#roster').innerHTML = groupHtml + orphanHtml;
@@ -219,17 +241,23 @@ function render(data){
 
 function filter(q){
   q = q.trim().toLowerCase();
+  const searching = !!q;
   document.querySelectorAll('#roster .g').forEach(el => {
-    el.classList.toggle('hidden', q && !(el.dataset.s || '').includes(q));
+    el.classList.toggle('hidden', searching && !(el.dataset.s || '').includes(q));
   });
-  // hide category/group blocks that end up empty
-  document.querySelectorAll('#roster .grp').forEach(el => {
-    const any = [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
-    el.classList.toggle('hidden', !any);
+  const hasVisible = (el) => [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
+  document.querySelectorAll('#roster .grp').forEach(el => el.classList.toggle('hidden', !hasVisible(el)));
+  // categories: default collapsed; while searching, hide empties and open matches
+  document.querySelectorAll('#roster details.cat').forEach(el => {
+    const any = hasVisible(el);
+    el.classList.toggle('hidden', searching && !any);
+    el.open = searching ? any : false;
   });
-  document.querySelectorAll('#roster .cat').forEach(el => {
-    const any = [...el.querySelectorAll('.g')].some(g => !g.classList.contains('hidden'));
-    el.classList.toggle('hidden', !any);
+  // groups stay open by default; while searching, hide empties
+  document.querySelectorAll('#roster details.group').forEach(el => {
+    const any = hasVisible(el);
+    el.classList.toggle('hidden', searching && !any);
+    el.open = true;
   });
 }
 

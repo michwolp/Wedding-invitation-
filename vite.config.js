@@ -15,6 +15,7 @@ export default defineConfig({
         cpSync('assets/og-preview.jpg', 'dist/assets/og-preview.jpg');
         cpSync('privacy.html', 'dist/privacy.html');
         cpSync('dashboard.html', 'dist/dashboard.html');
+        cpSync('assets/fonts', 'dist/assets/fonts', { recursive: true });
       },
     },
   ],
