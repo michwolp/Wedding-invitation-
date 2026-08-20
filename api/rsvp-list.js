@@ -190,6 +190,7 @@ export function buildRoster(rows, messages = []) {
       shuttle: city ? { city, to: !!to, ret } : null,
       notes: (row.notes || '').trim(),
       updatedAt: row.updated_at || null,
+      attending: row.attending === 'yes' ? 'yes' : 'no',
     };
     if (row.attending === 'yes') accepted.push(entry);
     else declined.push(entry);
@@ -207,6 +208,22 @@ export function buildRoster(rows, messages = []) {
       adults: Number(r.adults) || 0,
       children: Number(r.children) || 0,
       notes: (r.notes || '').trim(),
+      updatedAt: r.updated_at || null,
+    }));
+
+  // Most-recent RSVP submissions (accepted + declined + orphan rows), newest
+  // first — for the dashboard's "last 5 to respond" panel.
+  const recent = [...accepted, ...declined, ...orphans]
+    .filter((e) => e.updatedAt)
+    .sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))
+    .slice(0, 5)
+    .map((e) => ({
+      name: e.name || e.display_name || '—',
+      fullName: e.fullName || '',
+      phone: e.phone || '',
+      attending: e.attending,
+      heads: e.heads != null ? e.heads : (Number(e.adults) || 0) + (Number(e.children) || 0),
+      updatedAt: e.updatedAt,
     }));
 
   const heads = accepted.reduce((n, e) => n + e.heads, 0);
@@ -259,6 +276,7 @@ export function buildRoster(rows, messages = []) {
       },
       shuttle,
     },
+    recent,
     accepted,
     declined,
     noResponse,
