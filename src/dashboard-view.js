@@ -67,8 +67,8 @@ export function recentHtml(recent) {
 }
 
 // The shuttle panel as a per-city table: one row per pickup city with the head
-// count on each leg, plus a totals footer. `heads` is distinct people in that
-// city; the footer's נפשות column is the overall total (not the leg sum).
+// count on each leg, plus a totals footer. Every number is a head count
+// (נפשות); the footer label carries the overall distinct-people total.
 export function shuttleRowsHtml(shuttle) {
   const s = shuttle || {};
   const cities = Object.keys(s.byCity || {});
@@ -84,23 +84,21 @@ export function shuttleRowsHtml(shuttle) {
     return `<tr>
       <td class="city">${esc(CITY[c] || c)}</td>
       <td>${cell(v.to)}</td>
-      <td>${cell(v.retAfter)}</td>
       <td>${cell(v.retNoAfter)}</td>
-      <td>${cell(v.heads)}</td>
+      <td>${cell(v.retAfter)}</td>
     </tr>`;
   }).join('');
 
   return `<table class="shuttle-table">
     <thead><tr>
-      <th>עיר</th><th>להגעה</th><th>חזרה אחרי</th><th>חזרה לפני</th><th>נפשות</th>
+      <th>עיר</th><th>להגעה</th><th>חזרה לפני</th><th>חזרה אחרי</th>
     </tr></thead>
     <tbody>${body}</tbody>
     <tfoot><tr>
-      <td class="city">סה״כ</td>
+      <td class="city">סה״כ · ${s.totalHeads || 0} נפשות</td>
       <td>${cell(totals.to)}</td>
-      <td>${cell(totals.retAfter)}</td>
       <td>${cell(totals.retNoAfter)}</td>
-      <td>${cell(s.totalHeads || 0)}</td>
+      <td>${cell(totals.retAfter)}</td>
     </tr></tfoot>
   </table>`;
 }
