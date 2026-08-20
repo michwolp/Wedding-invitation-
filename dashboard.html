@@ -235,9 +235,9 @@ function render(data){
   };
   $('#shuttle').innerHTML = `
     <div>סה״כ בהסעות: <b>${s.totalHeads || 0}</b> נפשות</div>
-    <div>הסעה להגעה &nbsp;·&nbsp; איסוף מ־ ${legByCity('to')} &nbsp;<span class="mut">(סה״כ ${s.to || 0})</span></div>
-    <div>${RET.after} &nbsp;·&nbsp; יעד: ${legByCity('retAfter')} &nbsp;<span class="mut">(סה״כ ${s.retAfter || 0})</span></div>
-    <div>${RET.noafter} &nbsp;·&nbsp; יעד: ${legByCity('retNoAfter')} &nbsp;<span class="mut">(סה״כ ${s.retNoAfter || 0})</span></div>`;
+    <div>הסעה להגעה &nbsp;·&nbsp; איסוף מ־ ${legByCity('to')}</div>
+    <div>${RET.after} &nbsp;·&nbsp; יעד: ${legByCity('retAfter')}</div>
+    <div>${RET.noafter} &nbsp;·&nbsp; יעד: ${legByCity('retNoAfter')}</div>`;
   if (!(s.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
 
   // group everyone: top-level group → fine category → yes/no/wait buckets
