@@ -193,7 +193,8 @@ export function notesHtml(notes) {
   return list.map((n) => {
     const st = n.attending === 'yes' ? '✓' : '✗';
     return `<div class="note-item">
-      <div class="note-who">${st} ${esc(n.name)} <span class="ph">${esc(n.phone)}</span></div>
+      <div class="note-who">${st} ${esc(n.name)} <span class="ph">${esc(n.phone)}</span>
+        <span class="when">${fmtWhen(n.at)}</span></div>
       <div class="note-txt">📝 ${esc(n.note)}</div>
     </div>`;
   }).join('');

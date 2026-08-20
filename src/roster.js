@@ -215,14 +215,17 @@ export function buildRoster(rows, messages = [], catMap = {}) {
 
   const recent = pickRecent(accepted, declined, orphans);
 
-  // Every guest note left on an RSVP (accepted, declined, or orphan row).
+  // Every guest note left on an RSVP (accepted, declined, or orphan row),
+  // newest first.
   const notes = [...accepted, ...declined, ...orphans]
     .filter((e) => (e.notes || '').trim())
+    .sort((a, b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')))
     .map((e) => ({
       name: e.name || e.display_name || '—',
       phone: e.phone || '',
       note: (e.notes || '').trim(),
       attending: e.attending,
+      at: e.updatedAt || null,
     }));
 
   // Every inbound WhatsApp message with text, newest first (as queried).

@@ -189,6 +189,16 @@ describe('buildRoster notes & inbox', () => {
     expect(texts).not.toContain('');
   });
 
+  it('sorts notes newest first by update time', () => {
+    const data = buildRoster([
+      row('LironGrinstein', { attending: 'yes', notes: 'older', updated_at: '2026-08-01T00:00:00Z' }),
+      row('RotemAmazon', { attending: 'yes', notes: 'newest', updated_at: '2026-08-10T00:00:00Z' }),
+      row('MayaZborovsky', { attending: 'yes', notes: 'middle', updated_at: '2026-08-05T00:00:00Z' }),
+    ]);
+    expect(data.notes.map((n) => n.note)).toEqual(['newest', 'middle', 'older']);
+    expect(data.notes[0].at).toBe('2026-08-10T00:00:00Z');
+  });
+
   it('exposes inbound WhatsApp messages with text, newest first as queried', () => {
     const data = buildRoster([], [
       { from_name: 'רון', from_phone: '972500000001', text: 'מזל טוב', received_at: '2026-08-10' },
