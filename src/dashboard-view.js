@@ -35,19 +35,59 @@ export function shuttleText(sh) {
   return parts.join(' · ');
 }
 
-// The five summary cards (heads / yes / no / wait / total).
+// The five KPI cards (heads / yes / no / wait / total). Each has an icon chip,
+// a big number (kept one uniform colour), a caption, and — where a percentage
+// applies — a slim progress bar tinted with the card's accent.
 export function summaryCardsHtml(counts) {
   const c = counts || {}, p = c.pct || {};
   const cards = [
-    ['heads', c.heads, `${c.adults} מבוגרים · ${c.children} ילדים`, 'סה״כ נפשות מגיעות'],
-    ['yes', c.yes, `${p.yes}% מכלל האורחים`, 'אישרו הגעה'],
-    ['no', c.no, `${p.no}% מכלל האורחים`, 'לא מגיעים'],
-    ['wait', c.noResponse, `${p.noResponse}% מכלל האורחים`, 'טרם השיבו'],
-    ['', c.totalGuests, `${c.responded} השיבו (${p.responded}%)`, 'סה״כ אורחים ברשימה'],
+    { cls: 'heads', ic: '👥', n: c.heads, cap: `${c.adults} מבוגרים · ${c.children} ילדים`, lbl: 'סה״כ נפשות מגיעות' },
+    { cls: 'yes', ic: '✓', n: c.yes, cap: `${p.yes}% מהמוזמנים`, lbl: 'אישרו הגעה', bar: p.yes },
+    { cls: 'no', ic: '✗', n: c.no, cap: `${p.no}% מהמוזמנים`, lbl: 'לא מגיעים', bar: p.no },
+    { cls: 'wait', ic: '⏳', n: c.noResponse, cap: `${p.noResponse}% מהמוזמנים`, lbl: 'טרם השיבו', bar: p.noResponse },
+    { cls: 'total', ic: '📋', n: c.totalGuests, cap: `${c.responded} השיבו (${p.responded}%)`, lbl: 'סה״כ מוזמנים', bar: p.responded },
   ];
-  return cards.map(([cls, n, pct, lbl]) =>
-    `<div class="card ${cls}"><div class="n">${n}</div><div class="lbl">${lbl}</div><div class="pct">${pct}</div></div>`
-  ).join('');
+  return cards.map((k) => `<div class="card ${k.cls}">
+      <div class="chead"><span class="ic">${k.ic}</span><span class="lbl">${k.lbl}</span></div>
+      <div class="n">${k.n ?? 0}</div>
+      <div class="pct">${k.cap}</div>
+      ${k.bar != null ? `<div class="bar"><span style="width:${Math.max(0, Math.min(100, k.bar))}%"></span></div>` : ''}
+    </div>`).join('');
+}
+
+// A dependency-free SVG donut of the RSVP breakdown (yes / no / waiting) with a
+// legend. r=15.9155 makes the circumference ~100, so each segment's
+// stroke-dasharray is just its percentage. Offset 25 starts arcs at 12 o'clock.
+export function donutHtml(counts) {
+  const c = counts || {};
+  const total = c.totalGuests || 0;
+  const segs = [
+    { cls: 'yes', v: c.yes || 0, lbl: 'אישרו הגעה' },
+    { cls: 'no', v: c.no || 0, lbl: 'לא מגיעים' },
+    { cls: 'wait', v: c.noResponse || 0, lbl: 'טרם השיבו' },
+  ];
+  let cum = 0;
+  const arcs = total
+    ? segs.filter((s) => s.v > 0).map((s) => {
+      const pct = (s.v / total) * 100;
+      const arc = `<circle class="seg ${s.cls}" cx="21" cy="21" r="15.9155"
+        stroke-dasharray="${pct} ${100 - pct}" stroke-dashoffset="${(125 - cum) % 100}"></circle>`;
+      cum += pct;
+      return arc;
+    }).join('')
+    : '';
+  const legend = segs.map((s) => `<div class="lg-item">
+      <span class="dot ${s.cls}"></span><span class="lg-lbl">${s.lbl}</span>
+      <b>${s.v}</b><span class="lg-pct">${total ? Math.round((s.v / total) * 100) : 0}%</span>
+    </div>`).join('');
+  return `<div class="donut-wrap">
+      <svg class="donut" viewBox="0 0 42 42" role="img" aria-label="התפלגות אישורים">
+        <circle class="ring" cx="21" cy="21" r="15.9155"></circle>${arcs}
+        <text class="donut-c" x="21" y="20.5" text-anchor="middle">${total}</text>
+        <text class="donut-s" x="21" y="25.5" text-anchor="middle">מוזמנים</text>
+      </svg>
+      <div class="donut-legend">${legend}</div>
+    </div>`;
 }
 
 // The "last 5 RSVPs" list. Returns '' when there is nothing to show.

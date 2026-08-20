@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  esc, shuttleText, summaryCardsHtml, recentHtml, shuttleRowsHtml,
+  esc, shuttleText, summaryCardsHtml, donutHtml, recentHtml, shuttleRowsHtml,
   guestCard, groupRoster, rosterHtml, notesHtml, messagesHtml, passesCard,
 } from '../src/dashboard-view.js';
 
@@ -33,6 +33,28 @@ describe('summaryCardsHtml', () => {
     expect((html.match(/class="card/g) || []).length).toBe(5);
     expect(html).toContain('אישרו הגעה');
     expect(html).toContain('7 מבוגרים · 3 ילדים');
+  });
+});
+
+describe('donutHtml', () => {
+  it('renders an arc per non-empty status with the total in the centre', () => {
+    const html = donutHtml({ totalGuests: 10, yes: 5, no: 2, noResponse: 3 });
+    expect(html).toContain('<svg class="donut"');
+    expect(html).toContain('class="seg yes"');
+    expect(html).toContain('class="seg no"');
+    expect(html).toContain('class="seg wait"');
+    expect(html).toContain('>10<'); // centre total
+    expect(html).toContain('50%'); // yes legend
+  });
+  it('draws only the empty ring when there are no guests', () => {
+    const html = donutHtml({ totalGuests: 0, yes: 0, no: 0, noResponse: 0 });
+    expect(html).toContain('class="ring"');
+    expect(html).not.toContain('class="seg');
+  });
+  it('omits arcs for zero-count statuses', () => {
+    const html = donutHtml({ totalGuests: 5, yes: 5, no: 0, noResponse: 0 });
+    expect(html).toContain('class="seg yes"');
+    expect(html).not.toContain('class="seg no"');
   });
 });
 
