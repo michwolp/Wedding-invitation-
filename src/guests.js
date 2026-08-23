@@ -5,6 +5,7 @@ const GUESTS = {
   LarisaSharay: { name: 'Лялик', fullName: 'Larisa Sharay', phone: '0544575308', lang: 'ru', form: 'f' },
   OlegSharay: { name: 'Олешака', fullName: 'Oleg Sharay', phone: '0503421703', lang: 'ru', form: 'm' },
   Olga: { name: 'Olga, Dirk, Lara, Yana and Masha', fullName: 'Olga Beloborodova', phone: '+32474520752', lang: 'en', form: 'plural' },
+  SindelovskiLena: { name: 'לנה ומישה', fullName: 'לנה ומישה סינדלובסקי', phone: '0522908757', lang: 'he', form: 'plural' },
 
   // --- Friends ---
   OfirLevin: { name: 'אופיר ויונתן', fullName: 'אופיר לוין', phone: '0546644905', lang: 'he', form: 'plural' },
