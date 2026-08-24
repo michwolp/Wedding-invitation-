@@ -57,12 +57,15 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 
 /* SVG donut chart (RSVP breakdown) */
 .donut-wrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:center}
-.donut{width:150px;height:150px;flex:none}
+.donut-fig{position:relative;width:150px;height:150px;flex:none}
+.donut{width:150px;height:150px;display:block}
 .donut .ring{fill:none;stroke:var(--line);stroke-width:3.4}
 .donut .seg{fill:none;stroke-width:3.4;stroke-linecap:butt}
 .donut .seg.yes{stroke:var(--green)}.donut .seg.no{stroke:var(--red)}.donut .seg.wait{stroke:var(--gold)}
-.donut .donut-c{font-family:var(--display);font-size:8px;font-weight:600;fill:var(--red)}
-.donut .donut-s{font-size:3px;fill:var(--blue);letter-spacing:.3px}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;pointer-events:none}
+.donut-center .donut-c{font-family:var(--display);font-weight:600;font-size:2rem;line-height:1;color:var(--red)}
+.donut-center .donut-s{font-size:.82rem;color:var(--blue);letter-spacing:.02em;direction:rtl}
 .donut-legend{display:flex;flex-direction:column;gap:9px;min-width:180px;flex:1 1 180px}
 .lg-item{display:flex;align-items:center;gap:9px;font-size:.92rem}
 .lg-item .dot{width:11px;height:11px;border-radius:50%;flex:none}
