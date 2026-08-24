@@ -83,8 +83,8 @@ export function donutHtml(counts) {
   return `<div class="donut-wrap">
       <svg class="donut" viewBox="0 0 42 42" role="img" aria-label="התפלגות אישורים">
         <circle class="ring" cx="21" cy="21" r="15.9155"></circle>${arcs}
-        <text class="donut-c" x="21" y="20.5" text-anchor="middle">${total}</text>
-        <text class="donut-s" x="21" y="25.5" text-anchor="middle">מוזמנים</text>
+        <text class="donut-c" x="21" y="20.5" text-anchor="middle" direction="ltr">${total}</text>
+        <text class="donut-s" x="21" y="25.5" text-anchor="middle" direction="rtl" style="direction:rtl;unicode-bidi:bidi-override">מוזמנים</text>
       </svg>
       <div class="donut-legend">${legend}</div>
     </div>`;

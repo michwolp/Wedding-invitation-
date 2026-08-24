@@ -70,6 +70,9 @@ h1{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--red);
 .lg-item b{font-family:var(--display);font-size:1.15rem;margin-inline-start:auto;color:var(--ink)}
 .lg-item .lg-pct{color:#8b8397;font-size:.82rem;min-width:38px;text-align:end}
 
+/* standalone recent-RSVPs panel (sits above the charts), internal scroll */
+.recent-panel .scroll{max-height:260px;overflow:auto}
+
 /* two analytics widgets side by side (donut + group bars) */
 .charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
 .charts .panel{margin:0}
@@ -185,6 +188,11 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
 
   <div class="cards" id="cards"></div>
 
+  <div class="panel recent-panel" id="recentPanel">
+    <h2>10 האישורים האחרונים 🆕</h2>
+    <div class="scroll" id="recent"></div>
+  </div>
+
   <div class="charts">
     <div class="panel" id="breakdownPanel">
       <h2>התפלגות אישורים 📊</h2>
@@ -197,11 +205,6 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
   </div>
 
   <div class="grids">
-    <div class="panel" id="recentPanel">
-      <h2>10 האישורים האחרונים 🆕</h2>
-      <div class="scroll" id="recent"></div>
-    </div>
-
     <div class="panel" id="shuttlePanel">
       <h2>הסעות 🚌</h2>
       <div class="shuttle-row scroll" id="shuttle"></div>
