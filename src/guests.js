@@ -226,7 +226,7 @@ const GUESTS = {
   ReutHai: { name: 'רעות ורועי', fullName: 'Reut Hai', phone: '0506819399', lang: 'he', form: 'plural' },
   DavidSasson: { name: 'דיוויד והדס', fullName: 'David Sasson', phone: '0507693429', lang: 'he', form: 'plural' },
   ShaniBenYehuda: { name: 'שני', fullName: 'Shani Ben Yehuda', phone: '0506532096', lang: 'he', form: 'f' },
-  RivkaEliyahu: { name: 'רבקה ואשר', fullName: 'Rivka Eliyahu', phone: '0539647538', lang: 'he', form: 'plural' },
+  RivkaEliyahu: { name: 'רבקה ואשר', fullName: 'Rivka Eliyahu', phone: '', lang: 'he', form: 'plural' }, // wrong number removed — 0539647538 belonged to someone else; get correct phone before sending
   AlmogYuniov: { name: 'אלמוג וסטפני', fullName: 'Almog Yuniov', phone: '0547758846', lang: 'he', form: 'plural' },
   NoamYuniov: { name: 'נועם', fullName: 'Noam Yuniov', phone: '0544939438', lang: 'he', form: 'm' },
   ShaharYuniov: { name: 'שחר', fullName: 'Shahar Yuniov', phone: '0546172760', lang: 'he', form: 'm' },
