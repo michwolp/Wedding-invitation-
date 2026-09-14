@@ -113,6 +113,27 @@ const MESSAGE_TYPES = {
       ];
     },
   },
+  // RSVP REMINDER for guests who have not responded yet. UTILITY category
+  // (dodges the marketing throttle). Body has TWO variables: {{1}} = name,
+  // {{2}} = the guest's personal RSVP link (inline in the body — no URL button).
+  // Hebrew splits plural (שלכם) vs singular (שלך); "ניתן לעדכן" is neutral so no
+  // m/f split. Own ledger prefix + separate log so it's independent of invites.
+  reminder: {
+    label: 'reminder 1',
+    log: 'SEND-LOG-reminder.md',
+    template(g) {
+      if (g.lang === 'en') return { name: 'wedding_reminder_en', lang: 'en' };
+      if (g.lang === 'ru') return { name: 'wedding_reminder_ru', lang: 'ru' };
+      const plural = g.form === 'plural' || g.form === 'plural_f';
+      return { name: plural ? 'wedding_reminder_he_plural' : 'wedding_reminder_he_singular', lang: 'he' };
+    },
+    components(g, code) {
+      const url = `https://dvichal-wedding.com/?g=${code}`;
+      return [
+        { type: 'body', parameters: [{ type: 'text', text: g.name }, { type: 'text', text: url }] },
+      ];
+    },
+  },
 };
 
 // --- CLI flags ---
@@ -201,6 +222,24 @@ async function sendTemplate(to, tmpl, components) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Read-only: fetch the live roster and return guest codes that have NOT
+// responded yet (no 'yes'/'no' on file), matched by phone or code. Never writes.
+async function pendingCodes(key) {
+  if (!key) { console.error('--pending needs the dashboard key: pass --key=... or set SUMMARY_KEY'); process.exit(1); }
+  const res = await fetch(`https://dvichal-wedding.com/api/rsvp-list?key=${encodeURIComponent(key)}`);
+  if (!res.ok) { console.error(`Could not read roster (HTTP ${res.status}) — check the key.`); process.exit(1); }
+  const data = await res.json();
+  const responded = new Set();
+  for (const e of [...(data.accepted || []), ...(data.declined || [])]) {
+    if (e.phone) responded.add(toE164(e.phone));
+    if (e.code) responded.add('code:' + e.code);
+  }
+  return Object.entries(GUESTS)
+    .filter(([code, g]) => code !== 'testMichal' && code !== 'testDvir' && g.phone
+      && !responded.has(toE164(g.phone)) && !responded.has('code:' + code))
+    .map(([code]) => code);
+}
+
 // ---------------------------------------------------------------------------
 // --status : print what has been sent so far for this message type, from the ledger.
 function printStatus(logPath) {
@@ -234,6 +273,7 @@ async function main() {
   // Resolve targets.
   let codes;
   if (flags.codes) codes = String(flags.codes).split(',').map((s) => s.trim()).filter(Boolean);
+  else if (flags.pending) codes = await pendingCodes(flags.key || process.env.SUMMARY_KEY);
   else if (flags.all) codes = Object.keys(GUESTS).filter((c) => c !== 'testMichal');
   else codes = [...TEST_GROUP];
 
