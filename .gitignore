@@ -14,3 +14,6 @@ m3-*.png
 node_modules/
 dist/
 send-ledger.json
+
+# Local RSVP snapshots — contain guest PII, never commit to public repo
+snapshots/
