@@ -122,10 +122,10 @@ const MESSAGE_TYPES = {
     label: 'reminder 1',
     log: 'SEND-LOG-reminder.md',
     template(g) {
-      if (g.lang === 'en') return { name: 'wedding_reminder_en', lang: 'en' };
-      if (g.lang === 'ru') return { name: 'wedding_reminder_ru', lang: 'ru' };
+      if (g.lang === 'en') return { name: 'wedding_reminder_en_v2', lang: 'en' };
+      if (g.lang === 'ru') return { name: 'wedding_reminder_ru_v2', lang: 'ru' };
       const plural = g.form === 'plural' || g.form === 'plural_f';
-      return { name: plural ? 'wedding_reminder_he_plural' : 'wedding_reminder_he_singular', lang: 'he' };
+      return { name: plural ? 'wedding_reminder_he_plural_v2' : 'wedding_reminder_he_singular_v2', lang: 'he' };
     },
     components(g, code) {
       const url = `https://dvichal-wedding.com/?g=${code}`;
