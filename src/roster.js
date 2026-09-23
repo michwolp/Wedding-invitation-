@@ -33,6 +33,8 @@ export const OVERRIDES = {
   TalSegal:       { group: 'עבודה', category: "Michal's work friends" },
   ItayAmazon:     { group: 'עבודה', category: "Michal's work friends" },
   MichaelYafe:    { group: 'עבודה', category: "Michal's work friends" },
+  YuvalNetanel:   { group: 'עבודה', category: "Michal's work friends" },
+  TalTzeelon:     { group: 'עבודה', category: "Michal's work friends" },
   AmirZevin:      { group: 'עבודה', category: "Dvir's work" },
   TzviStrauss:    { group: 'עבודה', category: "Dvir's work" },
   RomMaltser:     { group: 'עבודה', category: "Dvir's work" },
