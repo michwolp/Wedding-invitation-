@@ -146,7 +146,7 @@ const GUESTS = {
   ItamarRosenshine: { name: 'איתמר ושיר', fullName: 'Itamar Rosenshine', phone: '0507722032', lang: 'he', form: 'plural' },
   StavBenShahar: { name: 'סטיב', fullName: 'Stav Ben Shahar', phone: '0528023652', lang: 'he', form: 'm' },
   IdanTopper: { name: 'טופר', fullName: 'Idan Topper', phone: '0523733779', lang: 'he', form: 'm' },
-  ItamarLevyRinski: { name: 'איתמר הסטרייט ודנה', fullName: 'Itamar Levy Rinski', phone: '0502466646', lang: 'he', form: 'plural' },
+  ItamarLevyRinski: { name: 'איתמר ודנה', fullName: 'Itamar Levy Rinski', phone: '0502466646', lang: 'he', form: 'plural' },
   TamarTuboul: { name: 'תמר', fullName: 'Tamar Tuboul', phone: '0544903227', lang: 'he', form: 'f' },
   YanayTuboul: { name: 'ינאי', fullName: 'Yanay Tuboul', phone: '0547805805', lang: 'he', form: 'm' },
   MaayanKeren: { name: 'מעיין', fullName: 'Maayan Keren', phone: '0542677501', lang: 'he', form: 'm' },
@@ -203,7 +203,7 @@ const GUESTS = {
   AmirZevin: { name: 'אמיר', fullName: 'Amir Zevin', phone: '0525284418', lang: 'he', form: 'm' },
 
   // --- Dvir's parents (2026-08-10) ---
-  EliezerYuniov: { name: 'סבא ורותי', fullName: 'Eliezer Yuniov', phone: '0505437668', lang: 'he', form: 'plural' },
+  EliezerYuniov: { name: 'סבא ורות', fullName: 'Eliezer Yuniov', phone: '0505437668', lang: 'he', form: 'plural' },
   OritHapiloni: { name: 'אורית ואייל', fullName: 'Orit Hapiloni', phone: '0502571156', lang: 'he', form: 'plural' },
   OritDan: { name: 'אורית ואילן', fullName: 'Orit Dan', phone: '0544998946', lang: 'he', form: 'plural' },
   OrenSasson: { name: 'אורן ואורה', fullName: 'Oren Sasson', phone: '0529597970', lang: 'he', form: 'plural' },
