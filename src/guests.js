@@ -46,7 +46,7 @@ const GUESTS = {
   MarinaAgizin: { name: 'Марина', fullName: 'Marina Agizin', phone: '0528895280', lang: 'ru', form: 'f' },
   Asia: { name: 'Ася', fullName: 'Asia', phone: '+491792668846', lang: 'ru', form: 'f' },
   LaraShapiro: { name: 'Лара и Боря', fullName: 'Lara Shapiro', phone: '+15853707345', lang: 'ru', form: 'plural' },
-  LarisaKanevski: { name: 'Лариса', fullName: 'Larisa Kanevski', phone: '+14165006516', lang: 'ru', form: 'f' },
+  LarisaKanevski: { name: 'Лариса и Ира', fullName: 'Larisa Kanevski', phone: '+14165006516', lang: 'ru', form: 'plural' },
   RayaTrahtenberg: { name: 'Рая и Леня', fullName: 'Raya Trahtenberg', phone: '+79859502386', lang: 'ru', form: 'plural' },
   MichaelMatushevski: { name: 'Миша и Лариса', fullName: 'Michael Matushevski', phone: '0507228134', lang: 'ru', form: 'plural' },
   MarinaMihnevich: { name: 'Марина и Паша', fullName: 'Marina Mihnevich', phone: '0539858980', lang: 'ru', form: 'plural' },
@@ -252,6 +252,10 @@ const GUESTS = {
   GabiAmraz: { name: 'גבי', fullName: 'Gabi Amraz', phone: '0539883927', lang: 'he', form: 'm' },
   MichalKreshberg: { name: 'מיכל ומיקו', fullName: 'Michal Kreshberg', phone: '+32485616831', lang: 'he', form: 'plural' },
   MarkItay: { name: 'מארק', fullName: 'Mark Itay', phone: '0524633349', lang: 'he', form: 'm' },
+  // --- Added 2026-09-27 ---
+  Ziner:   { name: 'זינר',  fullName: 'Ziner',  phone: '0527491882', lang: 'he', form: 'plural' },
+  Danino:  { name: 'דנינו', fullName: 'Danino', phone: '0503120343', lang: 'he', form: 'plural' },
+  RotemZ:  { name: 'רותם',  fullName: 'Rotem',  phone: '0546446344', lang: 'he', form: 'plural' },
 };
 
 const VALID_LANGS = ['he', 'en', 'ru'];

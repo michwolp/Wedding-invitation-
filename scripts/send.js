@@ -118,19 +118,29 @@ const MESSAGE_TYPES = {
   // {{2}} = the guest's personal RSVP link (inline in the body — no URL button).
   // Hebrew splits plural (שלכם) vs singular (שלך); "ניתן לעדכן" is neutral so no
   // m/f split. Own ledger prefix + separate log so it's independent of invites.
+  // v4: RSVP link lives in a URL button (…/?g={{1}} → guest code), not inline
+  // in the body. Body has ONE variable ({{1}} = name). Russian uses the neutral
+  // "you can update" wording so it stays UTILITY. English has no v4 (0 pending) —
+  // it falls back to the older inline en_v2 with two body vars.
   reminder: {
     label: 'reminder 1',
     log: 'SEND-LOG-reminder.md',
     template(g) {
       if (g.lang === 'en') return { name: 'wedding_reminder_en_v2', lang: 'en' };
-      if (g.lang === 'ru') return { name: 'wedding_reminder_ru_v2', lang: 'ru' };
+      if (g.lang === 'ru') return { name: 'wedding_reminder_ru_v5', lang: 'ru' };
       const plural = g.form === 'plural' || g.form === 'plural_f';
-      return { name: plural ? 'wedding_reminder_he_plural_v2' : 'wedding_reminder_he_singular_v2', lang: 'he' };
+      return { name: plural ? 'wedding_reminder_he_plural_v5' : 'wedding_reminder_he_singular_v5', lang: 'he' };
     },
     components(g, code) {
-      const url = `https://dvichal-wedding.com/?g=${code}`;
+      // English fallback keeps the old inline-URL layout (body {{1}}=name, {{2}}=url).
+      if (g.lang === 'en') {
+        const url = `https://dvichal-wedding.com/?g=${code}`;
+        return [{ type: 'body', parameters: [{ type: 'text', text: g.name }, { type: 'text', text: url }] }];
+      }
+      // v4 (he/ru): name in body, guest code fills the URL button parameter.
       return [
-        { type: 'body', parameters: [{ type: 'text', text: g.name }, { type: 'text', text: url }] },
+        { type: 'body', parameters: [{ type: 'text', text: g.name }] },
+        { type: 'button', sub_type: 'url', index: '0', parameters: [{ type: 'text', text: code }] },
       ];
     },
   },
