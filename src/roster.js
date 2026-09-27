@@ -215,7 +215,7 @@ export function buildRoster(rows, messages = [], catMap = {}) {
       updatedAt: r.updated_at || null,
     }));
 
-  const recent = pickRecent(accepted, declined, orphans);
+  const recent = pickRecent(accepted, declined, orphans, Infinity);
 
   // Every guest note left on an RSVP (accepted, declined, or orphan row),
   // newest first.
