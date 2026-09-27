@@ -253,9 +253,9 @@ const GUESTS = {
   MichalKreshberg: { name: 'מיכל ומיקו', fullName: 'Michal Kreshberg', phone: '+32485616831', lang: 'he', form: 'plural' },
   MarkItay: { name: 'מארק', fullName: 'Mark Itay', phone: '0524633349', lang: 'he', form: 'm' },
   // --- Added 2026-09-27 ---
-  Ziner:   { name: 'זינר',  fullName: 'Ziner',  phone: '0527491882', lang: 'he', form: 'plural' },
-  Danino:  { name: 'דנינו', fullName: 'Danino', phone: '0503120343', lang: 'he', form: 'plural' },
-  RotemZ:  { name: 'רותם',  fullName: 'Rotem',  phone: '0546446344', lang: 'he', form: 'plural' },
+  Ziner:   { name: 'זינר',  fullName: 'Ziner',  phone: '0527491882', lang: 'he', form: 'm' },
+  Danino:  { name: 'דנינו', fullName: 'Danino', phone: '0503120343', lang: 'he', form: 'm' },
+  RotemZ:  { name: 'רותם',  fullName: 'Rotem',  phone: '0546446344', lang: 'he', form: 'f' },
 };
 
 const VALID_LANGS = ['he', 'en', 'ru'];
