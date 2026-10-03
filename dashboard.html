@@ -250,11 +250,6 @@ import {
   summaryCardsHtml, donutHtml, groupBarsHtml, recentHtml, shuttleRowsHtml, rosterHtml,
   notesHtml, messagesHtml, filterData,
 } from '/dashboard-view.js';
-import { aggregateShuttle } from '/shuttle-plan.js';
-
-// Per-leg shuttle plan (riders whose legs can't live on the RSVP row),
-// folded into the shuttle table alongside the regular pickup data.
-const PLAN_AGG = aggregateShuttle();
 
 const $ = (s, r = document) => r.querySelector(s);
 
@@ -272,9 +267,8 @@ function render(data){
   const rec = recentHtml(data.recent);
   if (rec) $('#recent').innerHTML = rec; else $('#recentPanel').classList.add('hidden');
 
-  $('#shuttle').innerHTML = shuttleRowsHtml(c.shuttle, PLAN_AGG);
-  const anyShuttle = (c.shuttle && c.shuttle.totalHeads > 0) || PLAN_AGG.total.people > 0;
-  if (!anyShuttle) $('#shuttlePanel').classList.add('hidden');
+  $('#shuttle').innerHTML = shuttleRowsHtml(c.shuttle);
+  if (!(c.shuttle && c.shuttle.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
 
   const notes = notesHtml(data.notes);
   if (notes) $('#notes').innerHTML = notes; else $('#notesPanel').classList.add('hidden');

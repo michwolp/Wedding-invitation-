@@ -26,12 +26,21 @@ export function fmtWhen(iso) {
 }
 
 // Human-readable summary of a guest's shuttle choice (city · to · return).
-export function shuttleText(sh) {
+// `ov` (optional) carries the per-leg override counts (rideTo / rideBackAfter /
+// rideBackBefore): a set count annotates the leg ("להגעה (1)"), 0 hides it,
+// null falls back to the party-level pickup tokens.
+export function shuttleText(sh, ov) {
   if (!sh) return '';
+  const o = ov || {};
   const parts = [];
   if (sh.city) parts.push(CITY[sh.city] || sh.city);
-  if (sh.to) parts.push('הסעה להגעה');
-  if (sh.ret) parts.push(RET[sh.ret] || sh.ret);
+  const leg = (count, fallbackOn, label) => {
+    if (count != null) { if (count > 0) parts.push(`${label} (${count})`); }
+    else if (fallbackOn) parts.push(label);
+  };
+  leg(o.rideTo, sh.to, 'הסעה להגעה');
+  leg(o.rideBackAfter, sh.ret === 'after', RET.after);
+  leg(o.rideBackBefore, sh.ret === 'noafter', RET.noafter);
   return parts.join(' · ');
 }
 
@@ -129,43 +138,35 @@ export function recentHtml(recent) {
 // The shuttle panel as a per-city table: one row per pickup city with the head
 // count on each leg, plus a totals footer. Every number is a head count
 // (נפשות); the footer label carries the overall distinct-people total.
-// `planAgg` (optional) is the aggregated per-leg SHUTTLE_PLAN (shuttle-plan.js):
-// riders whose legs can't be expressed on the RSVP row (e.g. 1 to / 2 back).
-// Its backAfter/backBefore/backTBD counts fold into the same table columns.
-export function shuttleRowsHtml(shuttle, planAgg) {
+// Per-leg ride overrides are already folded into these counts upstream
+// (computeShuttle in roster.js / countsFrom below).
+export function shuttleRowsHtml(shuttle) {
   const s = shuttle || {};
-  const plan = (planAgg && planAgg.byCity) || {};
-  const planTotal = (planAgg && planAgg.total) || {};
-  const cities = [...new Set([...Object.keys(s.byCity || {}), ...Object.keys(plan)])];
+  const cities = Object.keys(s.byCity || {});
   if (!cities.length) return '<div class="mut">אין נרשמים להסעות עדיין</div>';
 
   const cell = (v) => (v ? `<b>${v}</b>` : '—');
   const totals = { to: 0, retAfter: 0, retNoAfter: 0 };
   const body = cities.map((c) => {
-    const v = (s.byCity || {})[c] || {};
-    const p = plan[c] || {};
-    const to = (v.to || 0) + (p.to || 0);
-    const retAfter = (v.retAfter || 0) + (p.backAfter || 0) + (p.backTBD || 0);
-    const retNoAfter = (v.retNoAfter || 0) + (p.backBefore || 0);
-    totals.to += to;
-    totals.retAfter += retAfter;
-    totals.retNoAfter += retNoAfter;
+    const v = s.byCity[c];
+    totals.to += v.to || 0;
+    totals.retAfter += v.retAfter || 0;
+    totals.retNoAfter += v.retNoAfter || 0;
     return `<tr>
       <td class="city">${esc(CITY[c] || c)}</td>
-      <td>${cell(to)}</td>
-      <td>${cell(retNoAfter)}</td>
-      <td>${cell(retAfter)}</td>
+      <td>${cell(v.to)}</td>
+      <td>${cell(v.retNoAfter)}</td>
+      <td>${cell(v.retAfter)}</td>
     </tr>`;
   }).join('');
 
-  const totalHeads = (s.totalHeads || 0) + (planTotal.people || 0);
   return `<table class="shuttle-table">
     <thead><tr>
       <th>עיר</th><th>להגעה</th><th>חזרה לפני</th><th>חזרה אחרי</th>
     </tr></thead>
     <tbody>${body}</tbody>
     <tfoot><tr>
-      <td class="city">סה״כ · ${totalHeads} נפשות</td>
+      <td class="city">סה״כ · ${s.totalHeads || 0} נפשות</td>
       <td>${cell(totals.to)}</td>
       <td>${cell(totals.retNoAfter)}</td>
       <td>${cell(totals.retAfter)}</td>
@@ -179,7 +180,7 @@ export function guestCard(g, kind) {
   const tags = [];
   if (kind === 'yes') {
     tags.push(`<span class="tag h">${g.heads} ${g.heads === 1 ? 'אורח' : 'אורחים'}</span>`);
-    if (g.shuttle) tags.push(`<span class="tag sh">🚌 ${esc(shuttleText(g.shuttle))}</span>`);
+    if (g.shuttle) tags.push(`<span class="tag sh">🚌 ${esc(shuttleText(g.shuttle, g))}</span>`);
   }
   if (g.reply) tags.push(`<span class="tag wa">💬 הגיב/ה</span>`);
 
@@ -304,16 +305,21 @@ function countsFrom(accepted, declined, noResponse) {
     if (!e.shuttle) continue;
     const { city, to, ret } = e.shuttle;
     const h = e.heads;
-    shuttle.totalHeads += h;
-    if (to) shuttle.to += h;
-    if (ret === 'after') shuttle.retAfter += h;
-    else if (ret === 'noafter') shuttle.retNoAfter += h;
+    // Per-leg overrides (ride_to etc.) win over the party-level pickup tokens.
+    const toH = e.rideTo != null ? e.rideTo : (to ? h : 0);
+    const afterH = e.rideBackAfter != null ? e.rideBackAfter : (ret === 'after' ? h : 0);
+    const beforeH = e.rideBackBefore != null ? e.rideBackBefore : (ret === 'noafter' ? h : 0);
+    const people = Math.max(toH, afterH + beforeH);
+    shuttle.totalHeads += people;
+    shuttle.to += toH;
+    shuttle.retAfter += afterH;
+    shuttle.retNoAfter += beforeH;
     if (city) {
       const cc = shuttle.byCity[city] || (shuttle.byCity[city] = { to: 0, retAfter: 0, retNoAfter: 0, heads: 0 });
-      cc.heads += h;
-      if (to) cc.to += h;
-      if (ret === 'after') cc.retAfter += h;
-      else if (ret === 'noafter') cc.retNoAfter += h;
+      cc.heads += people;
+      cc.to += toH;
+      cc.retAfter += afterH;
+      cc.retNoAfter += beforeH;
     }
   }
   return {

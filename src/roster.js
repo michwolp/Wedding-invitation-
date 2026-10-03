@@ -117,22 +117,29 @@ function phoneKeys(phone) {
 
 // Aggregate shuttle usage over accepted guests, counting heads (not entries),
 // split by pickup city and return leg. `to` = wants a ride TO the wedding.
+// Per-leg override columns (ride_to / ride_back_after / ride_back_before) take
+// precedence when set, so a party can be e.g. "1 rides there, 2 ride back";
+// null overrides fall back to the whole party riding the pickup-token legs.
 function computeShuttle(accepted) {
   const shuttle = { to: 0, retAfter: 0, retNoAfter: 0, byCity: {}, totalHeads: 0 };
   for (const e of accepted) {
     if (!e.shuttle) continue;
     const { city, to, ret } = e.shuttle;
     const h = e.heads;
-    shuttle.totalHeads += h;
-    if (to) shuttle.to += h;
-    if (ret === 'after') shuttle.retAfter += h;
-    else if (ret === 'noafter') shuttle.retNoAfter += h;
+    const toH = e.rideTo != null ? e.rideTo : (to ? h : 0);
+    const afterH = e.rideBackAfter != null ? e.rideBackAfter : (ret === 'after' ? h : 0);
+    const beforeH = e.rideBackBefore != null ? e.rideBackBefore : (ret === 'noafter' ? h : 0);
+    const people = Math.max(toH, afterH + beforeH);
+    shuttle.totalHeads += people;
+    shuttle.to += toH;
+    shuttle.retAfter += afterH;
+    shuttle.retNoAfter += beforeH;
     if (city) {
       const c = shuttle.byCity[city] || (shuttle.byCity[city] = { to: 0, retAfter: 0, retNoAfter: 0, heads: 0 });
-      c.heads += h;
-      if (to) c.to += h;
-      if (ret === 'after') c.retAfter += h;
-      else if (ret === 'noafter') c.retNoAfter += h;
+      c.heads += people;
+      c.to += toH;
+      c.retAfter += afterH;
+      c.retNoAfter += beforeH;
     }
   }
   return shuttle;
@@ -195,6 +202,9 @@ export function buildRoster(rows, messages = [], catMap = {}) {
       children,
       heads: adults + children,
       shuttle: city ? { city, to: !!to, ret } : null,
+      rideTo: row.ride_to ?? null,
+      rideBackAfter: row.ride_back_after ?? null,
+      rideBackBefore: row.ride_back_before ?? null,
       notes: (row.notes || '').trim(),
       updatedAt: row.updated_at || null,
       attending: row.attending === 'yes' ? 'yes' : 'no',

@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     // Read-only SELECTs. RSVP rows + inbound WhatsApp replies.
     const [rRes, mRes] = await Promise.all([
       fetch(`${base}/rest/v1/rsvps`
-        + `?select=guest_id,name,display_name,phone,attending,adults,children,pickup,notes,updated_at`, { headers }),
+        + `?select=guest_id,name,display_name,phone,attending,adults,children,pickup,notes,updated_at,ride_to,ride_back_after,ride_back_before`, { headers }),
       fetch(`${base}/rest/v1/whatsapp_messages`
         + `?select=from_phone,from_name,text,received_at&order=received_at.desc&limit=500`, { headers }),
     ]);
