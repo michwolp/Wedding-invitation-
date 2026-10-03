@@ -16,6 +16,7 @@ export default defineConfig({
         cpSync('privacy.html', 'dist/privacy.html');
         cpSync('dashboard.html', 'dist/dashboard.html');
         cpSync('src/dashboard-view.js', 'dist/dashboard-view.js');
+        cpSync('src/shuttle-plan.js', 'dist/shuttle-plan.js');
         cpSync('assets/fonts', 'dist/assets/fonts', { recursive: true });
       },
     },

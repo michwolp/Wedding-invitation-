@@ -129,33 +129,43 @@ export function recentHtml(recent) {
 // The shuttle panel as a per-city table: one row per pickup city with the head
 // count on each leg, plus a totals footer. Every number is a head count
 // (נפשות); the footer label carries the overall distinct-people total.
-export function shuttleRowsHtml(shuttle) {
+// `planAgg` (optional) is the aggregated per-leg SHUTTLE_PLAN (shuttle-plan.js):
+// riders whose legs can't be expressed on the RSVP row (e.g. 1 to / 2 back).
+// Its backAfter/backBefore/backTBD counts fold into the same table columns.
+export function shuttleRowsHtml(shuttle, planAgg) {
   const s = shuttle || {};
-  const cities = Object.keys(s.byCity || {});
+  const plan = (planAgg && planAgg.byCity) || {};
+  const planTotal = (planAgg && planAgg.total) || {};
+  const cities = [...new Set([...Object.keys(s.byCity || {}), ...Object.keys(plan)])];
   if (!cities.length) return '<div class="mut">אין נרשמים להסעות עדיין</div>';
 
   const cell = (v) => (v ? `<b>${v}</b>` : '—');
   const totals = { to: 0, retAfter: 0, retNoAfter: 0 };
   const body = cities.map((c) => {
-    const v = s.byCity[c];
-    totals.to += v.to || 0;
-    totals.retAfter += v.retAfter || 0;
-    totals.retNoAfter += v.retNoAfter || 0;
+    const v = (s.byCity || {})[c] || {};
+    const p = plan[c] || {};
+    const to = (v.to || 0) + (p.to || 0);
+    const retAfter = (v.retAfter || 0) + (p.backAfter || 0) + (p.backTBD || 0);
+    const retNoAfter = (v.retNoAfter || 0) + (p.backBefore || 0);
+    totals.to += to;
+    totals.retAfter += retAfter;
+    totals.retNoAfter += retNoAfter;
     return `<tr>
       <td class="city">${esc(CITY[c] || c)}</td>
-      <td>${cell(v.to)}</td>
-      <td>${cell(v.retNoAfter)}</td>
-      <td>${cell(v.retAfter)}</td>
+      <td>${cell(to)}</td>
+      <td>${cell(retNoAfter)}</td>
+      <td>${cell(retAfter)}</td>
     </tr>`;
   }).join('');
 
+  const totalHeads = (s.totalHeads || 0) + (planTotal.people || 0);
   return `<table class="shuttle-table">
     <thead><tr>
       <th>עיר</th><th>להגעה</th><th>חזרה לפני</th><th>חזרה אחרי</th>
     </tr></thead>
     <tbody>${body}</tbody>
     <tfoot><tr>
-      <td class="city">סה״כ · ${s.totalHeads || 0} נפשות</td>
+      <td class="city">סה״כ · ${totalHeads} נפשות</td>
       <td>${cell(totals.to)}</td>
       <td>${cell(totals.retNoAfter)}</td>
       <td>${cell(totals.retAfter)}</td>
@@ -321,16 +331,20 @@ function countsFrom(accepted, declined, noResponse) {
 
 // Return a new roster view keeping only entries that match the active filters,
 // with counts recomputed over the subset. status: 'all'|'yes'|'no'|'wait';
-// ride/note: booleans; q: lowercased search string.
+// ride/noride/note: booleans; city: ''|'tlv'|'rhv'; q: lowercased search string.
+// `noride` keeps only CONFIRMED guests without a shuttle (declined/pending have
+// no ride anyway); `city` keeps only guests whose shuttle is from that city.
 export function filterData(data, filters) {
   const f = filters || {};
   const pass = (e, kind) => {
     const statusOk = !f.status || f.status === 'all' || f.status === kind;
     const rideOk = !f.ride || !!e.shuttle;
+    const norideOk = !f.noride || (kind === 'yes' && !e.shuttle);
+    const cityOk = !f.city || (e.shuttle && e.shuttle.city === f.city);
     const noteOk = !f.note || !!((e.notes || '').trim());
     const s = `${e.name || ''} ${e.fullName || ''} ${e.phone || ''}`.toLowerCase();
     const searchOk = !f.q || s.includes(f.q);
-    return statusOk && rideOk && noteOk && searchOk;
+    return statusOk && rideOk && norideOk && cityOk && noteOk && searchOk;
   };
   const accepted = (data.accepted || []).filter((e) => pass(e, 'yes'));
   const declined = (data.declined || []).filter((e) => pass(e, 'no'));

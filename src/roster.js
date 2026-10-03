@@ -46,6 +46,9 @@ export const OVERRIDES = {
   LironGrinstein: { group: 'עבודה', category: "Dvir's work" },
   // → Friends (חברים)
   DanielObo:      { group: 'חברים', category: 'Friends' },
+  Ziner:          { group: 'חברים', category: 'Friends' },
+  Danino:         { group: 'חברים', category: 'Friends' },
+  RotemZ:         { group: 'חברים', category: 'Friends' },
   // → Family (משפחה)
   GalinaKasharovski: { group: 'משפחה', category: "Michal's family" },
   RonWolpert:        { group: 'משפחה', category: "Michal's family" },

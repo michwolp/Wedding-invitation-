@@ -233,7 +233,11 @@ footer{text-align:center;color:#b3ab99;font-size:.78rem;margin-top:30px}
     <button data-f="wait">⏳ טרם השיבו</button>
     <span class="sep"></span>
     <button data-t="ride" class="toggle">🚌 עם הסעה</button>
+    <button data-t="noride" class="toggle">🚶 בלי הסעה</button>
     <button data-t="note" class="toggle">📝 עם הערה</button>
+    <span class="sep"></span>
+    <button data-c="tlv" class="toggle">🚌 תל אביב</button>
+    <button data-c="rhv" class="toggle">🚌 רחובות</button>
   </div>
 
   <div id="roster"></div>
@@ -246,6 +250,11 @@ import {
   summaryCardsHtml, donutHtml, groupBarsHtml, recentHtml, shuttleRowsHtml, rosterHtml,
   notesHtml, messagesHtml, filterData,
 } from '/dashboard-view.js';
+import { aggregateShuttle } from '/shuttle-plan.js';
+
+// Per-leg shuttle plan (riders whose legs can't live on the RSVP row),
+// folded into the shuttle table alongside the regular pickup data.
+const PLAN_AGG = aggregateShuttle();
 
 const $ = (s, r = document) => r.querySelector(s);
 
@@ -263,8 +272,9 @@ function render(data){
   const rec = recentHtml(data.recent);
   if (rec) $('#recent').innerHTML = rec; else $('#recentPanel').classList.add('hidden');
 
-  $('#shuttle').innerHTML = shuttleRowsHtml(c.shuttle);
-  if (!(c.shuttle && c.shuttle.totalHeads > 0)) $('#shuttlePanel').classList.add('hidden');
+  $('#shuttle').innerHTML = shuttleRowsHtml(c.shuttle, PLAN_AGG);
+  const anyShuttle = (c.shuttle && c.shuttle.totalHeads > 0) || PLAN_AGG.total.people > 0;
+  if (!anyShuttle) $('#shuttlePanel').classList.add('hidden');
 
   const notes = notesHtml(data.notes);
   if (notes) $('#notes').innerHTML = notes; else $('#notesPanel').classList.add('hidden');
@@ -278,6 +288,8 @@ function render(data){
 // --- filtering ---------------------------------------------------------------
 let statusFilter = 'all';   // all | yes | no | wait
 let rideFilter = false;     // only guests with a shuttle
+let norideFilter = false;   // only confirmed guests WITHOUT a shuttle
+let cityFilter = '';        // '' | 'tlv' | 'rhv' — only shuttles from this city
 let noteFilter = false;     // only guests with a note
 let searchText = '';
 
@@ -288,7 +300,10 @@ let searchText = '';
 function applyFilters(){
   if (!fullData) return;
   const q = searchText.trim().toLowerCase();
-  const view = filterData(fullData, { status: statusFilter, ride: rideFilter, note: noteFilter, q });
+  const view = filterData(fullData, {
+    status: statusFilter, ride: rideFilter, noride: norideFilter,
+    city: cityFilter, note: noteFilter, q,
+  });
 
   $('#cards').innerHTML = summaryCardsHtml(view.counts);
   $('#breakdown').innerHTML = donutHtml(view.counts);
@@ -313,17 +328,39 @@ async function load(key){
 }
 
 $('#search').addEventListener('input', e => { searchText = e.target.value; applyFilters(); });
+// Helpers that keep the toggle state and the button highlight in sync.
+// Contradictory combos auto-resolve: "with ride" vs "without ride" are mutually
+// exclusive, and a city filter implies a ride so it clears "without ride".
+function setToggle(name, on){
+  const b = document.querySelector(`#filters button[data-t="${name}"]`);
+  if (b) b.classList.toggle('active', on);
+  if (name === 'ride') rideFilter = on;
+  else if (name === 'noride') norideFilter = on;
+  else if (name === 'note') noteFilter = on;
+}
+function setCity(city){
+  cityFilter = city;
+  document.querySelectorAll('#filters button[data-c]').forEach(b =>
+    b.classList.toggle('active', b.dataset.c === city));
+}
+
 $('#filters').addEventListener('click', e => {
   const f = e.target.closest('button[data-f]');
   const t = e.target.closest('button[data-t]');
+  const c = e.target.closest('button[data-c]');
   if (f){
     statusFilter = f.dataset.f;
     document.querySelectorAll('#filters button[data-f]').forEach(b => b.classList.toggle('active', b === f));
   } else if (t){
-    t.classList.toggle('active');
-    const on = t.classList.contains('active');
-    if (t.dataset.t === 'ride') rideFilter = on;
-    else if (t.dataset.t === 'note') noteFilter = on;
+    const name = t.dataset.t;
+    const on = !t.classList.contains('active');
+    setToggle(name, on);
+    if (on && name === 'ride') setToggle('noride', false);
+    if (on && name === 'noride') { setToggle('ride', false); setCity(''); }
+  } else if (c){
+    const next = cityFilter === c.dataset.c ? '' : c.dataset.c;
+    setCity(next);
+    if (next) setToggle('noride', false);
   } else return;
   applyFilters();
 });
