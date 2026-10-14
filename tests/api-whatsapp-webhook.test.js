@@ -53,6 +53,24 @@ describe('extractMessages', () => {
     expect(rows.map(r => r.text)).toEqual(['כן', 'לא']);
   });
 
+  it('captures media id/mime/caption and reaction emoji', () => {
+    const rows = extractMessages({
+      entry: [{ changes: [{ value: { messages: [
+        { id: 'a1', from: '111', type: 'audio', audio: { id: 'MEDIA_A', mime_type: 'audio/ogg', voice: true } },
+        { id: 's1', from: '222', type: 'sticker', sticker: { id: 'MEDIA_S', mime_type: 'image/webp', animated: true } },
+        { id: 'd1', from: '333', type: 'document', document: { id: 'MEDIA_D', mime_type: 'application/pdf', filename: 'menu.pdf' } },
+        { id: 'r1', from: '444', type: 'reaction', reaction: { emoji: '❤️', message_id: 'wamid.ABC' } },
+      ] } }] }],
+    });
+    expect(rows.map(r => r.text)).toEqual([
+      '[audio id=MEDIA_A audio/ogg]',
+      '[sticker id=MEDIA_S image/webp animated]',
+      '[document id=MEDIA_D application/pdf] menu.pdf',
+      'reacted ❤️',
+    ]);
+    expect(rows[0].type).toBe('audio');
+  });
+
   it('yields nothing for status-only events (delivered/read)', () => {
     const rows = extractMessages({
       entry: [{ changes: [{ value: { statuses: [{ id: 'x', status: 'delivered' }] } }] }],

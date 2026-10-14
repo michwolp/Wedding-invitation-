@@ -144,6 +144,32 @@ const MESSAGE_TYPES = {
       ];
     },
   },
+  // LOGISTICS / DETAILS reminder for guests who ALREADY confirmed 'yes'. UTILITY
+  // category: practical info about an event they RSVP'd to (time, place, arrival
+  // tips), not a promotion — the gift option lives on the linked site but is NOT
+  // named in the body so the message stays utility. Body {{1}} = name; the guest
+  // code fills the URL button ( …/?g={{1}} → their page w/ Waze + gift). Hebrew
+  // splits plural vs singular (no gender split). ru/en have no approved template
+  // yet → template() returns null and those guests are skipped with a clear
+  // "needs <lang> template" notice. Own ledger prefix + separate log.
+  details: {
+    label: 'details 1',
+    log: 'SEND-LOG-details.md',
+    template(g) {
+      if (g.lang === 'en') return { name: 'wedding_info_en', lang: 'en' };
+      if (g.lang === 'ru') return { name: 'wedding_info_ru_v2', lang: 'ru' };
+      // Hebrew splits singular ("שלום {{1}}") vs plural ("איתכם"); both carry the name.
+      const plural = g.form === 'plural' || g.form === 'plural_f';
+      return { name: plural ? 'wedding_info_he_plural_v2' : 'wedding_info_he_v2', lang: 'he' };
+    },
+    components(g, code) {
+      // Every template: {{1}} body = name, URL button = guest code (…/?g={{1}}).
+      return [
+        { type: 'body', parameters: [{ type: 'text', text: g.name }] },
+        { type: 'button', sub_type: 'url', index: '0', parameters: [{ type: 'text', text: code }] },
+      ];
+    },
+  },
 };
 
 // --- CLI flags ---
@@ -250,6 +276,25 @@ async function pendingCodes(key) {
     .map(([code]) => code);
 }
 
+// Read-only: fetch the live roster and return guest codes that confirmed 'yes',
+// matched by phone or code. Never writes. Used by --confirmed for the logistics
+// (details) send to attendees.
+async function confirmedCodes(key) {
+  if (!key) { console.error('--confirmed needs the dashboard key: pass --key=... or set SUMMARY_KEY'); process.exit(1); }
+  const res = await fetch(`https://dvichal-wedding.com/api/rsvp-list?key=${encodeURIComponent(key)}`);
+  if (!res.ok) { console.error(`Could not read roster (HTTP ${res.status}) — check the key.`); process.exit(1); }
+  const data = await res.json();
+  const yes = new Set();
+  for (const e of (data.accepted || [])) {
+    if (e.phone) yes.add(toE164(e.phone));
+    if (e.code) yes.add('code:' + e.code);
+  }
+  return Object.entries(GUESTS)
+    .filter(([code, g]) => code !== 'testMichal' && code !== 'testDvir' && g.phone
+      && (yes.has(toE164(g.phone)) || yes.has('code:' + code)))
+    .map(([code]) => code);
+}
+
 // ---------------------------------------------------------------------------
 // --status : print what has been sent so far for this message type, from the ledger.
 function printStatus(logPath) {
@@ -284,6 +329,7 @@ async function main() {
   let codes;
   if (flags.codes) codes = String(flags.codes).split(',').map((s) => s.trim()).filter(Boolean);
   else if (flags.pending) codes = await pendingCodes(flags.key || process.env.SUMMARY_KEY);
+  else if (flags.confirmed) codes = await confirmedCodes(flags.key || process.env.SUMMARY_KEY);
   else if (flags.all) codes = Object.keys(GUESTS).filter((c) => c !== 'testMichal');
   else codes = [...TEST_GROUP];
 
@@ -306,6 +352,7 @@ async function main() {
     if (!g) { problems.push(`${code}: not in guest list`); continue; }
     if (isSent(code) && !flags.force) { plan.push({ code, g, skip: 'already sent' }); continue; }
     const tmpl = type.template(g);
+    if (!tmpl) { problems.push(`${code}: no "${TYPE}" template for lang "${g.lang}" — needs a translated template`); continue; }
     const to = toE164(g.phone);
     if (to.length < 9) { problems.push(`${code}: phone too short after E.164 (${g.phone} → ${to})`); continue; }
     plan.push({ code, g, tmpl, to, components: type.components(g, code) });

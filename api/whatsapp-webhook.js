@@ -113,7 +113,23 @@ export function extractMessages(body) {
         else if (m.type === 'button') text = m.button?.text || '';
         else if (m.type === 'interactive') {
           text = m.interactive?.button_reply?.title || m.interactive?.list_reply?.title || '';
-        } else text = `[${m.type}]`;
+        } else if (m.type === 'reaction') {
+          // A reaction to an earlier message: keep the emoji (empty = reaction removed).
+          text = m.reaction?.emoji ? `reacted ${m.reaction.emoji}` : '[reaction removed]';
+        } else {
+          // Media (audio/voice note/image/video/sticker/document): capture the media
+          // id, mime type, and any caption/filename so the file can still be fetched
+          // via GET /{media-id} while WhatsApp retains it (~14 days). Previously these
+          // were stored as a bare "[audio]" with the id lost, so nothing was downloadable.
+          const media = m[m.type] || {};
+          const tags = [m.type];
+          if (media.id) tags.push(`id=${media.id}`);
+          if (media.mime_type) tags.push(media.mime_type);
+          if (media.animated) tags.push('animated');
+          text = `[${tags.join(' ')}]`;
+          const caption = media.caption || media.filename;
+          if (caption) text += ` ${caption}`;
+        }
         out.push({
           wa_message_id: m.id,
           from_phone: m.from,

@@ -17,3 +17,6 @@ send-ledger.json
 
 # Local RSVP snapshots — contain guest PII, never commit to public repo
 snapshots/
+
+# Guest exports contain PII — never commit (public repo)
+*.csv
